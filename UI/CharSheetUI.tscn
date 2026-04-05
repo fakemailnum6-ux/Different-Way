@@ -1,0 +1,80 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxxxxcharsheet1"]
+
+[ext_resource type="Script" path="res://UI/CharSheetUI.gd" id="1_charsheet_gd"]
+
+[node name="CharSheetUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_charsheet_gd")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1, 0.1, 0.1, 0.8)
+
+[node name="AvatarRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 150.0
+offset_bottom = 150.0
+color = Color(0.5, 0.5, 0.5, 1)
+
+[node name="LevelLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 170.0
+offset_top = 50.0
+offset_right = 300.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 24
+text = "Level 1"
+
+[node name="StatsContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 200.0
+offset_right = 250.0
+offset_bottom = 400.0
+
+[node name="STRLabel" type="Label" parent="StatsContainer"]
+layout_mode = 2
+text = "STR: 10"
+
+[node name="DEXLabel" type="Label" parent="StatsContainer"]
+layout_mode = 2
+text = "DEX: 10"
+
+[node name="SecondaryContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 200.0
+offset_right = 500.0
+offset_bottom = 400.0
+
+[node name="EvasionLabel" type="Label" parent="SecondaryContainer"]
+layout_mode = 2
+text = "Уворот: 15"
+
+[node name="MentalResLabel" type="Label" parent="SecondaryContainer"]
+layout_mode = 2
+text = "Мент. Защ: 0"
+
+[node name="BuffsScroll" type="ScrollContainer" parent="."]
+layout_mode = 0
+offset_left = 550.0
+offset_top = 200.0
+offset_right = 750.0
+offset_bottom = 400.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BuffsScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
