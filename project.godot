@@ -11,8 +11,17 @@ config_version=5
 [application]
 
 config/name="Different Way"
-config/features=PackedStringArray("4.6", "GL Compatibility")
+config/features=PackedStringArray("4.1", "GL Compatibility")
 config/icon="res://icon.svg"
+run/main_scene="res://Map/Map.tscn"
+
+[autoload]
+
+GameManager="*res://Core/GameManager.cs"
+
+[dotnet]
+
+project/assembly_name="DifferentWay"
 
 [physics]
 

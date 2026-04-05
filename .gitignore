@@ -1,1 +1,21 @@
 # Godot 4+ specific ignores
+.godot/
+*.translation
+
+# Mono-specific ignores
+.mono/
+data_*/
+mono_crash.*.json
+/.godot/mono/temp/
+
+# Build artifacts
+bin/
+obj/
+
+# User-specific configuration
+*.user
+user_prefs.cfg
+user_save.json
+data.db
+
+run_tests.csx
