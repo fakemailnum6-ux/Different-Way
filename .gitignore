@@ -1,1 +1,11 @@
 # Godot 4+ specific ignores
+.godot/
+
+# .NET / C#
+bin/
+obj/
+*.csproj.user
+
+# Solution specific
+**/bin/
+**/obj/
