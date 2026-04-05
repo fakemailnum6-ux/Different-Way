@@ -1,21 +1,14 @@
 using System;
 using System.Collections.Generic;
+using Godot;
 
 namespace DifferentWay.Systems;
 
-public class MapNode
+public partial class MapNode : RefCounted
 {
-    public string Id { get; set; } = string.Empty;
-    public string Name { get; set; } = string.Empty;
-    public MapNodeType Type { get; set; }
-}
-
-public enum MapNodeType
-{
-    Kingdom,
-    City,
-    Village,
-    POI // Point of Interest
+    public string id { get; set; } = string.Empty;
+    public string name { get; set; } = string.Empty;
+    public int Type { get; set; }
 }
 
 public class Route
@@ -26,12 +19,18 @@ public class Route
     public int WeightDistance { get; set; }
 }
 
-public class WorldTopology
+public partial class WorldTopology : RefCounted
 {
     public List<MapNode> Nodes { get; private set; } = new();
     public List<Route> Routes { get; private set; } = new();
 
     private readonly Random _rnd = new Random();
+
+    public Godot.Collections.Array<MapNode> GetUnlockedVillages()
+    {
+        // Placeholder returning empty for GDScript interop testing
+        return new Godot.Collections.Array<MapNode>();
+    }
 
     public bool RollRandomEncounter(Route route, int playerLuck)
     {

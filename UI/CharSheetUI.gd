@@ -23,11 +23,11 @@ func _ready():
 func update_character_sheet(stats):
 	if stats == null: return
 
-	str_label.text = "STR: " + str(stats.Call("get_STR"))
-	dex_label.text = "DEX: " + str(stats.Call("get_DEX"))
+	str_label.text = "STR: " + str(stats.Call("GetSTR"))
+	dex_label.text = "DEX: " + str(stats.Call("GetDEX"))
 
-	evasion_label.text = "Уворот: " + str(stats.Call("get_Evasion"))
-	mental_res_label.text = "Мент. Защ: " + str(stats.Call("get_MentalResistance"))
+	evasion_label.text = "Уворот: " + str(stats.Call("GetEvasion"))
+	mental_res_label.text = "Мент. Защ: " + str(stats.Call("GetMentalResistance"))
 
 	_update_buffs(stats)
 

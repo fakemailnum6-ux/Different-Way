@@ -1,8 +1,9 @@
 using System;
+using Godot;
 
 namespace DifferentWay.Systems;
 
-public class StatManager
+public partial class StatManager : RefCounted
 {
     // Base Stats
     public int STR { get; set; } = 10;
@@ -39,4 +40,10 @@ public class StatManager
     {
         CurrentHP = Math.Max(0, CurrentHP - amount);
     }
+
+    // GDScript Exposed Getters
+    public int GetSTR() => STR;
+    public int GetDEX() => DEX;
+    public float GetEvasion() => Evasion;
+    public int GetMentalResistance() => MentalResistance;
 }

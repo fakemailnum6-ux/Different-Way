@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Godot;
 
 namespace DifferentWay.Systems;
 
@@ -11,7 +12,7 @@ public class CraftingRecipe
     public int BaseDifficulty { get; set; }
 }
 
-public class CraftingEngine
+public partial class CraftingEngine : RefCounted
 {
     private readonly Random _rnd = new Random();
 
@@ -28,12 +29,15 @@ public class CraftingEngine
         return true;
     }
 
+    public int CalculateSuccessChance(int difficulty, int playerIntelligence)
+    {
+        // Base math: INT * 5 vs Difficulty
+        return Math.Clamp((playerIntelligence * 5) - difficulty + 50, 5, 95);
+    }
+
     public bool AttemptCraft(CraftingRecipe recipe, int playerIntelligence)
     {
-        // Calculate success chance based on INT
-        // Base math: INT * 5 vs Difficulty
-        int successChance = Math.Clamp((playerIntelligence * 5) - recipe.BaseDifficulty + 50, 5, 95);
-
+        int successChance = CalculateSuccessChance(recipe.BaseDifficulty, playerIntelligence);
         int roll = _rnd.Next(1, 101);
 
         bool isSuccess = roll <= successChance;

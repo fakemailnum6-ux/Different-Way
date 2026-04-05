@@ -9,7 +9,7 @@ using DifferentWay.Systems.Models;
 
 namespace DifferentWay.AI;
 
-public class LLMClient
+public partial class LLMClient : RefCounted
 {
     private readonly System.Net.Http.HttpClient _httpClient;
     private readonly ErrorManager _errorManager;
@@ -17,20 +17,47 @@ public class LLMClient
     private string _apiKey = string.Empty;
     private string _apiUrl = "https://api.openai.com/v1/chat/completions";
 
-    public LLMClient(ErrorManager errorManager, GraphValidator validator)
+    private CancellationTokenSource? _cts;
+
+    // For Godot to instantiate RefCounted objects cleanly from script, an empty constructor is needed
+    public LLMClient()
     {
         _httpClient = new System.Net.Http.HttpClient();
+        _errorManager = new ErrorManager();
+        _validator = new GraphValidator();
+        _httpClient.Timeout = TimeSpan.FromSeconds(30);
+    }
+
+    public LLMClient(ErrorManager errorManager, GraphValidator validator) : this()
+    {
         _errorManager = errorManager;
         _validator = validator;
-
-        // Timeout prevents hanging indefinitely if not cancelled
-        _httpClient.Timeout = TimeSpan.FromSeconds(30);
     }
 
     public void SetCredentials(string key, string url)
     {
         _apiKey = key;
         _apiUrl = url;
+    }
+
+    // Exposed for GDScript Calling
+    public void RequestPromptAsync(string promptString)
+    {
+        // Recreate token
+        _cts?.Dispose();
+        _cts = new CancellationTokenSource();
+
+        // Fire and forget from GDScript perspective
+        _ = SendPromptAsync(promptString, _cts.Token);
+    }
+
+    public void CancelPendingRequests()
+    {
+        if (_cts != null && !_cts.IsCancellationRequested)
+        {
+            _cts.Cancel();
+            GD.Print("LLM API request cancelled via GDScript.");
+        }
     }
 
     // 7.2: Task Cancellation (CancellationToken) to prevent crash if UI is closed
