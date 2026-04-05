@@ -18,10 +18,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -250.0
-offset_top = -200.0
-offset_right = 250.0
-offset_bottom = 200.0
+offset_left = -350.0
+offset_top = -250.0
+offset_right = 350.0
+offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -32,20 +32,98 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 10
 alignment = 1
 
-[node name="Label" type="Label" parent="Panel/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="Panel/VBoxContainer"]
 layout_mode = 2
-text = "Inventory"
+text = "Inventory & Equipment"
 horizontal_alignment = 1
 
-[node name="EmptyLabel" type="Label" parent="Panel/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "Your inventory is currently empty."
+theme_override_constants/separation = 20
+
+[node name="TabContainer" type="TabContainer" parent="Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Weapons" type="Control" parent="Panel/VBoxContainer/HBoxContainer/TabContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/HBoxContainer/TabContainer/Weapons"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "No weapons."
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Armor" type="Control" parent="Panel/VBoxContainer/HBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/HBoxContainer/TabContainer/Armor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "No armor."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Materials" type="Control" parent="Panel/VBoxContainer/HBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/HBoxContainer/TabContainer/Materials"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "No materials."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EquipmentPanel" type="Panel" parent="Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/VBoxContainer/HBoxContainer/EquipmentPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="LevelLabel" type="Label" parent="Panel/VBoxContainer/HBoxContainer/EquipmentPanel/VBoxContainer"]
+layout_mode = 2
+text = "Level: 1"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Panel/VBoxContainer/HBoxContainer/EquipmentPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="EquippedHead" type="Label" parent="Panel/VBoxContainer/HBoxContainer/EquipmentPanel/VBoxContainer"]
+layout_mode = 2
+text = "Head: None"
+horizontal_alignment = 1
+
+[node name="EquippedChest" type="Label" parent="Panel/VBoxContainer/HBoxContainer/EquipmentPanel/VBoxContainer"]
+layout_mode = 2
+text = "Chest: Leather Shirt"
+horizontal_alignment = 1
+
+[node name="EquippedWeapon" type="Label" parent="Panel/VBoxContainer/HBoxContainer/EquipmentPanel/VBoxContainer"]
+layout_mode = 2
+text = "Weapon: Rusty Sword"
+horizontal_alignment = 1
 
 [node name="CloseButton" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2

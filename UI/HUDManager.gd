@@ -6,9 +6,27 @@ signal skip_time_requested(quarters)
 @onready var settings_panel = $SettingsPanel
 @onready var time_label = $TopBar/HBoxContainer/TimeLabel
 @onready var quest_label = $TopBar/HBoxContainer/QuestLabel
+@onready var resolution_option = $SettingsPanel/VBoxContainer/HBoxContainerRes/ResolutionOption
+
+const RESOLUTIONS = [
+	Vector2i(1920, 1080),
+	Vector2i(1600, 900),
+	Vector2i(1280, 720),
+	Vector2i(1024, 768),
+	Vector2i(800, 600)
+]
 
 func _ready():
 	settings_panel.hide()
+
+	for res in RESOLUTIONS:
+		resolution_option.add_item("%d x %d" % [res.x, res.y])
+
+	resolution_option.item_selected.connect(_on_resolution_selected)
+
+func _on_resolution_selected(index: int):
+	var size = RESOLUTIONS[index]
+	DisplayServer.window_set_size(size)
 
 func set_time_text(text: String):
 	time_label.text = text

@@ -57,7 +57,9 @@ layout_mode = 2
 
 [node name="QuestLabel" type="Label" parent="TopBar/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Active Quest: None"
+text_overrun_behavior = 3
 
 [node name="VSeparator3" type="VSeparator" parent="TopBar/HBoxContainer"]
 layout_mode = 2
