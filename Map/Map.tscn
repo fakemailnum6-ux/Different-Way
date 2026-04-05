@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://df7s2y5u3w9h2"]
+
+[ext_resource type="Script" path="res://Map/Map.gd" id="1_map"]
+[ext_resource type="PackedScene" uid="uid://cx6y8v7u8j11m" path="res://UI/TavernMenu.tscn" id="2_tavern"]
+
+[node name="Map" type="Node2D"]
+script = ExtResource("1_map")
+
+[node name="MapUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EnterTavernButton" type="Button" parent="MapUI"]
+layout_mode = 0
+offset_left = 500.0
+offset_top = 300.0
+offset_right = 650.0
+offset_bottom = 350.0
+text = "Enter Tavern"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TavernMenu" parent="CanvasLayer" instance=ExtResource("2_tavern")]
+visible = false
+
+[connection signal="pressed" from="MapUI/EnterTavernButton" to="." method="_on_enter_tavern_button_pressed"]
+[connection signal="dialogue_requested" from="CanvasLayer/TavernMenu" to="." method="_on_tavern_menu_dialogue_requested"]
+[connection signal="exit_requested" from="CanvasLayer/TavernMenu" to="." method="_on_tavern_menu_exit_requested"]
+[connection signal="quests_requested" from="CanvasLayer/TavernMenu" to="." method="_on_tavern_menu_quests_requested"]
