@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://inv1234567890" path="res://UI/InventoryUI.tscn" id="6_inv"]
 [ext_resource type="PackedScene" uid="uid://not1234567890" path="res://UI/NoticeboardUI.tscn" id="7_not"]
 [ext_resource type="PackedScene" uid="uid://char123456789" path="res://UI/CharacterStatsUI.tscn" id="8_char"]
+[ext_resource type="PackedScene" uid="uid://com123456789" path="res://UI/CombatUI.tscn" id="9_com"]
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_map")
@@ -113,6 +114,9 @@ visible = false
 [node name="CharacterStatsUI" parent="CanvasLayer" instance=ExtResource("8_char")]
 visible = false
 
+[node name="CombatUI" parent="CanvasLayer" instance=ExtResource("9_com")]
+visible = false
+
 [connection signal="pressed" from="MapUI/EnterTavernButton" to="." method="_on_enter_tavern_button_pressed"]
 [connection signal="inventory_requested" from="CanvasLayer/HUDManager" to="." method="_on_hud_inventory_requested"]
 [connection signal="quests_requested" from="CanvasLayer/HUDManager" to="." method="_on_hud_quests_requested"]
@@ -123,7 +127,9 @@ visible = false
 [connection signal="closed" from="CanvasLayer/NoticeboardUI" to="." method="_on_noticeboard_closed"]
 [connection signal="quest_accepted" from="CanvasLayer/NoticeboardUI" to="." method="_on_noticeboard_quest_accepted"]
 [connection signal="closed" from="CanvasLayer/CharacterStatsUI" to="." method="_on_character_closed"]
+[connection signal="closed" from="CanvasLayer/CombatUI" to="." method="_on_combat_closed"]
 [connection signal="dialogue_requested" from="CanvasLayer/TavernMenu" to="." method="_on_tavern_menu_dialogue_requested"]
+[connection signal="cellar_requested" from="CanvasLayer/TavernMenu" to="." method="_on_tavern_menu_cellar_requested"]
 [connection signal="noticeboard_requested" from="CanvasLayer/TavernMenu" to="." method="_on_tavern_menu_noticeboard_requested"]
 [connection signal="exit_requested" from="CanvasLayer/TavernMenu" to="." method="_on_tavern_menu_exit_requested"]
 [connection signal="buy_drink_requested" from="CanvasLayer/DialogBox" to="." method="_on_dialog_box_buy_drink_requested"]

@@ -57,10 +57,15 @@ text = "Dialogue"
 layout_mode = 2
 text = "Noticeboard (Quests)"
 
+[node name="CellarButton" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Enter Cellar"
+
 [node name="ExitButton" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
 text = "Exit to Map"
 
 [connection signal="pressed" from="Panel/VBoxContainer/DialogueButton" to="." method="_on_dialogue_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/CellarButton" to="." method="_on_cellar_button_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/NoticeboardButton" to="." method="_on_noticeboard_button_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

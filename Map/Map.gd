@@ -8,6 +8,7 @@ extends Node2D
 @onready var inventory_ui = $CanvasLayer/InventoryUI
 @onready var noticeboard_ui = $CanvasLayer/NoticeboardUI
 @onready var character_ui = $CanvasLayer/CharacterStatsUI
+@onready var combat_ui = $CanvasLayer/CombatUI
 
 var year = 1
 var month = 1
@@ -24,6 +25,7 @@ func _ready():
 	inventory_ui.hide()
 	noticeboard_ui.hide()
 	character_ui.hide()
+	combat_ui.hide()
 
 	dialog_box.closed.connect(_on_dialog_box_closed)
 	quest_log.closed.connect(_on_quest_log_closed)
@@ -72,6 +74,11 @@ func _on_enter_tavern_button_pressed():
 func _on_tavern_menu_dialogue_requested():
 	tavern_menu.hide()
 	dialog_box.show()
+
+func _on_tavern_menu_cellar_requested():
+	tavern_menu.hide()
+	combat_ui.show()
+	combat_ui.start_combat()
 
 func _on_tavern_menu_noticeboard_requested():
 	tavern_menu.hide()
@@ -127,3 +134,7 @@ func _on_quest_log_closed():
 
 func _on_character_closed():
 	character_ui.hide()
+
+func _on_combat_closed():
+	combat_ui.hide()
+	tavern_menu.show()
