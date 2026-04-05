@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b82x4kfqy5a1"]
+[gd_scene load_steps=3 format=3 uid="uid://b82x4kfqy5a1"]
 
 [ext_resource type="Script" path="res://Tavern.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://dbx1" path="res://UI/DialogBox.tscn" id="2_dialog"]
 
 [node name="Tavern" type="Control"]
 layout_mode = 3
@@ -54,13 +55,13 @@ offset_bottom = 160.0
 text = "Give Rat Tails"
 disabled = true
 
-[node name="DialogBox" type="RichTextLabel" parent="."]
+[node name="ReturnButton" type="Button" parent="."]
 layout_mode = 0
 offset_left = 20.0
-offset_top = 180.0
-offset_right = 600.0
-offset_bottom = 380.0
-text = "You step into the dusty tavern..."
+offset_top = 200.0
+offset_right = 160.0
+offset_bottom = 240.0
+text = "Return to Map"
 
 [node name="QuestLog" type="RichTextLabel" parent="."]
 layout_mode = 0
@@ -70,3 +71,10 @@ offset_right = 950.0
 offset_bottom = 380.0
 text = "--- Quest Log ---
 No active quests."
+
+[node name="DialogBox" parent="." instance=ExtResource("2_dialog")]
+layout_mode = 1
+offset_left = 200.0
+offset_top = 200.0
+offset_right = 600.0
+offset_bottom = 400.0
