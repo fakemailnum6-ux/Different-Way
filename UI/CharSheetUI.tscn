@@ -20,6 +20,18 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.1, 0.1, 0.1, 0.8)
 
+[node name="CloseButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 40.0
+grow_horizontal = 0
+text = "X"
+
 [node name="AvatarRect" type="ColorRect" parent="."]
 layout_mode = 0
 offset_left = 50.0
@@ -42,7 +54,7 @@ layout_mode = 0
 offset_left = 50.0
 offset_top = 200.0
 offset_right = 250.0
-offset_bottom = 400.0
+offset_bottom = 500.0
 
 [node name="STRLabel" type="Label" parent="StatsContainer"]
 layout_mode = 2
@@ -52,12 +64,40 @@ text = "STR: 10"
 layout_mode = 2
 text = "DEX: 10"
 
+[node name="ENDLabel" type="Label" parent="StatsContainer"]
+layout_mode = 2
+text = "END: 10"
+
+[node name="INTLabel" type="Label" parent="StatsContainer"]
+layout_mode = 2
+text = "INT: 10"
+
+[node name="LuckLabel" type="Label" parent="StatsContainer"]
+layout_mode = 2
+text = "Удача: 10"
+
+[node name="CHALabel" type="Label" parent="StatsContainer"]
+layout_mode = 2
+text = "Харизма: 10"
+
 [node name="SecondaryContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
 offset_left = 300.0
 offset_top = 200.0
 offset_right = 500.0
-offset_bottom = 400.0
+offset_bottom = 500.0
+
+[node name="HPLabel" type="Label" parent="SecondaryContainer"]
+layout_mode = 2
+text = "HP: 50/50"
+
+[node name="StaminaLabel" type="Label" parent="SecondaryContainer"]
+layout_mode = 2
+text = "Усталость: 50/50"
+
+[node name="ManaLabel" type="Label" parent="SecondaryContainer"]
+layout_mode = 2
+text = "Мана: 50/50"
 
 [node name="EvasionLabel" type="Label" parent="SecondaryContainer"]
 layout_mode = 2
@@ -67,12 +107,16 @@ text = "Уворот: 15"
 layout_mode = 2
 text = "Мент. Защ: 0"
 
+[node name="CardioLabel" type="Label" parent="SecondaryContainer"]
+layout_mode = 2
+text = "Кардио: 15"
+
 [node name="BuffsScroll" type="ScrollContainer" parent="."]
 layout_mode = 0
 offset_left = 550.0
 offset_top = 200.0
 offset_right = 750.0
-offset_bottom = 400.0
+offset_bottom = 500.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="BuffsScroll"]
 layout_mode = 2

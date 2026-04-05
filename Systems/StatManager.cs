@@ -44,6 +44,19 @@ public partial class StatManager : RefCounted
     // GDScript Exposed Getters
     public int GetSTR() => STR;
     public int GetDEX() => DEX;
+    public int GetEND() => END;
+    public int GetINT() => INT;
+    public int GetLuck() => Luck;
+    public int GetCharisma() => Charisma;
+
+    public int GetMaxHP() => MaxHP;
+    public int GetCurrentHP() => CurrentHP;
+    public int GetMaxStamina() => MaxStamina;
+    public int GetCurrentStamina() => CurrentStamina;
+    public int GetMaxMana() => MaxMana;
+    public int GetCurrentMana() => CurrentMana;
+
     public float GetEvasion() => Evasion;
+    public float GetCardio() => Cardio;
     public int GetMentalResistance() => MentalResistance;
 }

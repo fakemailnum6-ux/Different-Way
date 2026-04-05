@@ -15,6 +15,9 @@ extends Control
 var world_topology_node = null
 
 func _ready():
+	var close_btn = get_node_or_null("CloseButton")
+	if close_btn: close_btn.pressed.connect(func(): hide())
+
 	_populate_dropdown()
 	search_dropdown.item_selected.connect(_on_village_selected)
 
@@ -23,7 +26,7 @@ func _populate_dropdown():
 	if world_topology_node == null: return
 
 	# Fetch node data from C# WorldTopology manager
-	var unlocked_nodes = world_topology_node.Call("GetUnlockedVillages")
+	var unlocked_nodes = world_topology_node.call("GetUnlockedVillages")
 	for node in unlocked_nodes:
 		search_dropdown.add_item(node.name, node.id)
 

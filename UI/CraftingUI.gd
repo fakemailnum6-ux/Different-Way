@@ -12,6 +12,9 @@ var current_recipe = null
 var csharp_crafting_engine
 
 func _ready():
+	var close_btn = get_node_or_null("CloseButton")
+	if close_btn: close_btn.pressed.connect(func(): hide())
+
 	pass
 
 func select_recipe(recipe_data, player_inventory, player_int):
@@ -36,5 +39,5 @@ func _render_materials(requirements, inventory):
 
 func _render_forecast(recipe, player_int):
 	# Math from C# CraftingEngine
-	var chance = csharp_crafting_engine.Call("CalculateSuccessChance", recipe.difficulty, player_int)
+	var chance = csharp_crafting_engine.call("CalculateSuccessChance", recipe.difficulty, player_int)
 	success_forecast.text = "Шанс успеха: " + str(chance) + "%"

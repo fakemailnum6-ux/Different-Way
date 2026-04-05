@@ -14,6 +14,9 @@ signal item_unhovered()
 @onready var tooltip_manager = $"../TooltipManager"
 
 func _ready():
+	var close_btn = get_node_or_null("CloseButton")
+	if close_btn: close_btn.pressed.connect(func(): hide())
+
 	# Setup filter and sorting buttons here
 	pass
 
