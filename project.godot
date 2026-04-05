@@ -9,6 +9,7 @@
 config_version=5
 
 [application]
+run/main_scene="res://Tavern.tscn"
 
 config/name="Different Way"
 config/features=PackedStringArray("4.6", "GL Compatibility")
