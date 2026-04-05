@@ -39,7 +39,7 @@ layout_mode = 2
 [node name="NPCText" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "Barkeep: Welcome to the Tavern, traveler! What can I get ya?"
+text = "Торговец презрительно отворачивается, отказываясь говорить с вами."
 autowrap_mode = 3
 
 [node name="CloseButton" type="Button" parent="Panel/MarginContainer/VBoxContainer"]

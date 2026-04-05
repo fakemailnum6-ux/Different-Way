@@ -1,0 +1,97 @@
+[gd_scene load_steps=2 format=3 uid="uid://x1y2z3a4b5c6d"]
+
+[ext_resource type="Script" path="res://UI/HUDManager.gd" id="1_hud"]
+
+[node name="HUDManager" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_hud")
+
+[node name="TopBar" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 50.0
+grow_horizontal = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="TimeLabel" type="Label" parent="TopBar/HBoxContainer"]
+layout_mode = 2
+text = "Time: Morning"
+
+[node name="VSeparator" type="VSeparator" parent="TopBar/HBoxContainer"]
+layout_mode = 2
+
+[node name="GoldLabel" type="Label" parent="TopBar/HBoxContainer"]
+layout_mode = 2
+text = "Gold: 100"
+
+[node name="VSeparator2" type="VSeparator" parent="TopBar/HBoxContainer"]
+layout_mode = 2
+
+[node name="QuestLabel" type="Label" parent="TopBar/HBoxContainer"]
+layout_mode = 2
+text = "Active Quest: Slay Rats in the Cellar"
+
+[node name="VSeparator3" type="VSeparator" parent="TopBar/HBoxContainer"]
+layout_mode = 2
+
+[node name="InventoryButton" type="Button" parent="TopBar/HBoxContainer"]
+layout_mode = 2
+text = "Inventory"
+
+[node name="SettingsButton" type="Button" parent="TopBar/HBoxContainer"]
+layout_mode = 2
+text = "Settings"
+
+[node name="SettingsPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="CostTrackerLabel" type="Label" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+text = "Потрачено за сессию: ~15,000 токенов (≈ $0.15)"
+horizontal_alignment = 1
+
+[node name="CloseSettingsButton" type="Button" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Close"
+
+[connection signal="pressed" from="TopBar/HBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="SettingsPanel/VBoxContainer/CloseSettingsButton" to="." method="_on_close_settings_button_pressed"]
