@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://ftttoooltip1"]
+
+[ext_resource type="Script" path="res://UI/TooltipManager.gd" id="1_tooltipmgr_gd"]
+
+[node name="TooltipManager" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_tooltipmgr_gd")
+
+[node name="EquippedTooltip" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 100.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="EquippedTooltip"]
+layout_mode = 2
+bbcode_enabled = true
+text = "Equipped"
+
+[node name="HoveredTooltip" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 160.0
+offset_right = 310.0
+offset_bottom = 100.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="HoveredTooltip"]
+layout_mode = 2
+bbcode_enabled = true
+text = "Hovered"

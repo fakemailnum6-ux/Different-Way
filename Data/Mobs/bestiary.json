@@ -1,0 +1,101 @@
+[
+  {
+    "id": "hare_01",
+    "name": "Заяц",
+    "HP": 5,
+    "Damage": 1,
+    "Armor": 0,
+    "Dexterity": 15,
+    "Tags": [
+      "Труслив"
+    ]
+  },
+  {
+    "id": "deer_01",
+    "name": "Олень",
+    "HP": 20,
+    "Damage": 3,
+    "Armor": 1,
+    "Dexterity": 12
+  },
+  {
+    "id": "wolf_01",
+    "name": "Волк",
+    "HP": 35,
+    "Damage": 8,
+    "Armor": 2,
+    "Dexterity": 14,
+    "Tags": [
+      "Атакует стаей"
+    ]
+  },
+  {
+    "id": "boar_01",
+    "name": "Кабан",
+    "HP": 50,
+    "Damage": 12,
+    "Armor": 4,
+    "Strength": 14,
+    "Tags": [
+      "Шанс оглушения"
+    ]
+  },
+  {
+    "id": "bear_01",
+    "name": "Медведь",
+    "HP": 120,
+    "Damage": 25,
+    "Armor": 6,
+    "Strength": 18,
+    "Tags": [
+      "Элитный",
+      "Сопротивление контролю"
+    ]
+  },
+  {
+    "id": "goblin_scavenger",
+    "name": "Гоблин-собиратель",
+    "HP": 25,
+    "Damage": 5,
+    "Armor": 1,
+    "Dexterity": 14
+  },
+  {
+    "id": "goblin_warrior",
+    "name": "Гоблин-воин",
+    "HP": 45,
+    "Damage": 9,
+    "Armor": 4,
+    "Strength": 12
+  },
+  {
+    "id": "bandit_rookie",
+    "name": "Бандит-новичок",
+    "HP": 40,
+    "Damage": 8,
+    "Armor": 3,
+    "Dexterity": 12
+  },
+  {
+    "id": "orc_raider",
+    "name": "Орк-налетчик",
+    "HP": 85,
+    "Damage": 16,
+    "Armor": 5,
+    "Strength": 16,
+    "Tags": [
+      "Впадает в ярость"
+    ]
+  },
+  {
+    "id": "skeleton_footman",
+    "name": "Скелет-пехотинец",
+    "HP": 30,
+    "Damage": 7,
+    "Armor": 5,
+    "Tags": [
+      "Нежить",
+      "Уязвим к дробящему урону"
+    ]
+  }
+]

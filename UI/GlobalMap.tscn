@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://gggmap1"]
+
+[ext_resource type="Script" path="res://UI/GlobalMap.gd" id="1_globalmap_gd"]
+
+[node name="GlobalMap" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_globalmap_gd")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(500, 300)
+
+[node name="MapNodes" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UISearch" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 50.0
+grow_horizontal = 2
+
+[node name="OptionButton" type="OptionButton" parent="UISearch"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_bottom = 30.0
+grow_horizontal = 0
+
+[node name="CloseButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 40.0
+grow_horizontal = 0
+text = "X"
