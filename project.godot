@@ -11,8 +11,22 @@ config_version=5
 [application]
 
 config/name="Different Way"
+run/main_scene="res://Map/Map.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+EventBus="*res://Core/EventBus.cs"
+Simulation="*res://Core/Simulation.cs"
+GameManager="*res://Core/GameManager.cs"
+TimeManager="*res://Core/TimeManager.cs"
+InputHandler="*res://Core/InputHandler.cs"
+ResourceManager="*res://Core/ResourceManager.cs"
+
+[dotnet]
+
+project/assembly_name="DifferentWay"
 
 [physics]
 
@@ -23,18 +37,3 @@ config/icon="res://icon.svg"
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-
-[application]
-run/main_scene="res://Map/Map.tscn"
-
-[dotnet]
-project/assembly_name="DifferentWay"
-
-[autoload]
-
-EventBus="*res://Core/EventBus.cs"
-Simulation="*res://Core/Simulation.cs"
-GameManager="*res://Core/GameManager.cs"
-TimeManager="*res://Core/TimeManager.cs"
-InputHandler="*res://Core/InputHandler.cs"
-ResourceManager="*res://Core/ResourceManager.cs"
