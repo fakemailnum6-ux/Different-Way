@@ -1,3 +1,35 @@
 [gd_scene format=3 uid="uid://map1234"]
 
 [node name="Map" type="Node2D"]
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="MainPanel" type="PanelContainer" parent="UILayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="UILayer/MainPanel"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UILayer/MainPanel/CenterContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="UILayer/MainPanel/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Different Way"
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="UILayer/MainPanel/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "System Initialized. Engine Running."
+horizontal_alignment = 1
+
+[node name="InfoLabel" type="Label" parent="UILayer/MainPanel/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.501961, 0.501961, 0.501961, 1)
+text = "Awaiting UI Nodes implementation in Godot Editor."
+horizontal_alignment = 1
