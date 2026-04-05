@@ -1,0 +1,77 @@
+[
+  {
+    "name": "Лохмотья",
+    "Armor": 0,
+    "Durability": 5,
+    "Weight": 0.5,
+    "Price": 0,
+    "Description": "Соц. статус: Нищий."
+  },
+  {
+    "name": "Рваные штаны",
+    "Armor": 0,
+    "Durability": 10,
+    "Weight": 0.5,
+    "Price": 1
+  },
+  {
+    "name": "Прошитая рубаха",
+    "Armor": 1,
+    "Durability": 20,
+    "Weight": 1.0,
+    "Price": 8
+  },
+  {
+    "name": "Кожаная куртка",
+    "Armor": 3,
+    "Durability": 35,
+    "Weight": 2.5,
+    "Price": 25
+  },
+  {
+    "name": "Сапоги путешественника",
+    "Armor": 1,
+    "Durability": 40,
+    "Weight": 1.0,
+    "Price": 15,
+    "Description": "Бафф побега."
+  },
+  {
+    "name": "Деревянный щит",
+    "Armor": 2,
+    "Durability": 25,
+    "Weight": 3.0,
+    "Price": 10,
+    "Description": "Блок."
+  },
+  {
+    "name": "Кольчужный капюшон",
+    "Armor": 2,
+    "Durability": 45,
+    "Weight": 2.0,
+    "Price": 40
+  },
+  {
+    "name": "Железная кираса",
+    "Armor": 6,
+    "Durability": 80,
+    "Weight": 12.0,
+    "Price": 150,
+    "Description": "Штраф: DEX -1."
+  },
+  {
+    "name": "Стальной шлем",
+    "Armor": 4,
+    "Durability": 70,
+    "Weight": 3.0,
+    "Price": 85
+  },
+  {
+    "name": "Мантия аколита",
+    "Armor": 1,
+    "Durability": 20,
+    "Weight": 1.0,
+    "Price": 60,
+    "Description": "Бафф: Регенерация маны +5%."
+  }
+]

@@ -1,0 +1,79 @@
+[
+  {
+    "name": "Деревянная дубина",
+    "Damage": 3,
+    "Durability": 20,
+    "Weight": 2.0,
+    "Price": 1
+  },
+  {
+    "name": "Ржавый меч",
+    "Damage": 5,
+    "Durability": 15,
+    "Weight": 1.5,
+    "Price": 5,
+    "Description": "Шанс поломки при промахе увеличен."
+  },
+  {
+    "name": "Кинжал вора",
+    "Damage": 4,
+    "Durability": 30,
+    "Weight": 0.5,
+    "Price": 12,
+    "Description": "Бонус к шансу крита."
+  },
+  {
+    "name": "Копье ополченца",
+    "Damage": 7,
+    "Durability": 25,
+    "Weight": 3.0,
+    "Price": 15,
+    "Description": "Атака из Арьергарда."
+  },
+  {
+    "name": "Железный меч",
+    "Damage": 9,
+    "Durability": 45,
+    "Weight": 2.0,
+    "Price": 35
+  },
+  {
+    "name": "Заостренный меч",
+    "Damage": 12,
+    "Durability": 40,
+    "Weight": 1.8,
+    "Price": 80,
+    "Description": "Игнорирует 1 ед. брони."
+  },
+  {
+    "name": "Боевой топор",
+    "Damage": 11,
+    "Durability": 35,
+    "Weight": 3.5,
+    "Price": 45,
+    "Description": "Урон x2 по щитам."
+  },
+  {
+    "name": "Тяжелый двуручник",
+    "Damage": 18,
+    "Durability": 60,
+    "Weight": 6.0,
+    "Price": 120
+  },
+  {
+    "name": "Лук охотника",
+    "Damage": 6,
+    "Durability": 30,
+    "Weight": 1.0,
+    "Price": 25,
+    "Description": "Игнорирует зону Авангарда."
+  },
+  {
+    "name": "Посох ученика",
+    "Damage": 2,
+    "Durability": 20,
+    "Weight": 1.5,
+    "Price": 30,
+    "Description": "Бафф: Мана +10."
+  }
+]
