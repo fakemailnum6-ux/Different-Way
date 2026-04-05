@@ -64,13 +64,35 @@ text_overrun_behavior = 3
 [node name="VSeparator3" type="VSeparator" parent="TopBar/HBoxContainer"]
 layout_mode = 2
 
+[node name="QuestsButton" type="Button" parent="TopBar/HBoxContainer"]
+layout_mode = 2
+text = "Quests"
+
 [node name="InventoryButton" type="Button" parent="TopBar/HBoxContainer"]
 layout_mode = 2
 text = "Inventory"
 
+[node name="CharacterButton" type="Button" parent="TopBar/HBoxContainer"]
+layout_mode = 2
+text = "Character"
+
 [node name="SettingsButton" type="Button" parent="TopBar/HBoxContainer"]
 layout_mode = 2
 text = "Settings"
+
+[node name="WorldMapButton" type="Button" parent="TopBar/HBoxContainer"]
+layout_mode = 2
+text = "World Map"
+
+[node name="SettingsBlocker" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5)
 
 [node name="SettingsPanel" type="Panel" parent="."]
 visible = false
@@ -162,6 +184,9 @@ text = "Close"
 [connection signal="pressed" from="TopBar/HBoxContainer/SkipQuarterButton" to="." method="_on_skip_quarter_button_pressed"]
 [connection signal="pressed" from="TopBar/HBoxContainer/SkipHalfButton" to="." method="_on_skip_half_button_pressed"]
 [connection signal="pressed" from="TopBar/HBoxContainer/SkipDayButton" to="." method="_on_skip_day_button_pressed"]
+[connection signal="pressed" from="TopBar/HBoxContainer/QuestsButton" to="." method="_on_quests_button_pressed"]
 [connection signal="pressed" from="TopBar/HBoxContainer/InventoryButton" to="." method="_on_inventory_button_pressed"]
+[connection signal="pressed" from="TopBar/HBoxContainer/CharacterButton" to="." method="_on_character_button_pressed"]
 [connection signal="pressed" from="TopBar/HBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="TopBar/HBoxContainer/WorldMapButton" to="." method="_on_world_map_button_pressed"]
 [connection signal="pressed" from="SettingsPanel/VBoxContainer/CloseSettingsButton" to="." method="_on_close_settings_button_pressed"]

@@ -7,11 +7,13 @@ extends Node2D
 @onready var hud_manager = $CanvasLayer/HUDManager
 @onready var inventory_ui = $CanvasLayer/InventoryUI
 @onready var noticeboard_ui = $CanvasLayer/NoticeboardUI
+@onready var character_ui = $CanvasLayer/CharacterStatsUI
 
 var year = 1
 var month = 1
 var day = 1
 var quarter = 0 # 0=Morning, 1=Day, 2=Evening, 3=Night
+var gold = 100
 
 var has_quest = false
 
@@ -21,6 +23,7 @@ func _ready():
 	quest_log.hide()
 	inventory_ui.hide()
 	noticeboard_ui.hide()
+	character_ui.hide()
 
 	dialog_box.closed.connect(_on_dialog_box_closed)
 	quest_log.closed.connect(_on_quest_log_closed)
@@ -37,6 +40,9 @@ func update_time_display():
 		3: time_str = "Night"
 	var full_str = "Year %d, Month %d, Day %d - %s" % [year, month, day, time_str]
 	hud_manager.set_time_text(full_str)
+
+func update_gold_display():
+	hud_manager.get_node("TopBar/HBoxContainer/GoldLabel").text = "Gold: " + str(gold)
 
 func update_quest_display():
 	if has_quest:
@@ -71,12 +77,22 @@ func _on_tavern_menu_noticeboard_requested():
 	tavern_menu.hide()
 	noticeboard_ui.show()
 
-func _on_tavern_menu_quests_requested():
+func _on_tavern_menu_exit_requested():
 	tavern_menu.hide()
+	map_ui.show()
+
+func _on_hud_quests_requested():
 	quest_log.show()
 
 func _on_hud_inventory_requested():
 	inventory_ui.show()
+
+func _on_hud_character_requested():
+	character_ui.show()
+
+func _on_hud_world_map_requested():
+	print("World Map transitions not fully implemented in MVP. Returning to map.")
+	map_ui.show()
 
 func _on_hud_skip_time_requested(quarters: int):
 	advance_time(quarters)
@@ -94,14 +110,20 @@ func _on_noticeboard_quest_accepted():
 	noticeboard_ui.hide()
 	tavern_menu.show()
 
-func _on_tavern_menu_exit_requested():
-	tavern_menu.hide()
-	map_ui.show()
-
 func _on_dialog_box_closed():
 	dialog_box.hide()
 	tavern_menu.show()
 
+func _on_dialog_box_buy_drink_requested():
+	if gold >= 5:
+		gold -= 5
+		update_gold_display()
+		print("Drink bought!")
+	else:
+		print("Not enough gold!")
+
 func _on_quest_log_closed():
 	quest_log.hide()
-	tavern_menu.show()
+
+func _on_character_closed():
+	character_ui.hide()

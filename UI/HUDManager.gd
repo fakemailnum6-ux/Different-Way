@@ -1,9 +1,13 @@
 extends Control
 
 signal inventory_requested
+signal quests_requested
+signal character_requested
+signal world_map_requested
 signal skip_time_requested(quarters)
 
 @onready var settings_panel = $SettingsPanel
+@onready var settings_blocker = $SettingsBlocker
 @onready var time_label = $TopBar/HBoxContainer/TimeLabel
 @onready var quest_label = $TopBar/HBoxContainer/QuestLabel
 @onready var resolution_option = $SettingsPanel/VBoxContainer/HBoxContainerRes/ResolutionOption
@@ -18,6 +22,7 @@ const RESOLUTIONS = [
 
 func _ready():
 	settings_panel.hide()
+	settings_blocker.hide()
 
 	for res in RESOLUTIONS:
 		resolution_option.add_item("%d x %d" % [res.x, res.y])
@@ -37,10 +42,21 @@ func set_quest_text(text: String):
 func _on_inventory_button_pressed():
 	inventory_requested.emit()
 
+func _on_quests_button_pressed():
+	quests_requested.emit()
+
+func _on_character_button_pressed():
+	character_requested.emit()
+
+func _on_world_map_button_pressed():
+	world_map_requested.emit()
+
 func _on_settings_button_pressed():
+	settings_blocker.show()
 	settings_panel.show()
 
 func _on_close_settings_button_pressed():
+	settings_blocker.hide()
 	settings_panel.hide()
 
 func _on_skip_quarter_button_pressed():

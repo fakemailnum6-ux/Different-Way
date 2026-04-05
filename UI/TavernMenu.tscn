@@ -11,6 +11,15 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_tavern")
 
+[node name="Blocker" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5)
+
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 8
@@ -44,19 +53,14 @@ horizontal_alignment = 1
 layout_mode = 2
 text = "Dialogue"
 
-[node name="QuestsButton" type="Button" parent="Panel/VBoxContainer"]
-layout_mode = 2
-text = "Quests"
-
 [node name="NoticeboardButton" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
-text = "Noticeboard"
+text = "Noticeboard (Quests)"
 
 [node name="ExitButton" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
 text = "Exit to Map"
 
-[connection signal="pressed" from="Panel/VBoxContainer/NoticeboardButton" to="." method="_on_noticeboard_button_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/DialogueButton" to="." method="_on_dialogue_button_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/QuestsButton" to="." method="_on_quests_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/NoticeboardButton" to="." method="_on_noticeboard_button_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

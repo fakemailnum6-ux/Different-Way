@@ -1,15 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://not1234567890"]
+[gd_scene load_steps=2 format=3 uid="uid://char123456789"]
 
-[ext_resource type="Script" path="res://UI/NoticeboardUI.gd" id="1_not"]
+[ext_resource type="Script" path="res://UI/CharacterStatsUI.gd" id="1_char"]
 
-[node name="NoticeboardUI" type="Control"]
+[node name="CharacterStatsUI" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_not")
+script = ExtResource("1_char")
 
 [node name="Blocker" type="ColorRect" parent="."]
 layout_mode = 1
@@ -41,23 +41,37 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Panel/VBoxContainer"]
 layout_mode = 2
-text = "Noticeboard"
+text = "Character Stats"
 horizontal_alignment = 1
 
-[node name="AcceptQuestButton" type="Button" parent="Panel/VBoxContainer"]
+[node name="StrengthLabel" type="Label" parent="Panel/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-text = "Accept Quest: Slay Rats"
+text = "Strength: 10"
+horizontal_alignment = 1
+
+[node name="AgilityLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Agility: 10"
+horizontal_alignment = 1
+
+[node name="IntellectLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Intellect: 10"
+horizontal_alignment = 1
+
+[node name="CharismaLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Charisma: 10"
+horizontal_alignment = 1
 
 [node name="CloseButton" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Close"
 
-[connection signal="pressed" from="Panel/VBoxContainer/AcceptQuestButton" to="." method="_on_accept_quest_button_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/CloseButton" to="." method="_on_close_button_pressed"]
