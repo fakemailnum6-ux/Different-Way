@@ -1,0 +1,80 @@
+[gd_scene load_steps=2 format=3 uid="uid://b82x4kfqy5a1"]
+
+[ext_resource type="Script" path="res://Tavern.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://dbx1" path="res://UI/DialogBox.tscn" id="2_dialog"]
+
+[node name="Tavern" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.180392, 0.113725, 0.054902, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 200.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 24
+text = "Location: The Rusty Boar Tavern"
+
+[node name="NPCLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 80.0
+offset_right = 150.0
+offset_bottom = 105.0
+text = "NPC: Bartender Bob"
+
+[node name="TalkButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 120.0
+offset_right = 160.0
+offset_bottom = 160.0
+text = "Talk to Bob"
+
+[node name="CompleteQuestButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 180.0
+offset_top = 120.0
+offset_right = 320.0
+offset_bottom = 160.0
+text = "Give Rat Tails"
+disabled = true
+
+[node name="ReturnButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 200.0
+offset_right = 160.0
+offset_bottom = 240.0
+text = "Return to Map"
+
+[node name="QuestLog" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 650.0
+offset_top = 20.0
+offset_right = 950.0
+offset_bottom = 380.0
+text = "--- Quest Log ---
+No active quests."
+
+[node name="DialogBox" parent="." instance=ExtResource("2_dialog")]
+layout_mode = 1
+offset_left = 200.0
+offset_top = 200.0
+offset_right = 600.0
+offset_bottom = 400.0
