@@ -7,22 +7,110 @@ extends Node2D
 @onready var global_map = $UILayer/GlobalMap
 
 @onready var active_quests_label = $UILayer/ActiveQuestsPanel/VBoxContainer/QuestsLabel
+@onready var map_canvas = $UILayer/MapCanvas
+
+const MAP_FILE_PATH = "user://local_map.json"
+
+var locations_data = []
+var roads_data = []
 
 func _ready():
 	_hide_all_windows()
-
-	$UILayer/Locations/PlazaButton.pressed.connect(func(): _interact_npc("Староста"))
-	$UILayer/Locations/TavernButton.pressed.connect(func(): _interact_npc("Алхимик"))
-	$UILayer/Locations/SmithyButton.pressed.connect(func(): _interact_npc("Кузнец"))
-	$UILayer/Locations/ForestButton.pressed.connect(func(): _interact_npc("Капитан"))
 
 	$UILayer/HUD/CharButton.pressed.connect(func(): _toggle_window(char_sheet))
 	$UILayer/HUD/InvButton.pressed.connect(func(): _toggle_window(inventory_ui))
 	$UILayer/HUD/CraftButton.pressed.connect(func(): _toggle_window(crafting_ui))
 	$UILayer/HUD/MapButton.pressed.connect(func(): _toggle_window(global_map))
 
-	# Connect to Quest accepted signal
 	dialog_box.quest_accepted.connect(_on_quest_accepted)
+
+	_initialize_map()
+
+func _initialize_map():
+	if FileAccess.file_exists(MAP_FILE_PATH):
+		_load_map()
+	else:
+		_generate_and_save_map()
+
+	_render_map()
+
+func _generate_and_save_map():
+	# Procedurally generate coordinates for 4 key locations
+	locations_data = [
+		{"id": "plaza", "name": "Площадь (Староста)", "npc": "Староста", "x": 500, "y": 300},
+		{"id": "tavern", "name": "Таверна (Алхимик)", "npc": "Алхимик", "x": 200, "y": 200},
+		{"id": "smithy", "name": "Кузница (Кузнец)", "npc": "Кузнец", "x": 800, "y": 450},
+		{"id": "forest", "name": "Лесная Опушка (Капитан)", "npc": "Капитан", "x": 850, "y": 150}
+	]
+
+	# Define roads connecting them
+	roads_data = [
+		{"from": "plaza", "to": "tavern"},
+		{"from": "plaza", "to": "smithy"},
+		{"from": "plaza", "to": "forest"},
+		{"from": "smithy", "to": "forest"}
+	]
+
+	var data = {
+		"locations": locations_data,
+		"roads": roads_data
+	}
+
+	var file = FileAccess.open(MAP_FILE_PATH, FileAccess.WRITE)
+	file.store_string(JSON.stringify(data, "\t"))
+	file.close()
+	print("Generated and saved new map to ", MAP_FILE_PATH)
+
+func _load_map():
+	var file = FileAccess.open(MAP_FILE_PATH, FileAccess.READ)
+	var json_string = file.get_as_text()
+	var data = JSON.parse_string(json_string)
+
+	if data and typeof(data) == TYPE_DICTIONARY:
+		locations_data = data.get("locations", [])
+		roads_data = data.get("roads", [])
+		print("Loaded existing map from ", MAP_FILE_PATH)
+	else:
+		printerr("Failed to parse map JSON.")
+		_generate_and_save_map()
+
+func _render_map():
+	# Clear canvas just in case
+	for child in map_canvas.get_children():
+		child.queue_free()
+
+	# Draw roads as lines
+	for road in roads_data:
+		var start_loc = _get_location_by_id(road["from"])
+		var end_loc = _get_location_by_id(road["to"])
+
+		if start_loc and end_loc:
+			var line = Line2D.new()
+			line.add_point(Vector2(start_loc["x"], start_loc["y"]))
+			line.add_point(Vector2(end_loc["x"], end_loc["y"]))
+			line.width = 6.0
+			line.default_color = Color(0.4, 0.3, 0.2, 1) # Dirt road brown color
+			map_canvas.add_child(line)
+
+	# Draw locations as rectangle buttons (houses)
+	for loc in locations_data:
+		var btn = Button.new()
+		btn.text = loc["name"]
+
+		# Styling it like a rectangle building
+		btn.custom_minimum_size = Vector2(160, 80)
+		btn.position = Vector2(loc["x"] - 80, loc["y"] - 40) # Center on coordinate
+
+		var npc_name = loc["npc"]
+		btn.pressed.connect(func(): _interact_npc(npc_name))
+
+		map_canvas.add_child(btn)
+
+func _get_location_by_id(id: String):
+	for loc in locations_data:
+		if loc["id"] == id:
+			return loc
+	return null
 
 func _hide_all_windows():
 	dialog_box.hide()
@@ -37,11 +125,11 @@ func _toggle_window(window: Control):
 	window.visible = !is_visible
 
 func _interact_npc(npc_name: String):
+	# Directly interact with NPC inside the location
 	_hide_all_windows()
 	dialog_box.show()
 
 	var welcome_text = ""
-	var quest_id = ""
 	match npc_name:
 		"Староста": welcome_text = "Староста: Добро пожаловать в Дубовую Гавань. Волки снова воют на опушке... (Квест: Убедить старосту)"
 		"Кузнец": welcome_text = "Кузнец: Оружие затупилось? Неси материалы. (Квест: Принести травы)"
