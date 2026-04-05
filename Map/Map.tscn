@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" path="res://Map/Map.gd" id="1_map"]
 [ext_resource type="PackedScene" uid="uid://cx6y8v7u8j11m" path="res://UI/TavernMenu.tscn" id="2_tavern"]
+[ext_resource type="PackedScene" uid="uid://bd3v8m4g6n2d8" path="res://UI/DialogBox.tscn" id="3_dialog"]
+[ext_resource type="PackedScene" uid="uid://c5m2k9f8j7h4l" path="res://UI/QuestLog.tscn" id="4_quest"]
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_map")
@@ -27,6 +29,12 @@ text = "Enter Tavern"
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="TavernMenu" parent="CanvasLayer" instance=ExtResource("2_tavern")]
+visible = false
+
+[node name="DialogBox" parent="CanvasLayer" instance=ExtResource("3_dialog")]
+visible = false
+
+[node name="QuestLog" parent="CanvasLayer" instance=ExtResource("4_quest")]
 visible = false
 
 [connection signal="pressed" from="MapUI/EnterTavernButton" to="." method="_on_enter_tavern_button_pressed"]
