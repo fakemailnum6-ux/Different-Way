@@ -48,10 +48,15 @@ text = "Dialogue"
 layout_mode = 2
 text = "Quests"
 
+[node name="NoticeboardButton" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Noticeboard"
+
 [node name="ExitButton" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
 text = "Exit to Map"
 
+[connection signal="pressed" from="Panel/VBoxContainer/NoticeboardButton" to="." method="_on_noticeboard_button_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/DialogueButton" to="." method="_on_dialogue_button_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/QuestsButton" to="." method="_on_quests_button_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

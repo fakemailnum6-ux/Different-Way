@@ -31,7 +31,19 @@ alignment = 1
 
 [node name="TimeLabel" type="Label" parent="TopBar/HBoxContainer"]
 layout_mode = 2
-text = "Time: Morning"
+text = "Year 1, Month 1, Day 1 - Morning"
+
+[node name="SkipQuarterButton" type="Button" parent="TopBar/HBoxContainer"]
+layout_mode = 2
+text = "Skip 1/4 Day"
+
+[node name="SkipHalfButton" type="Button" parent="TopBar/HBoxContainer"]
+layout_mode = 2
+text = "Skip 1/2 Day"
+
+[node name="SkipDayButton" type="Button" parent="TopBar/HBoxContainer"]
+layout_mode = 2
+text = "Skip 1 Day"
 
 [node name="VSeparator" type="VSeparator" parent="TopBar/HBoxContainer"]
 layout_mode = 2
@@ -45,7 +57,7 @@ layout_mode = 2
 
 [node name="QuestLabel" type="Label" parent="TopBar/HBoxContainer"]
 layout_mode = 2
-text = "Active Quest: Slay Rats in the Cellar"
+text = "Active Quest: None"
 
 [node name="VSeparator3" type="VSeparator" parent="TopBar/HBoxContainer"]
 layout_mode = 2
@@ -80,8 +92,60 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 10
 alignment = 1
+
+[node name="SettingsTitle" type="Label" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+horizontal_alignment = 1
+
+[node name="HBoxContainerRes" type="HBoxContainer" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="SettingsPanel/VBoxContainer/HBoxContainerRes"]
+layout_mode = 2
+text = "Resolution"
+
+[node name="ResolutionOption" type="OptionButton" parent="SettingsPanel/VBoxContainer/HBoxContainerRes"]
+layout_mode = 2
+
+[node name="HBoxContainerSound" type="HBoxContainer" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="SettingsPanel/VBoxContainer/HBoxContainerSound"]
+layout_mode = 2
+text = "Sound"
+
+[node name="SoundSlider" type="HSlider" parent="SettingsPanel/VBoxContainer/HBoxContainerSound"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainerMusic" type="HBoxContainer" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="SettingsPanel/VBoxContainer/HBoxContainerMusic"]
+layout_mode = 2
+text = "Music"
+
+[node name="MusicSlider" type="HSlider" parent="SettingsPanel/VBoxContainer/HBoxContainerMusic"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainerVoice" type="HBoxContainer" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="SettingsPanel/VBoxContainer/HBoxContainerVoice"]
+layout_mode = 2
+text = "Voice"
+
+[node name="VoiceSlider" type="HSlider" parent="SettingsPanel/VBoxContainer/HBoxContainerVoice"]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="CostTrackerLabel" type="Label" parent="SettingsPanel/VBoxContainer"]
 layout_mode = 2
@@ -93,5 +157,9 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "Close"
 
+[connection signal="pressed" from="TopBar/HBoxContainer/SkipQuarterButton" to="." method="_on_skip_quarter_button_pressed"]
+[connection signal="pressed" from="TopBar/HBoxContainer/SkipHalfButton" to="." method="_on_skip_half_button_pressed"]
+[connection signal="pressed" from="TopBar/HBoxContainer/SkipDayButton" to="." method="_on_skip_day_button_pressed"]
+[connection signal="pressed" from="TopBar/HBoxContainer/InventoryButton" to="." method="_on_inventory_button_pressed"]
 [connection signal="pressed" from="TopBar/HBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="SettingsPanel/VBoxContainer/CloseSettingsButton" to="." method="_on_close_settings_button_pressed"]

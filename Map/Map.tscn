@@ -5,6 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://bd3v8m4g6n2d8" path="res://UI/DialogBox.tscn" id="3_dialog"]
 [ext_resource type="PackedScene" uid="uid://c5m2k9f8j7h4l" path="res://UI/QuestLog.tscn" id="4_quest"]
 [ext_resource type="PackedScene" uid="uid://x1y2z3a4b5c6d" path="res://UI/HUDManager.tscn" id="5_hud"]
+[ext_resource type="PackedScene" uid="uid://inv1234567890" path="res://UI/InventoryUI.tscn" id="6_inv"]
+[ext_resource type="PackedScene" uid="uid://not1234567890" path="res://UI/NoticeboardUI.tscn" id="7_not"]
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_map")
@@ -18,6 +20,23 @@ offset_right = 1152.0
 offset_bottom = 648.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="GrassBackground" type="ColorRect" parent="MapUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2, 0.4, 0.2, 1)
+
+[node name="TavernGround" type="ColorRect" parent="MapUI"]
+layout_mode = 0
+offset_left = 400.0
+offset_top = 200.0
+offset_right = 750.0
+offset_bottom = 450.0
+color = Color(0.4, 0.3, 0.2, 1)
 
 [node name="EnterTavernButton" type="Button" parent="MapUI"]
 layout_mode = 0
@@ -40,7 +59,19 @@ visible = false
 [node name="QuestLog" parent="CanvasLayer" instance=ExtResource("4_quest")]
 visible = false
 
+[node name="InventoryUI" parent="CanvasLayer" instance=ExtResource("6_inv")]
+visible = false
+
+[node name="NoticeboardUI" parent="CanvasLayer" instance=ExtResource("7_not")]
+visible = false
+
 [connection signal="pressed" from="MapUI/EnterTavernButton" to="." method="_on_enter_tavern_button_pressed"]
+[connection signal="inventory_requested" from="CanvasLayer/HUDManager" to="." method="_on_hud_inventory_requested"]
+[connection signal="skip_time_requested" from="CanvasLayer/HUDManager" to="." method="_on_hud_skip_time_requested"]
+[connection signal="noticeboard_requested" from="CanvasLayer/TavernMenu" to="." method="_on_tavern_menu_noticeboard_requested"]
+[connection signal="closed" from="CanvasLayer/InventoryUI" to="." method="_on_inventory_closed"]
+[connection signal="closed" from="CanvasLayer/NoticeboardUI" to="." method="_on_noticeboard_closed"]
+[connection signal="quest_accepted" from="CanvasLayer/NoticeboardUI" to="." method="_on_noticeboard_quest_accepted"]
 [connection signal="dialogue_requested" from="CanvasLayer/TavernMenu" to="." method="_on_tavern_menu_dialogue_requested"]
 [connection signal="exit_requested" from="CanvasLayer/TavernMenu" to="." method="_on_tavern_menu_exit_requested"]
 [connection signal="quests_requested" from="CanvasLayer/TavernMenu" to="." method="_on_tavern_menu_quests_requested"]
