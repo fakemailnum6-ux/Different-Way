@@ -10,10 +10,6 @@ extends Node2D
 @onready var character_ui = $CanvasLayer/CharacterStatsUI
 @onready var combat_ui = $CanvasLayer/CombatUI
 
-var year = 1
-var month = 1
-var day = 1
-var quarter = 0 # 0=Morning, 1=Day, 2=Evening, 3=Night
 var gold = 100
 
 var has_quest = false
@@ -34,14 +30,9 @@ func _ready():
 	update_quest_display()
 
 func update_time_display():
-	var time_str = ""
-	match quarter:
-		0: time_str = "Morning"
-		1: time_str = "Day"
-		2: time_str = "Evening"
-		3: time_str = "Night"
-	var full_str = "Year %d, Month %d, Day %d - %s" % [year, month, day, time_str]
-	hud_manager.set_time_text(full_str)
+	if GameManager and GameManager.TimeMgr:
+		var time_str = GameManager.TimeMgr.GetTimeString()
+		hud_manager.set_time_text(time_str)
 
 func update_gold_display():
 	hud_manager.get_node("TopBar/HBoxContainer/GoldLabel").text = "Gold: " + str(gold)
@@ -55,16 +46,8 @@ func update_quest_display():
 		quest_log.set_quest("No active quests.")
 
 func advance_time(quarters_to_add: int):
-	quarter += quarters_to_add
-	while quarter >= 4:
-		quarter -= 4
-		day += 1
-		if day > 30:
-			day = 1
-			month += 1
-			if month > 12:
-				month = 1
-				year += 1
+	if GameManager and GameManager.TimeMgr:
+		GameManager.TimeMgr.AdvanceTime(quarters_to_add)
 	update_time_display()
 
 func _on_enter_tavern_button_pressed():
