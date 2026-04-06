@@ -27,6 +27,10 @@ func _ready():
 
 	dialog_box.quest_accepted.connect(_on_quest_accepted)
 
+	var event_bus = get_node_or_null("/root/EventBus")
+	if event_bus:
+		event_bus.MobKilled.connect(_on_mob_killed)
+
 	_initialize_map()
 
 func _initialize_map():
@@ -174,6 +178,16 @@ func _trigger_test_quest(quest_title: String):
 			var quest_manager = live_state.call("GetQuestManager")
 			if quest_manager:
 				quest_manager.call("GenerateAndAcceptTestQuest", quest_title)
+				_refresh_quests_ui(quest_manager)
+
+func _on_mob_killed(mob_id: String):
+	var simulation = get_node_or_null("/root/Simulation")
+	if simulation:
+		var live_state = simulation.call("GetLiveState")
+		if live_state:
+			var quest_manager = live_state.call("GetQuestManager")
+			if quest_manager:
+				quest_manager.call("UpdateQuestProgress", "dummy_target", 1) # Target dummy_target for the test quest
 				_refresh_quests_ui(quest_manager)
 
 func _refresh_quests_ui(quest_manager):

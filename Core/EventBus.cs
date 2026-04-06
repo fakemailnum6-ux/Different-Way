@@ -19,4 +19,7 @@ public partial class EventBus : Node
 
     [Signal]
     public delegate void CombatEndedEventHandler(bool playerWon);
+
+    [Signal]
+    public delegate void MobKilledEventHandler(string mobId);
 }

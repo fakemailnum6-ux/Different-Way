@@ -52,7 +52,13 @@ public partial class QuestManager : RefCounted
         var titles = new List<string>();
         foreach (var q in _activeQuests)
         {
-            titles.Add(q.AiTitle);
+            string progressStr = "";
+            foreach (var step in q.Steps)
+            {
+                progressStr += $"({step.CurrentAmount}/{step.RequiredAmount}) ";
+            }
+            string state = q.IsComplete() ? "[Выполнено] " : "";
+            titles.Add(state + q.AiTitle + " " + progressStr.Trim());
         }
         return titles.ToArray();
     }
@@ -77,6 +83,11 @@ public partial class QuestManager : RefCounted
 
     public void TrackProgress(string actionType, string targetId, int amount)
     {
+        UpdateQuestProgress(targetId, amount);
+    }
+
+    public void UpdateQuestProgress(string targetId, int amount)
+    {
         foreach (var quest in _activeQuests)
         {
             foreach (var step in quest.Steps)
@@ -84,7 +95,18 @@ public partial class QuestManager : RefCounted
                 if (!step.IsComplete && step.TargetId == targetId)
                 {
                     step.CurrentAmount += amount;
-                    // Trigger events if step or quest completes here
+                    DifferentWay.Core.GameLogger.Log($"Прогресс квеста '{quest.AiTitle}': {step.CurrentAmount}/{step.RequiredAmount}");
+
+                    if (step.IsComplete)
+                    {
+                        DifferentWay.Core.GameLogger.Log($"Этап квеста '{step.Description}' завершен!");
+                    }
+
+                    if (quest.IsComplete())
+                    {
+                        DifferentWay.Core.GameLogger.Log($"Квест '{quest.AiTitle}' полностью завершен!");
+                        // Optionally trigger global event here
+                    }
                 }
             }
         }

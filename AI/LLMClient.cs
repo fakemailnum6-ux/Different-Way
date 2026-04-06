@@ -19,6 +19,9 @@ public partial class LLMClient : RefCounted
 
     private CancellationTokenSource? _cts;
 
+    [Signal]
+    public delegate void AiResponseReceivedEventHandler(string jsonResponse);
+
     // For Godot to instantiate RefCounted objects cleanly from script, an empty constructor is needed
     public LLMClient()
     {
@@ -48,7 +51,22 @@ public partial class LLMClient : RefCounted
         _cts = new CancellationTokenSource();
 
         // Fire and forget from GDScript perspective
-        _ = SendPromptAsync(promptString, _cts.Token);
+        _ = SendPromptAsyncHelper(promptString, _cts.Token);
+    }
+
+    private async Task SendPromptAsyncHelper(string promptString, CancellationToken token)
+    {
+        var response = await SendPromptAsync(promptString, token);
+        if (response != null)
+        {
+            string json = JsonSerializer.Serialize(response);
+            CallDeferred(MethodName.EmitAiResponse, json);
+        }
+    }
+
+    private void EmitAiResponse(string json)
+    {
+        EmitSignal(SignalName.AiResponseReceived, json);
     }
 
     public void CancelPendingRequests()
@@ -65,8 +83,16 @@ public partial class LLMClient : RefCounted
     {
         if (string.IsNullOrEmpty(_apiKey))
         {
-            GD.PrintErr("LLMClient Error: API Key not set.");
-            return null;
+            // MOCK FOR SANDBOX: If no API key, simulate a successful AI response after 1 second
+            DifferentWay.Core.GameLogger.Log("LLMClient: No API key. Returning simulated AI response.");
+            await Task.Delay(1000, token);
+
+            var mockResponse = new AIResponse
+            {
+                Thoughts = "Игрок запросил квест. Я выдам задание на убийство волков.",
+                SpokenText = "Приветствую! В лесу развелось слишком много волков. Разберись с ними, и я щедро заплачу."
+            };
+            return mockResponse;
         }
 
         // Prepare standard JSON payload for an LLM (e.g. OpenAI format)

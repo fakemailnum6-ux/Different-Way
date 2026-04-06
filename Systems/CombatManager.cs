@@ -159,6 +159,12 @@ public partial class CombatManager : RefCounted
             if (target.Stats.CurrentHP <= 0)
             {
                 EmitLog($"*** {target.Name} ПОГИБАЕТ! ***");
+                if (!target.IsPlayer)
+                {
+                    var tree = (SceneTree)Godot.Engine.GetMainLoop();
+                    var eventBus = tree?.Root.GetNodeOrNull<DifferentWay.Core.EventBus>("/root/EventBus");
+                    eventBus?.EmitSignal(DifferentWay.Core.EventBus.SignalName.MobKilled, target.Id);
+                }
             }
         }
     }
