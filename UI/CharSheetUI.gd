@@ -23,6 +23,9 @@ extends Control
 
 @onready var buffs_container = $BuffsScroll/VBoxContainer
 
+@onready var weapon_label = $SecondaryContainer/WeaponLabel
+@onready var armor_label = $SecondaryContainer/ArmorLabel
+
 # Assume reference to C# StatManager node
 var stat_manager
 
@@ -53,6 +56,23 @@ func update_character_sheet(stats):
 	evasion_label.text = "Уворот: " + str(stats.call("GetEvasion"))
 	mental_res_label.text = "Мент. Защ: " + str(stats.call("GetMentalResistance"))
 	cardio_label.text = "Кардио: " + str(stats.call("GetCardio"))
+
+	# Equipment fetching
+	var simulation = get_node_or_null("/root/Simulation")
+	if simulation:
+		var live_state = simulation.call("GetLiveState")
+		if live_state:
+			var equip_manager = live_state.call("GetPlayerEquipment")
+			if equip_manager:
+				if weapon_label:
+					var w_name = equip_manager.call("GetEquippedWeaponName")
+					var w_dmg = equip_manager.call("GetTotalWeaponDamage")
+					weapon_label.text = "Оружие: " + w_name + " (" + str(w_dmg) + " Урон)"
+
+				if armor_label:
+					var a_name = equip_manager.call("GetEquippedArmorName")
+					var a_val = equip_manager.call("GetTotalArmorValue")
+					armor_label.text = "Броня: " + a_name + " (" + str(a_val) + " Защита)"
 
 	_update_buffs(stats)
 

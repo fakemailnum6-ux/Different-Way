@@ -111,6 +111,16 @@ text = "Мент. Защ: 0"
 layout_mode = 2
 text = "Кардио: 15"
 
+[node name="WeaponLabel" type="Label" parent="SecondaryContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.4, 0.4, 1)
+text = "Оружие: Безоружный"
+
+[node name="ArmorLabel" type="Label" parent="SecondaryContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.4, 0.8, 1)
+text = "Броня: Лохмотья"
+
 [node name="BuffsScroll" type="ScrollContainer" parent="."]
 layout_mode = 0
 offset_left = 550.0

@@ -46,8 +46,20 @@ func update_inventory(inventory_manager):
 			var dummy_item = {"id": item_id, "type": "weapon"}
 			btn.mouse_entered.connect(func(): _on_item_mouse_entered(dummy_item))
 			btn.mouse_exited.connect(func(): _on_item_mouse_exited())
+			btn.pressed.connect(func(): _on_item_pressed(item_id))
 
 			weapons_tab.add_child(btn)
+
+func _on_item_pressed(item_id: String):
+	var simulation = get_node_or_null("/root/Simulation")
+	if simulation:
+		var live_state = simulation.call("GetLiveState")
+		if live_state:
+			live_state.call("AttemptEquipFromUI", item_id)
+			# Refresh the inventory or character sheet logic
+			var player_inv = live_state.call("GetPlayerInventory")
+			if player_inv:
+				update_inventory(player_inv)
 
 func _on_item_mouse_entered(item_data):
 	# 7.5 Hover Compare Trigger

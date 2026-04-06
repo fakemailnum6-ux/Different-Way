@@ -10,6 +10,7 @@ public partial class GameState : RefCounted
     public QuestManager QuestManager { get; set; } = new QuestManager();
     public WorldTopology Topology { get; set; } = new WorldTopology();
     public InventoryManager PlayerInventory { get; set; } = new InventoryManager();
+    public EquipmentManager PlayerEquipment { get; set; } = new EquipmentManager();
 
     public CraftingEngine CraftingEngine { get; set; } = new CraftingEngine();
 
@@ -17,6 +18,13 @@ public partial class GameState : RefCounted
     public QuestManager GetQuestManager() => QuestManager;
     public WorldTopology GetTopology() => Topology;
     public InventoryManager GetPlayerInventory() => PlayerInventory;
+    public EquipmentManager GetPlayerEquipment() => PlayerEquipment;
+
+    // GDScript helper for Equipping
+    public void AttemptEquipFromUI(string itemId)
+    {
+        PlayerEquipment.EquipItem(itemId, PlayerInventory);
+    }
 
     // GDScript helper for CraftingUI
     public Godot.Collections.Dictionary GetRecipes()
@@ -101,8 +109,8 @@ public partial class Simulation : Node
             Stats = GameState_Live.PlayerStats,
             IsPlayer = true,
             Zone = DifferentWay.Systems.CombatManager.CombatZone.Vanguard,
-            WeaponDamage = 8,
-            ArmorValue = 2
+            WeaponDamage = GameState_Live.PlayerEquipment.GetTotalWeaponDamage(),
+            ArmorValue = GameState_Live.PlayerEquipment.GetTotalArmorValue()
         });
 
         // Add a Wolf Enemy
