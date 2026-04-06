@@ -80,8 +80,31 @@ func _draw_map():
 
 		if not is_unlocked:
 			btn.disabled = true
+		else:
+			btn.pressed.connect(func(): _on_node_clicked(node.get("id")))
 
 		map_nodes_container.add_child(btn)
+
+func _on_node_clicked(target_node_id: String):
+	# The player is always starting from the currently active macro node.
+	# For the vertical slice, let's assume we are always traveling FROM "village_start" (Дубовая Гавань)
+	# unless we add state tracking for current macro position.
+	var current_location = "village_start"
+	if current_location == target_node_id:
+		print("Вы уже здесь.")
+		return
+
+	var simulation = get_node_or_null("/root/Simulation")
+	if simulation:
+		var live_state = simulation.call("GetLiveState")
+		if live_state:
+			var travel_result = live_state.call("AttemptTravel", current_location, target_node_id)
+			if travel_result == false:
+				print("Нет доступного маршрута или путешествие прервано.")
+			else:
+				# Mгновенно центрирует камеру после успешного путешествия
+				_center_camera_on_node(target_node_id)
+				hide() # Close map
 
 func _find_node(node_list: Array, id: String):
 	for n in node_list:

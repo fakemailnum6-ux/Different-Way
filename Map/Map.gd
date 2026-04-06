@@ -32,6 +32,7 @@ func _ready():
 	if event_bus:
 		event_bus.MobKilled.connect(_on_mob_killed)
 		event_bus.PlayerDied.connect(_on_player_died)
+		event_bus.EncounterTriggered.connect(_on_encounter_triggered)
 
 	_initialize_map()
 
@@ -222,7 +223,10 @@ func _refresh_quests_ui(quest_manager):
 		text += "- " + t + "\n"
 	active_quests_label.text = text
 
-func _start_actual_combat():
+func _on_encounter_triggered(enemy_id: String):
+	_start_actual_combat(enemy_id)
+
+func _start_actual_combat(custom_enemy_id: String = ""):
 	var simulation = get_node_or_null("/root/Simulation")
 	if not simulation: return
 
@@ -231,7 +235,10 @@ func _start_actual_combat():
 	var combat_manager = CSharpCombatManager.new()
 
 	# Let Simulation build the combat entities and start combat
-	simulation.call("StartEncounter", combat_manager)
+	if custom_enemy_id != "":
+		simulation.call("StartEncounterCustom", combat_manager, custom_enemy_id)
+	else:
+		simulation.call("StartEncounter", combat_manager)
 
 	_hide_all_windows()
 	combat_ui.show()

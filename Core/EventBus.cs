@@ -25,4 +25,7 @@ public partial class EventBus : Node
 
     [Signal]
     public delegate void TimeAdvancedEventHandler(int day, int hour, int minute);
+
+    [Signal]
+    public delegate void EncounterTriggeredEventHandler(string enemyId);
 }

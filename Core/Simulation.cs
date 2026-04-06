@@ -111,6 +111,46 @@ public partial class GameState : RefCounted
             DifferentWay.Core.GameLogger.LogError($"Рецепт {recipeId} не найден!");
         }
     }
+
+    public bool AttemptTravel(string fromNodeId, string targetNodeId)
+    {
+        var route = Topology.GetRoute(fromNodeId, targetNodeId);
+        if (route == null)
+        {
+            DifferentWay.Core.GameLogger.Log("Маршрута между этими точками не существует!");
+            return false;
+        }
+
+        // Time cost: weight / speed (Assume speed is 10 for mapping)
+        int minutesTaken = System.Math.Max(10, route.WeightDistance / 10);
+
+        var tree = (SceneTree)Godot.Engine.GetMainLoop();
+        var timeManager = tree?.Root.GetNodeOrNull<DifferentWay.Core.TimeManager>("/root/TimeManager");
+        if (timeManager != null)
+        {
+            timeManager.AdvanceTime(minutesTaken);
+            DifferentWay.Core.GameLogger.Log($"Путешествие заняло {minutesTaken} минут.");
+        }
+
+        // 4.4 Roll for Encounter
+        bool hasEncounter = Topology.RollRandomEncounter(route, PlayerStats.Luck);
+        if (hasEncounter)
+        {
+            DifferentWay.Core.GameLogger.Log("ВНИМАНИЕ! Случайная встреча на дороге!");
+            var eventBus = tree?.Root.GetNodeOrNull<DifferentWay.Core.EventBus>("/root/EventBus");
+
+            // Generate a random valid enemy ID for this vertical slice
+            // Let's fallback to boar or bandit based on DangerLevel
+            string enemyId = route.DangerLevel > 2 ? "bandit_rookie" : "boar_01";
+            eventBus?.EmitSignal(DifferentWay.Core.EventBus.SignalName.EncounterTriggered, enemyId);
+
+            // Note: True means we initiated the travel action successfully, even if ambushed.
+            return true;
+        }
+
+        DifferentWay.Core.GameLogger.Log("Путешествие прошло спокойно.");
+        return true;
+    }
 }
 
 public partial class Simulation : Node
@@ -171,6 +211,58 @@ public partial class Simulation : Node
     }
 
     // Helper for GDScript to instantiate Combat entities easily
+    public void StartEncounterCustom(DifferentWay.Systems.CombatManager combatManager, string enemyId)
+    {
+        var entities = new System.Collections.Generic.List<DifferentWay.Systems.CombatEntity>();
+
+        entities.Add(new DifferentWay.Systems.CombatEntity
+        {
+            Id = "player_1",
+            Name = "Герой",
+            Stats = GameState_Live.PlayerStats,
+            IsPlayer = true,
+            Zone = DifferentWay.Systems.CombatManager.CombatZone.Vanguard,
+            WeaponDamage = GameState_Live.PlayerEquipment.GetTotalWeaponDamage(),
+            ArmorValue = GameState_Live.PlayerEquipment.GetTotalArmorValue()
+        });
+
+        // Simple enemy fetch logic from DataManager
+        var enemyStats = new DifferentWay.Systems.StatManager();
+        string name = "Враг";
+
+        // Mobs are loaded in DataManager if we had them full, here we mock basic fetch based on bestiary JSON memory
+        if (enemyId == "bandit_rookie")
+        {
+            name = "Бандит-новичок";
+            enemyStats.CurrentHP = 40;
+            enemyStats.DEX = 12;
+        }
+        else if (enemyId == "boar_01")
+        {
+            name = "Дикий Кабан";
+            enemyStats.CurrentHP = 50;
+            enemyStats.DEX = 14;
+        }
+        else
+        {
+            name = "Неизвестный Монстр";
+            enemyStats.CurrentHP = 20;
+        }
+
+        entities.Add(new DifferentWay.Systems.CombatEntity
+        {
+            Id = enemyId,
+            Name = name,
+            Stats = enemyStats,
+            IsPlayer = false,
+            Zone = DifferentWay.Systems.CombatManager.CombatZone.Vanguard,
+            WeaponDamage = 5,
+            ArmorValue = 1
+        });
+
+        combatManager.StartCombat(entities);
+    }
+
     public void StartEncounter(DifferentWay.Systems.CombatManager combatManager)
     {
         var entities = new System.Collections.Generic.List<DifferentWay.Systems.CombatEntity>();

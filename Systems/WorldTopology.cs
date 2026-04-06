@@ -12,7 +12,7 @@ public enum TopologyLevel
     POI = 3
 }
 
-public partial class MapNode : RefCounted
+public class MapNode
 {
     public string id { get; set; } = string.Empty;
     public string name { get; set; } = string.Empty;
@@ -22,7 +22,7 @@ public partial class MapNode : RefCounted
     public bool IsUnlocked { get; set; }
 }
 
-public partial class Route : RefCounted
+public class Route
 {
     public string StartNodeId { get; set; } = string.Empty;
     public string EndNodeId { get; set; } = string.Empty;
@@ -71,28 +71,67 @@ public partial class WorldTopology : RefCounted
         DifferentWay.Core.GameLogger.Log("Сгенерирована структура Макро-Мира (граф поселений).");
     }
 
-    public Godot.Collections.Array<MapNode> GetUnlockedVillages()
+    public Godot.Collections.Array<Godot.Collections.Dictionary> GetUnlockedVillages()
     {
-        var result = new Godot.Collections.Array<MapNode>();
+        var result = new Godot.Collections.Array<Godot.Collections.Dictionary>();
         foreach (var node in Nodes)
         {
-            if (node.IsUnlocked) result.Add(node);
+            if (node.IsUnlocked)
+            {
+                result.Add(new Godot.Collections.Dictionary
+                {
+                    { "id", node.id },
+                    { "name", node.name }
+                });
+            }
         }
         return result;
     }
 
-    public Godot.Collections.Array<MapNode> GetAllNodes()
+    public Godot.Collections.Array<Godot.Collections.Dictionary> GetAllNodes()
     {
-        var result = new Godot.Collections.Array<MapNode>();
-        foreach (var n in Nodes) result.Add(n);
+        var result = new Godot.Collections.Array<Godot.Collections.Dictionary>();
+        foreach (var n in Nodes)
+        {
+            result.Add(new Godot.Collections.Dictionary
+            {
+                { "id", n.id },
+                { "name", n.name },
+                { "X", n.X },
+                { "Y", n.Y },
+                { "IsUnlocked", n.IsUnlocked }
+            });
+        }
         return result;
     }
 
-    public Godot.Collections.Array<Route> GetAllRoutes()
+    public Godot.Collections.Array<Godot.Collections.Dictionary> GetAllRoutes()
     {
-        var result = new Godot.Collections.Array<Route>();
-        foreach (var r in Routes) result.Add(r);
+        var result = new Godot.Collections.Array<Godot.Collections.Dictionary>();
+        foreach (var r in Routes)
+        {
+            result.Add(new Godot.Collections.Dictionary
+            {
+                { "StartNodeId", r.StartNodeId },
+                { "EndNodeId", r.EndNodeId },
+                { "DangerLevel", r.DangerLevel },
+                { "WeightDistance", r.WeightDistance }
+            });
+        }
         return result;
+    }
+
+    public Route? GetRoute(string fromId, string toId)
+    {
+        foreach (var r in Routes)
+        {
+            if ((r.StartNodeId == fromId && r.EndNodeId == toId) ||
+                (r.StartNodeId == toId && r.EndNodeId == fromId))
+            {
+                return r;
+            }
+        }
+        return null;
     }
 
     public bool RollRandomEncounter(Route route, int playerLuck)
