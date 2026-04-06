@@ -283,3 +283,33 @@ func _on_ai_response(json_response: String):
 		var logger = get_node_or_null("/root/GameLogger")
 		if logger:
 			logger.call("Log", "AI Thoughts: " + ai_thoughts)
+
+		# Process Action Triggers from AI
+		if actions != null and typeof(actions) == TYPE_ARRAY:
+			var simulation = get_node_or_null("/root/Simulation")
+			if simulation:
+				var live_state = simulation.call("GetLiveState")
+				var inv = live_state.call("GetPlayerInventory")
+				var qm = live_state.call("GetQuestManager")
+
+				for action in actions:
+					if typeof(action) == TYPE_DICTIONARY:
+						var type = action.get("Type", "")
+						var amount = action.get("Amount", 0)
+						var target_id = action.get("Id", "")
+
+						if type == "give_gold":
+							inv.call("AddGold", amount)
+							if logger: logger.call("Log", "AI выдал золото: " + str(amount))
+						elif type == "take_gold":
+							inv.call("RemoveGold", amount)
+							if logger: logger.call("Log", "AI забрал золото: " + str(amount))
+						elif type == "give_item":
+							inv.call("AddItem", target_id, amount)
+							if logger: logger.call("Log", "AI выдал предмет: " + target_id + " x" + str(amount))
+						elif type == "give_quest":
+							# The ID here is assumed to match a StarterQuest ID from DataManager
+							# For now, we mock the title. Later this will fetch from the real DataManager dictionary.
+							qm.call("GenerateAndAcceptTestQuest", "Квест от ИИ: " + target_id)
+							_refresh_quests_ui(qm)
+							if logger: logger.call("Log", "AI выдал квест: " + target_id)
