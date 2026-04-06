@@ -16,6 +16,7 @@ public static class DataManager
     public static Dictionary<string, ConsumableData> Consumables { get; private set; } = new();
     public static Dictionary<string, MaterialData> Materials { get; private set; } = new();
     public static Dictionary<string, StatusEffectData> StatusEffects { get; private set; } = new();
+    public static Dictionary<string, LootTableData> LootTables { get; private set; } = new();
 
     private static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions
     {
@@ -46,6 +47,23 @@ public static class DataManager
 
             var effectsList = LoadJson<List<StatusEffectData>>("res://Data/StatusEffects/status_effects.json");
             foreach (var e in effectsList) StatusEffects[e.Name] = e;
+
+            // Load all LootTables
+            using var dir = Godot.DirAccess.Open("res://Data/LootTables/");
+            if (dir != null)
+            {
+                dir.ListDirBegin();
+                string fileName = dir.GetNext();
+                while (fileName != "")
+                {
+                    if (!dir.CurrentIsDir() && fileName.EndsWith(".json"))
+                    {
+                        var table = LoadJson<LootTableData>("res://Data/LootTables/" + fileName);
+                        LootTables[table.MobId] = table;
+                    }
+                    fileName = dir.GetNext();
+                }
+            }
 
             GameLogger.Log("DataManager initialized successfully. Loaded core game data.");
         }

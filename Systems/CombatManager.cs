@@ -174,6 +174,26 @@ public partial class CombatManager : RefCounted
                     var tree = (SceneTree)Godot.Engine.GetMainLoop();
                     var eventBus = tree?.Root.GetNodeOrNull<DifferentWay.Core.EventBus>("/root/EventBus");
                     eventBus?.EmitSignal(DifferentWay.Core.EventBus.SignalName.MobKilled, target.Id);
+
+                    var simulation = tree?.Root.GetNodeOrNull<DifferentWay.Core.Simulation>("/root/Simulation");
+                    if (simulation != null && _playerEntity != null)
+                    {
+                        var inventory = simulation.GameState_Live.PlayerInventory;
+                        var drops = ItemGenerator.GenerateLootForMob(target.Id, _playerEntity.Stats.Luck);
+                        foreach (var drop in drops)
+                        {
+                            if (drop.Key == "GOLD")
+                            {
+                                inventory.AddGold(drop.Value);
+                                EmitLog($"Найдено золота: {drop.Value}");
+                            }
+                            else
+                            {
+                                inventory.AddItem(drop.Key, drop.Value);
+                                EmitLog($"Выпал предмет: {drop.Key} x{drop.Value}");
+                            }
+                        }
+                    }
                 }
             }
         }

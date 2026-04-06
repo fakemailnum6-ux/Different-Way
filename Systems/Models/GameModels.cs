@@ -62,3 +62,17 @@ public class StatusEffectData
     [JsonPropertyName("Duration")] public int Duration { get; set; }
     [JsonPropertyName("Description")] public string Description { get; set; } = string.Empty;
 }
+
+public class LootDropData
+{
+    [JsonPropertyName("ItemId")] public string ItemId { get; set; } = string.Empty;
+    [JsonPropertyName("Chance")] public int Chance { get; set; }
+    [JsonPropertyName("MinCount")] public int MinCount { get; set; }
+    [JsonPropertyName("MaxCount")] public int MaxCount { get; set; }
+}
+
+public class LootTableData
+{
+    [JsonPropertyName("MobId")] public string MobId { get; set; } = string.Empty;
+    [JsonPropertyName("Drops")] public LootDropData[] Drops { get; set; } = System.Array.Empty<LootDropData>();
+}
