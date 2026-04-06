@@ -137,11 +137,13 @@ func _hide_all_windows():
 	console_ui.hide()
 	combat_ui.hide()
 	merchant_ui.hide()
+	_update_time_pause()
 
 func _toggle_window(window: Control):
 	var is_visible = window.visible
 	_hide_all_windows()
 	window.visible = !is_visible
+	_update_time_pause()
 
 	if window == char_sheet and window.visible:
 		var simulation = get_node_or_null("/root/Simulation")
@@ -165,6 +167,7 @@ func _interact_npc(npc_name: String):
 	# Directly interact with NPC inside the location
 	_hide_all_windows()
 	dialog_box.show()
+	_update_time_pause()
 
 	var welcome_text = ""
 	match npc_name:
@@ -233,6 +236,7 @@ func _start_actual_combat():
 	_hide_all_windows()
 	combat_ui.show()
 	combat_ui.setup(combat_manager, simulation)
+	_update_time_pause()
 
 	var event_bus = get_node_or_null("/root/EventBus")
 	if event_bus:
@@ -240,3 +244,10 @@ func _start_actual_combat():
 
 func _on_quest_accepted(quest_text: String):
 	active_quests_label.text += "\n- " + quest_text
+
+func _update_time_pause():
+	var time_manager = get_node_or_null("/root/TimeManager")
+	if time_manager:
+		# Pause time if any blocking window is open (combat, dialogue, crafting, shop)
+		var is_paused = dialog_box.visible or combat_ui.visible or merchant_ui.visible or crafting_ui.visible
+		time_manager.set("IsPaused", is_paused)

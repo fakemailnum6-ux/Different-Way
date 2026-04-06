@@ -22,4 +22,7 @@ public partial class EventBus : Node
 
     [Signal]
     public delegate void MobKilledEventHandler(string mobId);
+
+    [Signal]
+    public delegate void TimeAdvancedEventHandler(int day, int hour, int minute);
 }
