@@ -17,6 +17,24 @@ public partial class GameManager : Node
         saveManager.LoadGame("autosave");
         GameLogger.Log("Database 'autosave' initialized.");
 
+        var tree = (SceneTree)Godot.Engine.GetMainLoop();
+        var simulation = tree?.Root.GetNodeOrNull<DifferentWay.Core.Simulation>("/root/Simulation");
+        if (simulation != null)
+        {
+            var loadedTopology = saveManager.LoadWorldTopology();
+            if (loadedTopology != null)
+            {
+                simulation.GameState_Live.Topology = loadedTopology;
+                GameLogger.Log("World topology loaded from disk.");
+            }
+            else
+            {
+                GameLogger.Log("No world topology found. Generating new macro world...");
+                simulation.GameState_Live.Topology.GenerateMacroWorld();
+                saveManager.SaveWorldTopology(simulation.GameState_Live.Topology);
+            }
+        }
+
         DataManager.Initialize();
 
         GameLogger.Log("GameManager initialized.");

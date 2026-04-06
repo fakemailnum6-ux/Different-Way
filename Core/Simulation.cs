@@ -8,9 +8,11 @@ public partial class GameState : RefCounted
 {
     public StatManager PlayerStats { get; set; } = new StatManager();
     public QuestManager QuestManager { get; set; } = new QuestManager();
+    public WorldTopology Topology { get; set; } = new WorldTopology();
 
     public StatManager GetPlayerStats() => PlayerStats;
     public QuestManager GetQuestManager() => QuestManager;
+    public WorldTopology GetTopology() => Topology;
 }
 
 public partial class Simulation : Node

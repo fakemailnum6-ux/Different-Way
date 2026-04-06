@@ -1,6 +1,9 @@
 using System.Security.Cryptography;
 using System.Text;
+using System.IO;
+using System.Text.Json;
 using Godot;
+using DifferentWay.Systems;
 
 namespace DifferentWay.Database;
 
@@ -27,6 +30,39 @@ public class SaveManager
         SetupDirectories();
         _dbConnector = new SQLiteConnector(saveName);
         _dbConnector.InitializeDatabase();
+    }
+
+    public void SaveWorldTopology(WorldTopology topology)
+    {
+        string path = ProjectSettings.GlobalizePath("user://exported_worlds/macro_world.json");
+        try
+        {
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            string json = JsonSerializer.Serialize(topology, options);
+            File.WriteAllText(path, json);
+            DifferentWay.Core.GameLogger.Log("World topology exported to user://exported_worlds/");
+        }
+        catch (System.Exception ex)
+        {
+            DifferentWay.Core.GameLogger.LogError($"Failed to save world topology: {ex.Message}");
+        }
+    }
+
+    public WorldTopology? LoadWorldTopology()
+    {
+        string path = ProjectSettings.GlobalizePath("user://exported_worlds/macro_world.json");
+        if (!File.Exists(path)) return null;
+
+        try
+        {
+            string json = File.ReadAllText(path);
+            return JsonSerializer.Deserialize<WorldTopology>(json);
+        }
+        catch (System.Exception ex)
+        {
+            DifferentWay.Core.GameLogger.LogError($"Failed to load world topology: {ex.Message}");
+            return null;
+        }
     }
 
     // 6.3. Система Кэширования ИИ
