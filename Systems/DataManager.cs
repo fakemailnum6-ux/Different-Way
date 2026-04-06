@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using Godot;
 using DifferentWay.Systems.Models;
+using DifferentWay.Core;
 
 namespace DifferentWay.Systems;
 
@@ -46,11 +47,11 @@ public static class DataManager
             var effectsList = LoadJson<List<StatusEffectData>>("res://Data/StatusEffects/status_effects.json");
             foreach (var e in effectsList) StatusEffects[e.Name] = e;
 
-            GD.Print("DataManager initialized successfully. Loaded core game data.");
+            GameLogger.Log("DataManager initialized successfully. Loaded core game data.");
         }
         catch (Exception ex)
         {
-            GD.PrintErr($"Failed to initialize DataManager: {ex.Message}");
+            GameLogger.LogError($"Failed to initialize DataManager: {ex.Message}");
         }
     }
 

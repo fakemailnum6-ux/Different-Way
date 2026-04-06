@@ -5,6 +5,7 @@ extends Node2D
 @onready var inventory_ui = $UILayer/InventoryUI
 @onready var crafting_ui = $UILayer/CraftingUI
 @onready var global_map = $UILayer/GlobalMap
+@onready var console_ui = $UILayer/ConsoleUI
 
 @onready var active_quests_label = $UILayer/ActiveQuestsPanel/VBoxContainer/QuestsLabel
 @onready var map_canvas = $UILayer/MapCanvas
@@ -21,6 +22,7 @@ func _ready():
 	$UILayer/HUD/InvButton.pressed.connect(func(): _toggle_window(inventory_ui))
 	$UILayer/HUD/CraftButton.pressed.connect(func(): _toggle_window(crafting_ui))
 	$UILayer/HUD/MapButton.pressed.connect(func(): _toggle_window(global_map))
+	$UILayer/HUD/ConsoleButton.pressed.connect(func(): _toggle_window(console_ui))
 
 	dialog_box.quest_accepted.connect(_on_quest_accepted)
 
@@ -59,19 +61,26 @@ func _generate_and_save_map():
 	var file = FileAccess.open(MAP_FILE_PATH, FileAccess.WRITE)
 	file.store_string(JSON.stringify(data, "\t"))
 	file.close()
-	print("Generated and saved new map to ", MAP_FILE_PATH)
+
+	var game_logger = get_node_or_null("/root/GameLogger")
+	if game_logger: game_logger.call("WriteLog", "Generated and saved new map to " + MAP_FILE_PATH)
+	else: print("Generated and saved new map to ", MAP_FILE_PATH)
 
 func _load_map():
 	var file = FileAccess.open(MAP_FILE_PATH, FileAccess.READ)
 	var json_string = file.get_as_text()
 	var data = JSON.parse_string(json_string)
 
+	var game_logger = get_node_or_null("/root/GameLogger")
+
 	if data and typeof(data) == TYPE_DICTIONARY:
 		locations_data = data.get("locations", [])
 		roads_data = data.get("roads", [])
-		print("Loaded existing map from ", MAP_FILE_PATH)
+		if game_logger: game_logger.call("WriteLog", "Loaded existing map from " + MAP_FILE_PATH)
+		else: print("Loaded existing map from ", MAP_FILE_PATH)
 	else:
-		printerr("Failed to parse map JSON.")
+		if game_logger: game_logger.call("WriteLogError", "Failed to parse map JSON.")
+		else: printerr("Failed to parse map JSON.")
 		_generate_and_save_map()
 
 func _render_map():
@@ -118,6 +127,7 @@ func _hide_all_windows():
 	inventory_ui.hide()
 	crafting_ui.hide()
 	global_map.hide()
+	console_ui.hide()
 
 func _toggle_window(window: Control):
 	var is_visible = window.visible

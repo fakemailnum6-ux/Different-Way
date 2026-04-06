@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://eccccraftui1" path="res://UI/CraftingUI.tscn" id="5_craft"]
 [ext_resource type="PackedScene" uid="uid://gggmap1" path="res://UI/GlobalMap.tscn" id="6_gmap"]
 [ext_resource type="PackedScene" uid="uid://ftttoooltip1" path="res://UI/TooltipManager.tscn" id="7_tooltip"]
+[ext_resource type="PackedScene" uid="uid://console123" path="res://UI/ConsoleUI.tscn" id="8_console"]
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_map_gd")
@@ -68,6 +69,11 @@ custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 text = "Карта"
 
+[node name="ConsoleButton" type="Button" parent="UILayer/HUD"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "Консоль"
+
 [node name="ActiveQuestsPanel" type="PanelContainer" parent="UILayer"]
 anchors_preset = 1
 anchor_left = 1.0
@@ -107,3 +113,6 @@ visible = false
 visible = false
 
 [node name="TooltipManager" parent="UILayer" instance=ExtResource("7_tooltip")]
+
+[node name="ConsoleUI" parent="UILayer" instance=ExtResource("8_console")]
+visible = false
