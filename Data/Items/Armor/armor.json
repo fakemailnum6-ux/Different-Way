@@ -41,8 +41,7 @@
     "Armor": 2,
     "Durability": 25,
     "Weight": 3.0,
-    "Price": 10,
-    "Description": "Блок."
+    "Price": 10
   },
   {
     "name": "Кольчужный капюшон",
