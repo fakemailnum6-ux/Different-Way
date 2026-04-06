@@ -30,10 +30,10 @@ public class Route
     public int WeightDistance { get; set; }
 }
 
-public partial class WorldTopology : RefCounted
+public class WorldTopology
 {
-    public List<MapNode> Nodes { get; private set; } = new();
-    public List<Route> Routes { get; private set; } = new();
+    public List<MapNode> Nodes { get; set; } = new();
+    public List<Route> Routes { get; set; } = new();
 
     private readonly Random _rnd = new Random();
 

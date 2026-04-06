@@ -1,0 +1,41 @@
+[
+  {
+    "Id": "quest_wolves",
+    "AiTitle": "Убить волков",
+    "AiLoreReason": "Стая волков терроризирует окрестности деревни. Нужно защитить жителей.",
+    "Steps": [
+      {
+        "Description": "Убить волков",
+        "TargetId": "wolf_01",
+        "RequiredAmount": 3,
+        "CurrentAmount": 0
+      }
+    ]
+  },
+  {
+    "Id": "quest_herbs",
+    "AiTitle": "Принести лечебные травы",
+    "AiLoreReason": "Алхимику не хватает ингредиентов для зелий.",
+    "Steps": [
+      {
+        "Description": "Собрать лечебную траву",
+        "TargetId": "Лечебная трава",
+        "RequiredAmount": 5,
+        "CurrentAmount": 0
+      }
+    ]
+  },
+  {
+    "Id": "quest_elder",
+    "AiTitle": "Убедить старосту",
+    "AiLoreReason": "Староста не доверяет чужакам. Нужно доказать свои добрые намерения.",
+    "Steps": [
+      {
+        "Description": "Поговорить со старостой",
+        "TargetId": "npc_elder",
+        "RequiredAmount": 1,
+        "CurrentAmount": 0
+      }
+    ]
+  }
+]

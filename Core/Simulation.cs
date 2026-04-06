@@ -50,6 +50,12 @@ public partial class GameState : RefCounted
 
     public bool AttemptSellFromUI(string itemId, int price)
     {
+        if (PlayerEquipment.EquippedWeapon?.Name == itemId || PlayerEquipment.EquippedArmor?.Name == itemId)
+        {
+            GameLogger.LogError($"Нельзя продать экипированный предмет {itemId}.");
+            return false;
+        }
+
         if (PlayerInventory.GetItemCount(itemId) > 0)
         {
             if (PlayerInventory.RemoveItem(itemId, 1))

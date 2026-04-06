@@ -18,6 +18,7 @@ public static class DataManager
     public static Dictionary<string, StatusEffectData> StatusEffects { get; private set; } = new();
     public static Dictionary<string, LootTableData> LootTables { get; private set; } = new();
     public static Dictionary<string, CraftingRecipe> Recipes { get; private set; } = new();
+    public static Dictionary<string, QuestGraph> StarterQuests { get; private set; } = new();
 
     private static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions
     {
@@ -68,6 +69,16 @@ public static class DataManager
 
             var recipesList = LoadJson<List<CraftingRecipe>>("res://Data/Recipes/recipes.json");
             foreach (var r in recipesList) Recipes[r.ResultItemId] = r;
+
+            try
+            {
+                var questsList = LoadJson<List<QuestGraph>>("res://Data/Quests/quests.json");
+                foreach (var q in questsList) StarterQuests[q.Id] = q;
+            }
+            catch (Exception)
+            {
+                // Soft fail if quests don't exist yet
+            }
 
             GameLogger.Log("DataManager initialized successfully. Loaded core game data.");
         }
