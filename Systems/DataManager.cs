@@ -17,6 +17,7 @@ public static class DataManager
     public static Dictionary<string, MaterialData> Materials { get; private set; } = new();
     public static Dictionary<string, StatusEffectData> StatusEffects { get; private set; } = new();
     public static Dictionary<string, LootTableData> LootTables { get; private set; } = new();
+    public static Dictionary<string, CraftingRecipe> Recipes { get; private set; } = new();
 
     private static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions
     {
@@ -64,6 +65,9 @@ public static class DataManager
                     fileName = dir.GetNext();
                 }
             }
+
+            var recipesList = LoadJson<List<CraftingRecipe>>("res://Data/Recipes/recipes.json");
+            foreach (var r in recipesList) Recipes[r.ResultItemId] = r;
 
             GameLogger.Log("DataManager initialized successfully. Loaded core game data.");
         }

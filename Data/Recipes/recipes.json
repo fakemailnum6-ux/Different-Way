@@ -1,0 +1,25 @@
+[
+  {
+    "ResultItemId": "Железный меч",
+    "RequiredMaterials": {
+      "Железная руда": 3,
+      "Деревянное полено": 1
+    },
+    "BaseDifficulty": 25
+  },
+  {
+    "ResultItemId": "Кожаная куртка",
+    "RequiredMaterials": {
+      "Волчья шкура": 3,
+      "Кожаные ремешки": 2
+    },
+    "BaseDifficulty": 15
+  },
+  {
+    "ResultItemId": "Малое зелье здоровья",
+    "RequiredMaterials": {
+      "Лечебная трава": 2
+    },
+    "BaseDifficulty": 10
+  }
+]

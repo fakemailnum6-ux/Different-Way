@@ -19,20 +19,46 @@ public partial class GameState : RefCounted
     public InventoryManager GetPlayerInventory() => PlayerInventory;
 
     // GDScript helper for CraftingUI
-    public void AttemptCraftingFromUI()
+    public Godot.Collections.Dictionary GetRecipes()
     {
-        var dummyRecipe = new CraftingRecipe
+        var result = new Godot.Collections.Dictionary();
+        foreach (var kvp in DataManager.Recipes)
         {
-            ResultItemId = "Iron Sword",
-            BaseDifficulty = 20,
-            RequiredMaterials = new System.Collections.Generic.Dictionary<string, int>
+            var recipeNode = new Godot.Collections.Dictionary
             {
-                { "Железная руда", 2 },
-                { "Деревянное полено", 1 }
-            }
-        };
+                { "id", kvp.Value.ResultItemId },
+                { "name", kvp.Value.ResultItemId },
+                { "difficulty", kvp.Value.BaseDifficulty }
+            };
 
-        CraftingEngine.AttemptCraft(dummyRecipe, PlayerStats.INT, PlayerInventory);
+            var mats = new Godot.Collections.Array();
+            foreach (var req in kvp.Value.RequiredMaterials)
+            {
+                var mat = new Godot.Collections.Dictionary
+                {
+                    { "id", req.Key },
+                    { "name", req.Key },
+                    { "amount", req.Value }
+                };
+                mats.Add(mat);
+            }
+            recipeNode["requirements"] = mats;
+
+            result[kvp.Key] = recipeNode;
+        }
+        return result;
+    }
+
+    public void AttemptCraftingFromUI(string recipeId)
+    {
+        if (DataManager.Recipes.TryGetValue(recipeId, out var recipe))
+        {
+            CraftingEngine.AttemptCraft(recipe, PlayerStats.INT, PlayerInventory);
+        }
+        else
+        {
+            DifferentWay.Core.GameLogger.LogError($"Рецепт {recipeId} не найден!");
+        }
     }
 }
 
