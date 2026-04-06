@@ -149,6 +149,15 @@ func _toggle_window(window: Control):
 				if player_stats:
 					char_sheet.update_character_sheet(player_stats)
 
+	elif window == inventory_ui and window.visible:
+		var simulation = get_node_or_null("/root/Simulation")
+		if simulation:
+			var live_state = simulation.call("GetLiveState")
+			if live_state:
+				var inv = live_state.call("GetPlayerInventory")
+				if inv:
+					inventory_ui.update_inventory(inv)
+
 func _interact_npc(npc_name: String):
 	# Directly interact with NPC inside the location
 	_hide_all_windows()

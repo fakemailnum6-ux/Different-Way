@@ -9,10 +9,31 @@ public partial class GameState : RefCounted
     public StatManager PlayerStats { get; set; } = new StatManager();
     public QuestManager QuestManager { get; set; } = new QuestManager();
     public WorldTopology Topology { get; set; } = new WorldTopology();
+    public InventoryManager PlayerInventory { get; set; } = new InventoryManager();
+
+    public CraftingEngine CraftingEngine { get; set; } = new CraftingEngine();
 
     public StatManager GetPlayerStats() => PlayerStats;
     public QuestManager GetQuestManager() => QuestManager;
     public WorldTopology GetTopology() => Topology;
+    public InventoryManager GetPlayerInventory() => PlayerInventory;
+
+    // GDScript helper for CraftingUI
+    public void AttemptCraftingFromUI()
+    {
+        var dummyRecipe = new CraftingRecipe
+        {
+            ResultItemId = "Iron Sword",
+            BaseDifficulty = 20,
+            RequiredMaterials = new System.Collections.Generic.Dictionary<string, int>
+            {
+                { "Железная руда", 2 },
+                { "Деревянное полено", 1 }
+            }
+        };
+
+        CraftingEngine.AttemptCraft(dummyRecipe, PlayerStats.INT, PlayerInventory);
+    }
 }
 
 public partial class Simulation : Node

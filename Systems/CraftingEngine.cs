@@ -17,16 +17,9 @@ public partial class CraftingEngine : RefCounted
     private readonly Random _rnd = new Random();
 
     // 4.6 CraftingEngine: Валидирует наличие ингредиентов. Рассчитывает шанс успеха на основе Интеллекта.
-    public bool ValidateIngredients(CraftingRecipe recipe, Dictionary<string, int> playerInventory)
+    public bool ValidateIngredients(CraftingRecipe recipe, InventoryManager inventory)
     {
-        foreach (var material in recipe.RequiredMaterials)
-        {
-            if (!playerInventory.ContainsKey(material.Key) || playerInventory[material.Key] < material.Value)
-            {
-                return false;
-            }
-        }
-        return true;
+        return inventory.HasItems(recipe.RequiredMaterials);
     }
 
     public int CalculateSuccessChance(int difficulty, int playerIntelligence)
@@ -35,14 +28,36 @@ public partial class CraftingEngine : RefCounted
         return Math.Clamp((playerIntelligence * 5) - difficulty + 50, 5, 95);
     }
 
-    public bool AttemptCraft(CraftingRecipe recipe, int playerIntelligence)
+    public bool AttemptCraft(CraftingRecipe recipe, int playerIntelligence, InventoryManager inventory)
     {
+        if (!ValidateIngredients(recipe, inventory))
+        {
+            DifferentWay.Core.GameLogger.Log("Недостаточно материалов для крафта.");
+            return false;
+        }
+
         int successChance = CalculateSuccessChance(recipe.BaseDifficulty, playerIntelligence);
         int roll = _rnd.Next(1, 101);
 
         bool isSuccess = roll <= successChance;
 
-        // If success, AI is queried for dynamic name/description (handled outside engine)
+        // Consume ingredients regardless of success or failure
+        foreach (var material in recipe.RequiredMaterials)
+        {
+            inventory.RemoveItem(material.Key, material.Value);
+        }
+
+        if (isSuccess)
+        {
+            DifferentWay.Core.GameLogger.Log($"Крафт успешен! Получен предмет: {recipe.ResultItemId}");
+            inventory.AddItem(recipe.ResultItemId, 1);
+            // Optionally, signal AI for dynamic naming here
+        }
+        else
+        {
+            DifferentWay.Core.GameLogger.Log($"Крафт провален. Материалы утеряны.");
+        }
+
         return isSuccess;
     }
 }

@@ -38,6 +38,14 @@ func _render_materials(requirements, inventory):
 		materials_list.add_child(label)
 
 func _render_forecast(recipe, player_int):
-	# Math from C# CraftingEngine
-	var chance = csharp_crafting_engine.call("CalculateSuccessChance", recipe.difficulty, player_int)
-	success_forecast.text = "Шанс успеха: " + str(chance) + "%"
+	if csharp_crafting_engine:
+		var chance = csharp_crafting_engine.call("CalculateSuccessChance", recipe.difficulty, player_int)
+		success_forecast.text = "Шанс успеха: " + str(chance) + "%"
+
+# Simulates clicking a craft button
+func _on_craft_button_pressed():
+	var simulation = get_node_or_null("/root/Simulation")
+	if simulation:
+		var live_state = simulation.call("GetLiveState")
+		if live_state:
+			live_state.call("AttemptCraftingFromUI")

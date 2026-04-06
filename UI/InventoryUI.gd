@@ -20,10 +20,34 @@ func _ready():
 	# Setup filter and sorting buttons here
 	pass
 
-func populate_inventory(items_data):
-	# Render inventory icons (ASCII/UTF-8 symbols as per Code-Only rendering restriction)
-	# using a ColorRect and RichTextLabel
-	pass
+func update_inventory(inventory_manager):
+	for tab in [weapons_tab, armor_tab, materials_tab, consumables_tab]:
+		if tab:
+			for child in tab.get_children():
+				child.queue_free()
+
+	if not inventory_manager: return
+
+	var items_data = inventory_manager.call("GetInventoryData")
+
+	if items_data.size() == 0 and weapons_tab:
+		var empty_lbl = Label.new()
+		empty_lbl.text = "Инвентарь пуст."
+		weapons_tab.add_child(empty_lbl)
+		return
+
+	# Simple list rendering on the first tab for now
+	if weapons_tab:
+		for item_id in items_data:
+			var amount = items_data[item_id]
+			var btn = Button.new()
+			btn.text = item_id + " (x" + str(amount) + ")"
+
+			var dummy_item = {"id": item_id, "type": "weapon"}
+			btn.mouse_entered.connect(func(): _on_item_mouse_entered(dummy_item))
+			btn.mouse_exited.connect(func(): _on_item_mouse_exited())
+
+			weapons_tab.add_child(btn)
 
 func _on_item_mouse_entered(item_data):
 	# 7.5 Hover Compare Trigger

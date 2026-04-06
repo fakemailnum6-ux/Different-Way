@@ -16,6 +16,7 @@ public class CombatEntity
     public int CurrentInitiative { get; set; }
     public int WeaponDamage { get; set; } = 5; // Default fist damage if unarmed
     public int ArmorValue { get; set; } = 0;
+    public StatusEffectManager StatusEffects { get; set; } = new StatusEffectManager();
 }
 
 public partial class CombatManager : RefCounted
@@ -76,6 +77,15 @@ public partial class CombatManager : RefCounted
         // Skip dead entities
         if (activeEntity.Stats.CurrentHP <= 0)
         {
+            AdvanceTurn();
+            return;
+        }
+
+        activeEntity.StatusEffects.ProcessTurn(activeEntity.Stats, activeEntity.Name);
+        if (activeEntity.Stats.CurrentHP <= 0)
+        {
+            EmitLog($"*** {activeEntity.Name} ПОГИБАЕТ ОТ СТАТУСА! ***");
+            EmitSignal(SignalName.EntityStatusChanged);
             AdvanceTurn();
             return;
         }
