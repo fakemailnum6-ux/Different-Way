@@ -256,6 +256,12 @@ public partial class CombatManager : RefCounted
         if (_playerEntity == null || _playerEntity.Stats.CurrentHP <= 0)
         {
             EmitLog("Вы погибли в бою...");
+            var tree = (SceneTree)Godot.Engine.GetMainLoop();
+            var simulation = tree?.Root.GetNodeOrNull<DifferentWay.Core.Simulation>("/root/Simulation");
+            if (simulation != null)
+            {
+                simulation.RespawnPlayer();
+            }
             EndCombat(false);
             return true;
         }

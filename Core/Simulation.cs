@@ -139,6 +139,37 @@ public partial class Simulation : Node
         return GameState_Live;
     }
 
+    public void RespawnPlayer()
+    {
+        var stats = GameState_Live.PlayerStats;
+        var inv = GameState_Live.PlayerInventory;
+
+        // 4.2 Respawn & Penalties
+        // Full heal
+        stats.CurrentHP = stats.MaxHP;
+        stats.CurrentStamina = stats.MaxStamina;
+        stats.CurrentMana = stats.MaxMana;
+
+        // Lose 20% of gold
+        int lostGold = (int)(inv.Gold * 0.20f);
+        inv.RemoveGold(lostGold);
+
+        // Apply Trauma debuff (Broken bone)
+        // 10.8: Сломанная кость: Перманентный дебафф (до доктора). -3 STR, -3 DEX.
+        // We simulate a harsh debuff via StatusEffectManager here. (In a full system, you'd apply a permanent trait).
+        GameLogger.Log($"Вы потеряли {lostGold} золота. Получена травма: Сломанная кость.");
+        stats.STR = System.Math.Max(1, stats.STR - 3);
+        stats.DEX = System.Math.Max(1, stats.DEX - 3);
+
+        // TimeManager: Advance 1-3 days (Skipping complex time system implementation here, just logging it)
+        GameLogger.Log("Прошло 2 дня. Вы очнулись в Таверне.");
+
+        // Emit Global Event
+        var tree = (SceneTree)Godot.Engine.GetMainLoop();
+        var eventBus = tree?.Root.GetNodeOrNull<DifferentWay.Core.EventBus>("/root/EventBus");
+        eventBus?.EmitSignal(DifferentWay.Core.EventBus.SignalName.PlayerDied);
+    }
+
     // Helper for GDScript to instantiate Combat entities easily
     public void StartEncounter(DifferentWay.Systems.CombatManager combatManager)
     {

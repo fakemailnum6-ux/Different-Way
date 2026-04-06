@@ -31,6 +31,7 @@ func _ready():
 	var event_bus = get_node_or_null("/root/EventBus")
 	if event_bus:
 		event_bus.MobKilled.connect(_on_mob_killed)
+		event_bus.PlayerDied.connect(_on_player_died)
 
 	_initialize_map()
 
@@ -192,6 +193,14 @@ func _trigger_test_quest(quest_title: String):
 			if quest_manager:
 				quest_manager.call("GenerateAndAcceptTestQuest", quest_title)
 				_refresh_quests_ui(quest_manager)
+
+func _on_player_died():
+	_hide_all_windows()
+	dialog_box.show()
+	dialog_box.get_node("ScrollContainer/ChatHistory").text = ""
+
+	var llm_msg = "Вас нашли без сознания на опушке леса и притащили в таверну. Вы потеряли часть золота, а ваше тело ломит от свежих травм. Вам нужно отдохнуть."
+	dialog_box.call("_append_chat", "Алхимик: " + llm_msg)
 
 func _on_mob_killed(mob_id: String):
 	var simulation = get_node_or_null("/root/Simulation")
