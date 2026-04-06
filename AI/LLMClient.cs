@@ -46,16 +46,32 @@ public partial class LLMClient : RefCounted
     // Exposed for GDScript Calling
     public void RequestPromptAsync(string promptString)
     {
+        // Add chat to context before sending
+        var simulation = Godot.Engine.GetMainLoop() as Godot.SceneTree;
+        var simNode = simulation?.Root.GetNodeOrNull<DifferentWay.Core.Simulation>("/root/Simulation");
+        var timeManager = simulation?.Root.GetNodeOrNull<DifferentWay.Core.TimeManager>("/root/TimeManager");
+
+        string fullPrompt = promptString;
+        if (simNode != null && timeManager != null)
+        {
+            var liveState = simNode.GetLiveState();
+            liveState.Context.AddChatHistory("Player: " + promptString);
+            liveState.Context.UpdateWorldState(timeManager, liveState.PlayerStats);
+            liveState.Context.FetchRagMemories(promptString);
+            fullPrompt = liveState.PromptBuilder.BuildFinalPrompt();
+        }
+
         // Recreate token
         _cts?.Dispose();
         _cts = new CancellationTokenSource();
 
         // Fire and forget from GDScript perspective
-        _ = SendPromptAsyncHelper(promptString, _cts.Token);
+        _ = SendPromptAsyncHelper(fullPrompt, _cts.Token);
     }
 
     private async Task SendPromptAsyncHelper(string promptString, CancellationToken token)
     {
+        // Use promptString (which is now the fully built context) to send to LLM
         var response = await SendPromptAsync(promptString, token);
         if (response != null)
         {

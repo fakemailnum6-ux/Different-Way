@@ -37,8 +37,14 @@ public class SaveManager
         string path = ProjectSettings.GlobalizePath("user://exported_worlds/macro_world.json");
         try
         {
+            var dto = new WorldTopologyDto
+            {
+                Nodes = topology.Nodes,
+                Routes = topology.Routes
+            };
+
             var options = new JsonSerializerOptions { WriteIndented = true };
-            string json = JsonSerializer.Serialize(topology, options);
+            string json = JsonSerializer.Serialize(dto, options);
             File.WriteAllText(path, json);
             DifferentWay.Core.GameLogger.Log("World topology exported to user://exported_worlds/");
         }
@@ -56,7 +62,15 @@ public class SaveManager
         try
         {
             string json = File.ReadAllText(path);
-            return JsonSerializer.Deserialize<WorldTopology>(json);
+            var dto = JsonSerializer.Deserialize<WorldTopologyDto>(json);
+            if (dto != null)
+            {
+                var topology = new WorldTopology();
+                topology.Nodes = dto.Nodes;
+                topology.Routes = dto.Routes;
+                return topology;
+            }
+            return null;
         }
         catch (System.Exception ex)
         {

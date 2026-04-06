@@ -30,7 +30,13 @@ public class Route
     public int WeightDistance { get; set; }
 }
 
-public class WorldTopology
+public class WorldTopologyDto
+{
+    public List<MapNode> Nodes { get; set; } = new();
+    public List<Route> Routes { get; set; } = new();
+}
+
+public partial class WorldTopology : RefCounted
 {
     public List<MapNode> Nodes { get; set; } = new();
     public List<Route> Routes { get; set; } = new();

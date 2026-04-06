@@ -13,6 +13,14 @@ public partial class GameState : RefCounted
     public EquipmentManager PlayerEquipment { get; set; } = new EquipmentManager();
 
     public CraftingEngine CraftingEngine { get; set; } = new CraftingEngine();
+    public DifferentWay.AI.LLMClient LlmClient { get; set; } = new DifferentWay.AI.LLMClient();
+    public DifferentWay.AI.ContextManager Context { get; set; } = new DifferentWay.AI.ContextManager();
+    public DifferentWay.AI.PromptBuilder PromptBuilder { get; set; }
+
+    public GameState()
+    {
+        PromptBuilder = new DifferentWay.AI.PromptBuilder(Context);
+    }
 
     public StatManager GetPlayerStats() => PlayerStats;
     public QuestManager GetQuestManager() => QuestManager;

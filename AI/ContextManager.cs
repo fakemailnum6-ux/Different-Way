@@ -6,9 +6,24 @@ public class ContextManager
 {
     public string SystemRules_P0 { get; set; } = "You are a game AI."; // ~300 tokens
     public string CurrentObjective_P1 { get; set; } = string.Empty;    // ~200 tokens
-    public string WorldState_P2 { get; set; } = string.Empty;          // ~500 tokens
+    public string WorldState_P2 { get; private set; } = string.Empty;  // ~500 tokens
     public List<string> RagContext_P3 { get; set; } = new();           // ~600 tokens
     public Queue<string> RecentChat_P4 { get; set; } = new();          // Remaining tokens (FIFO)
+
+    public void UpdateWorldState(DifferentWay.Core.TimeManager timeManager, DifferentWay.Systems.StatManager playerStats)
+    {
+        WorldState_P2 = $"Time: Day {timeManager.CurrentDay}, {timeManager.CurrentHour:D2}:{timeManager.CurrentMinute:D2}. " +
+                        $"Player HP: {playerStats.CurrentHP}/{playerStats.MaxHP}. " +
+                        $"Player Karma: {playerStats.Karma}. " +
+                        $"Player Charisma: {playerStats.Charisma}.";
+    }
+
+    public void FetchRagMemories(string prompt)
+    {
+        // Stub for VectorDB semantic search
+        RagContext_P3.Clear();
+        // RagContext_P3.Add("Database lookup result for: " + prompt);
+    }
 
     public void AddChatHistory(string message)
     {

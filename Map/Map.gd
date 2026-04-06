@@ -20,6 +20,14 @@ var roads_data = []
 func _ready():
 	_hide_all_windows()
 
+	# Inject LLMClient into DialogBox
+	var simulation = get_node_or_null("/root/Simulation")
+	if simulation:
+		var live_state = simulation.call("GetLiveState")
+		if live_state and live_state.has("LlmClient"):
+			dialog_box.llm_client_node = live_state["LlmClient"]
+			live_state["LlmClient"].AiResponseReceived.connect(_on_ai_response)
+
 	$UILayer/HUD/CharButton.pressed.connect(func(): _toggle_window(char_sheet))
 	$UILayer/HUD/InvButton.pressed.connect(func(): _toggle_window(inventory_ui))
 	$UILayer/HUD/CraftButton.pressed.connect(func(): _toggle_window(crafting_ui))
@@ -258,3 +266,20 @@ func _update_time_pause():
 		# Pause time if any blocking window is open (combat, dialogue, crafting, shop)
 		var is_paused = dialog_box.visible or combat_ui.visible or merchant_ui.visible or crafting_ui.visible
 		time_manager.set("IsPaused", is_paused)
+
+func _on_ai_response(json_response: String):
+	# Parse JSON response from LLM
+	var json = JSON.new()
+	var err = json.parse(json_response)
+	if err == OK:
+		var response_data = json.data
+		var spoken_text = response_data.get("SpokenText", "...")
+		var ai_thoughts = response_data.get("Thoughts", "")
+		var actions = response_data.get("ActionTriggers", [])
+
+		dialog_box.call("_append_chat", "NPC: " + spoken_text)
+
+		# Log thoughts to console
+		var logger = get_node_or_null("/root/GameLogger")
+		if logger:
+			logger.call("Log", "AI Thoughts: " + ai_thoughts)
