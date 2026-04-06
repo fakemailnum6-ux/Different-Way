@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://gggmap1" path="res://UI/GlobalMap.tscn" id="6_gmap"]
 [ext_resource type="PackedScene" uid="uid://ftttoooltip1" path="res://UI/TooltipManager.tscn" id="7_tooltip"]
 [ext_resource type="PackedScene" uid="uid://console123" path="res://UI/ConsoleUI.tscn" id="8_console"]
+[ext_resource type="PackedScene" uid="uid://combat123" path="res://UI/CombatUI.tscn" id="9_combat"]
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_map_gd")
@@ -115,4 +116,7 @@ visible = false
 [node name="TooltipManager" parent="UILayer" instance=ExtResource("7_tooltip")]
 
 [node name="ConsoleUI" parent="UILayer" instance=ExtResource("8_console")]
+visible = false
+
+[node name="CombatUI" parent="UILayer" instance=ExtResource("9_combat")]
 visible = false

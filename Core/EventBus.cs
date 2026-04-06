@@ -10,4 +10,13 @@ public partial class EventBus : Node
 
     [Signal]
     public delegate void ItemCraftedEventHandler(string itemId);
+
+    [Signal]
+    public delegate void QuestAcceptedEventHandler(string questName);
+
+    [Signal]
+    public delegate void CombatStartedEventHandler();
+
+    [Signal]
+    public delegate void CombatEndedEventHandler(bool playerWon);
 }

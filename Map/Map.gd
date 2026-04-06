@@ -6,6 +6,7 @@ extends Node2D
 @onready var crafting_ui = $UILayer/CraftingUI
 @onready var global_map = $UILayer/GlobalMap
 @onready var console_ui = $UILayer/ConsoleUI
+@onready var combat_ui = $UILayer/CombatUI
 
 @onready var active_quests_label = $UILayer/ActiveQuestsPanel/VBoxContainer/QuestsLabel
 @onready var map_canvas = $UILayer/MapCanvas
@@ -128,11 +129,21 @@ func _hide_all_windows():
 	crafting_ui.hide()
 	global_map.hide()
 	console_ui.hide()
+	combat_ui.hide()
 
 func _toggle_window(window: Control):
 	var is_visible = window.visible
 	_hide_all_windows()
 	window.visible = !is_visible
+
+	if window == char_sheet and window.visible:
+		var simulation = get_node_or_null("/root/Simulation")
+		if simulation:
+			var live_state = simulation.call("GetLiveState")
+			if live_state:
+				var player_stats = live_state.call("GetPlayerStats")
+				if player_stats:
+					char_sheet.update_character_sheet(player_stats)
 
 func _interact_npc(npc_name: String):
 	# Directly interact with NPC inside the location
@@ -141,13 +152,55 @@ func _interact_npc(npc_name: String):
 
 	var welcome_text = ""
 	match npc_name:
-		"Староста": welcome_text = "Староста: Добро пожаловать в Дубовую Гавань. Волки снова воют на опушке... (Квест: Убедить старосту)"
-		"Кузнец": welcome_text = "Кузнец: Оружие затупилось? Неси материалы. (Квест: Принести травы)"
-		"Алхимик": welcome_text = "Алхимик: Мои зелья вернут тебя с того света... (Respawn точка)"
-		"Капитан": welcome_text = "Капитан: Готов к бою? (Квест: Убить волков)"
+		"Староста":
+			welcome_text = "Староста: Добро пожаловать в Дубовую Гавань. Волки снова воют на опушке... (Квест: Убедить старосту)"
+			_trigger_test_quest("Убедить старосту")
+		"Кузнец":
+			welcome_text = "Кузнец: Оружие затупилось? Неси материалы. (Квест: Принести травы)"
+		"Алхимик":
+			welcome_text = "Алхимик: Мои зелья вернут тебя с того света... (Respawn точка)"
+		"Капитан":
+			welcome_text = "Капитан: Готов к бою? (Квест: Убить волков)"
+			_start_actual_combat()
 
 	dialog_box.get_node("ScrollContainer/ChatHistory").text = ""
 	dialog_box.call("_append_chat", welcome_text)
+
+func _trigger_test_quest(quest_title: String):
+	var simulation = get_node_or_null("/root/Simulation")
+	if simulation:
+		var live_state = simulation.call("GetLiveState")
+		if live_state:
+			var quest_manager = live_state.call("GetQuestManager")
+			if quest_manager:
+				quest_manager.call("GenerateAndAcceptTestQuest", quest_title)
+				_refresh_quests_ui(quest_manager)
+
+func _refresh_quests_ui(quest_manager):
+	var titles = quest_manager.call("GetActiveQuestTitles")
+	var text = "Активные Квесты:\n"
+	for t in titles:
+		text += "- " + t + "\n"
+	active_quests_label.text = text
+
+func _start_actual_combat():
+	var simulation = get_node_or_null("/root/Simulation")
+	if not simulation: return
+
+	# Instantiate a CombatManager
+	var CSharpCombatManager = load("res://Systems/CombatManager.cs")
+	var combat_manager = CSharpCombatManager.new()
+
+	# Let Simulation build the combat entities and start combat
+	simulation.call("StartEncounter", combat_manager)
+
+	_hide_all_windows()
+	combat_ui.show()
+	combat_ui.setup(combat_manager, simulation)
+
+	var event_bus = get_node_or_null("/root/EventBus")
+	if event_bus:
+		event_bus.emit_signal("CombatStarted")
 
 func _on_quest_accepted(quest_text: String):
 	active_quests_label.text += "\n- " + quest_text

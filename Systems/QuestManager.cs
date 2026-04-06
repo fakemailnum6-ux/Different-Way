@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 
 namespace DifferentWay.Systems;
 
@@ -30,9 +31,31 @@ public class QuestGraph
     }
 }
 
-public class QuestManager
+public partial class QuestManager : RefCounted
 {
     private List<QuestGraph> _activeQuests = new();
+
+    public void GenerateAndAcceptTestQuest(string title)
+    {
+        var quest = new QuestGraph
+        {
+            Id = "quest_" + System.Guid.NewGuid().ToString().Substring(0, 8),
+            AiTitle = title,
+            AiLoreReason = "Сгенерировано для теста"
+        };
+        quest.Steps.Add(new QuestNode { Description = "Тестовая цель", TargetId = "dummy_target", RequiredAmount = 1 });
+        AcceptAiGeneratedQuest(quest);
+    }
+
+    public string[] GetActiveQuestTitles()
+    {
+        var titles = new List<string>();
+        foreach (var q in _activeQuests)
+        {
+            titles.Add(q.AiTitle);
+        }
+        return titles.ToArray();
+    }
 
     public QuestGraph BuildMathematicalQuestSkeleton()
     {
