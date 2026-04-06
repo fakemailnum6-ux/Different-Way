@@ -20,6 +20,49 @@ public partial class GameState : RefCounted
     public InventoryManager GetPlayerInventory() => PlayerInventory;
     public EquipmentManager GetPlayerEquipment() => PlayerEquipment;
 
+    private MerchantLogic _merchantLogic = new MerchantLogic();
+
+    // GDScript helper for Merchant UI
+    public int GetItemBuyPrice(string itemId)
+    {
+        int basePrice = _merchantLogic.GetItemBasePrice(itemId);
+        return _merchantLogic.CalculateBuyPrice(basePrice, PlayerStats.Charisma);
+    }
+
+    public int GetItemSellPrice(string itemId)
+    {
+        int basePrice = _merchantLogic.GetItemBasePrice(itemId);
+        return _merchantLogic.CalculateSellPrice(basePrice, PlayerStats.Charisma);
+    }
+
+    public bool AttemptBuyFromUI(string itemId, int price)
+    {
+        if (PlayerInventory.Gold >= price)
+        {
+            PlayerInventory.RemoveGold(price);
+            PlayerInventory.AddItem(itemId, 1);
+            GameLogger.Log($"Куплен предмет {itemId} за {price} золота.");
+            return true;
+        }
+        GameLogger.LogError($"Недостаточно золота для покупки {itemId}.");
+        return false;
+    }
+
+    public bool AttemptSellFromUI(string itemId, int price)
+    {
+        if (PlayerInventory.GetItemCount(itemId) > 0)
+        {
+            if (PlayerInventory.RemoveItem(itemId, 1))
+            {
+                PlayerInventory.AddGold(price);
+                GameLogger.Log($"Продан предмет {itemId} за {price} золота.");
+                return true;
+            }
+        }
+        GameLogger.LogError($"Не удалось продать {itemId} - нет в инвентаре.");
+        return false;
+    }
+
     // GDScript helper for Equipping
     public void AttemptEquipFromUI(string itemId)
     {

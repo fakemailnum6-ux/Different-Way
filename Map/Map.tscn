@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://ftttoooltip1" path="res://UI/TooltipManager.tscn" id="7_tooltip"]
 [ext_resource type="PackedScene" uid="uid://console123" path="res://UI/ConsoleUI.tscn" id="8_console"]
 [ext_resource type="PackedScene" uid="uid://combat123" path="res://UI/CombatUI.tscn" id="9_combat"]
+[ext_resource type="PackedScene" uid="uid://merchant123" path="res://UI/MerchantUI.tscn" id="10_merchant"]
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_map_gd")
@@ -119,4 +120,7 @@ visible = false
 visible = false
 
 [node name="CombatUI" parent="UILayer" instance=ExtResource("9_combat")]
+visible = false
+
+[node name="MerchantUI" parent="UILayer" instance=ExtResource("10_merchant")]
 visible = false

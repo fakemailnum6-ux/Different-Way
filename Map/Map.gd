@@ -7,6 +7,7 @@ extends Node2D
 @onready var global_map = $UILayer/GlobalMap
 @onready var console_ui = $UILayer/ConsoleUI
 @onready var combat_ui = $UILayer/CombatUI
+@onready var merchant_ui = $UILayer/MerchantUI
 
 @onready var active_quests_label = $UILayer/ActiveQuestsPanel/VBoxContainer/QuestsLabel
 @onready var map_canvas = $UILayer/MapCanvas
@@ -134,6 +135,7 @@ func _hide_all_windows():
 	global_map.hide()
 	console_ui.hide()
 	combat_ui.hide()
+	merchant_ui.hide()
 
 func _toggle_window(window: Control):
 	var is_visible = window.visible
@@ -169,9 +171,11 @@ func _interact_npc(npc_name: String):
 			welcome_text = "Староста: Добро пожаловать в Дубовую Гавань. Волки снова воют на опушке... (Квест: Убедить старосту)"
 			_trigger_test_quest("Убедить старосту")
 		"Кузнец":
-			welcome_text = "Кузнец: Оружие затупилось? Неси материалы. (Квест: Принести травы)"
+			welcome_text = "Кузнец: Оружие затупилось? Неси материалы. Открываю лавку..."
+			merchant_ui.open_shop("Кузнец")
 		"Алхимик":
-			welcome_text = "Алхимик: Мои зелья вернут тебя с того света... (Respawn точка)"
+			welcome_text = "Алхимик: Мои зелья вернут тебя с того света... Открываю лавку..."
+			merchant_ui.open_shop("Алхимик")
 		"Капитан":
 			welcome_text = "Капитан: Готов к бою? (Квест: Убить волков)"
 			_start_actual_combat()
