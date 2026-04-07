@@ -21,6 +21,14 @@ public partial class GameState : RefCounted
     public DifferentWay.AI.PromptBuilder PromptBuilder { get; set; }
     public DifferentWay.Database.MemoryManager? MemoryManager { get; set; }
 
+    // 10.5 Skills implementation
+    public Godot.Collections.Array<string> KnownSkills { get; set; } = new Godot.Collections.Array<string>
+    {
+        "Мощный удар",
+        "Исцеляющее касание",
+        "Магический снаряд"
+    };
+
     public GameState()
     {
         PromptBuilder = new DifferentWay.AI.PromptBuilder(Context);

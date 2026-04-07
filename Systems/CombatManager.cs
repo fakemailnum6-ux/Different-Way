@@ -101,6 +101,78 @@ public partial class CombatManager : RefCounted
         }
     }
 
+    // Called by UI when player clicks 'Skill'
+    public void PlayerUseSkill(string skillName, string targetId)
+    {
+        if (_currentState != CombatState.PlayerTurn || _playerEntity == null) return;
+
+        if (!DataManager.Skills.TryGetValue(skillName, out var skillData))
+        {
+            EmitLog($"Навык {skillName} не найден!");
+            return;
+        }
+
+        // 1. Check & Consume Costs
+        if (skillData.CostType == "Мана")
+        {
+            if (_playerEntity.Stats.CurrentMana < skillData.Cost)
+            {
+                EmitLog("Недостаточно маны!");
+                return;
+            }
+            _playerEntity.Stats.CurrentMana -= skillData.Cost;
+        }
+        else if (skillData.CostType == "Усталость" || skillData.CostType == "Энергия")
+        {
+            if (_playerEntity.Stats.CurrentStamina < skillData.Cost)
+            {
+                EmitLog("Недостаточно усталости/энергии!");
+                return;
+            }
+            _playerEntity.Stats.CurrentStamina -= skillData.Cost;
+        }
+
+        // 2. Resolve target
+        var target = _combatants.FirstOrDefault(c => c.Id == targetId && c.Stats.CurrentHP > 0);
+
+        // 3. Execute Skill Logic (Phase 3 Sandbox examples)
+        EmitLog($"{_playerEntity.Name} использует навык: {skillName}!");
+
+        if (skillName == "Мощный удар")
+        {
+            if (target != null)
+            {
+                int baseDamage = (int)(_playerEntity.WeaponDamage * 1.5f);
+                int damageDealt = System.Math.Max(1, baseDamage - target.ArmorValue);
+                target.Stats.ApplyDamage(damageDealt);
+                EmitLog($"Мощный удар наносит {damageDealt} урона {target.Name}.");
+            }
+        }
+        else if (skillName == "Исцеляющее касание")
+        {
+            int healAmount = _playerEntity.Stats.INT * 2;
+            _playerEntity.Stats.CurrentHP = System.Math.Min(_playerEntity.Stats.MaxHP, _playerEntity.Stats.CurrentHP + healAmount);
+            EmitLog($"Исцеляющее касание восстанавливает {healAmount} HP.");
+        }
+        else if (skillName == "Магический снаряд")
+        {
+            if (target != null)
+            {
+                int damage = 10; // 100% hit, ignores evasion
+                target.Stats.ApplyDamage(damage);
+                EmitLog($"Магический снаряд точно поражает {target.Name} на {damage} урона.");
+            }
+        }
+        else
+        {
+            EmitLog("Навык еще не реализован в движке.");
+            return; // Don't advance turn if skill isn't implemented
+        }
+
+        EmitSignal(SignalName.EntityStatusChanged);
+        AdvanceTurn();
+    }
+
     // Called by UI when player clicks 'Attack'
     public void PlayerAttackTarget(string targetId)
     {

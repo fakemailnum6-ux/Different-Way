@@ -67,6 +67,17 @@ custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "Атаковать Цель"
 
+[node name="HBoxContainer" type="HBoxContainer" parent="MainLayout/LeftPanel/ActionPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="SkillOption" type="OptionButton" parent="MainLayout/LeftPanel/ActionPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="UseSkillButton" type="Button" parent="MainLayout/LeftPanel/ActionPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Навык"
+
 [node name="DefendButton" type="Button" parent="MainLayout/LeftPanel/ActionPanel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2

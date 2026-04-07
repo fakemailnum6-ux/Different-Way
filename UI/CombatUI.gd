@@ -5,6 +5,8 @@ extends Control
 @onready var attack_btn = $MainLayout/LeftPanel/ActionPanel/VBoxContainer/AttackButton
 @onready var defend_btn = $MainLayout/LeftPanel/ActionPanel/VBoxContainer/DefendButton
 @onready var flee_btn = $MainLayout/LeftPanel/ActionPanel/VBoxContainer/FleeButton
+@onready var skill_option = $MainLayout/LeftPanel/ActionPanel/VBoxContainer/HBoxContainer/SkillOption
+@onready var use_skill_btn = $MainLayout/LeftPanel/ActionPanel/VBoxContainer/HBoxContainer/UseSkillButton
 
 @onready var combat_log = $MainLayout/CenterPanel/CombatLog
 @onready var enemies_list = $MainLayout/RightPanel/EnemiesList
@@ -21,11 +23,13 @@ func _ready():
 	attack_btn.pressed.connect(_on_attack_pressed)
 	defend_btn.pressed.connect(_on_defend_pressed)
 	flee_btn.pressed.connect(_on_flee_pressed)
+	use_skill_btn.pressed.connect(_on_use_skill_pressed)
 	turn_timer.timeout.connect(_on_timer_tick)
 
 func setup(cm, sim):
 	combat_manager = cm
 	simulation = sim
+	_populate_skills()
 
 	if not combat_manager.is_connected("CombatLogUpdated", _on_log_updated):
 		combat_manager.CombatLogUpdated.connect(_on_log_updated)
@@ -123,3 +127,25 @@ func _on_combat_ended(player_won: bool):
 	# Close UI after delay (handled by map usually, but can be done here)
 	await get_tree().create_timer(3.0).timeout
 	hide()
+
+func _populate_skills():
+	if not simulation: return
+	var live_state = simulation.call("GetLiveState")
+	if not live_state: return
+
+	var known_skills = live_state.get("KnownSkills")
+	skill_option.clear()
+
+	if known_skills != null and typeof(known_skills) == TYPE_ARRAY:
+		for skill in known_skills:
+			skill_option.add_item(skill)
+
+func _on_use_skill_pressed():
+	if not is_player_turn or not combat_manager: return
+	if skill_option.get_item_count() == 0: return
+
+	var skill_name = skill_option.get_item_text(skill_option.selected)
+
+	# Some skills require targets, some don't.
+	# We pass selected_enemy_id if it exists, otherwise empty.
+	combat_manager.call("PlayerUseSkill", skill_name, selected_enemy_id)
