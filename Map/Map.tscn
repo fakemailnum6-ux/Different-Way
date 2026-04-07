@@ -78,6 +78,10 @@ custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 text = "Карта"
 
+[node name="SaveButton" type="Button" parent="UILayer/HUD"]
+layout_mode = 2
+text = "Сохранить"
+
 [node name="ConsoleButton" type="Button" parent="UILayer/HUD"]
 layout_mode = 2
 text = "Консоль"

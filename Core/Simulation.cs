@@ -229,6 +229,14 @@ public partial class Simulation : Node
         return GameState_Live;
     }
 
+    public void SaveGame()
+    {
+        var saveManager = new DifferentWay.Database.SaveManager();
+        saveManager.LoadGame("autosave");
+        saveManager.SaveWorldTopology(GameState_Live.Topology);
+        saveManager.SaveGameState(GameState_Live);
+    }
+
     public void SaveApiKey(string key)
     {
         if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows))

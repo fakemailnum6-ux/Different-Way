@@ -40,6 +40,9 @@ public partial class GameManager : Node
                 simulation.GameState_Live.Topology.GenerateMacroWorld();
                 saveManager.SaveWorldTopology(simulation.GameState_Live.Topology);
             }
+
+            // Load core game state (Inventory, Stats)
+            saveManager.LoadGameState(simulation.GameState_Live);
         }
 
         DataManager.Initialize();

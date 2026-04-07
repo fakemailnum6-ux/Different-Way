@@ -6,6 +6,7 @@ namespace DifferentWay.Systems;
 public partial class InventoryManager : RefCounted
 {
     private Dictionary<string, int> _items = new();
+    public IReadOnlyDictionary<string, int> Items => _items;
     public int Gold { get; set; } = 100;
 
     public void AddItem(string itemId, int amount)
@@ -66,4 +67,9 @@ public partial class InventoryManager : RefCounted
     public int GetGold() => Gold;
     public void AddGold(int amount) => Gold += amount;
     public void RemoveGold(int amount) => Gold -= amount;
+
+    public void ClearAllItems()
+    {
+        _items.Clear();
+    }
 }

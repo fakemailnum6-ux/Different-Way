@@ -123,4 +123,121 @@ public class SaveManager
         var hash = sha256.ComputeHash(bytes);
         return System.Convert.ToHexString(hash);
     }
+
+    public void SaveGameState(DifferentWay.Core.GameState state)
+    {
+        if (_dbConnector == null) return;
+
+        try
+        {
+            using var conn = _dbConnector.GetConnection();
+            using var tx = conn.BeginTransaction();
+
+            // 1. Save PlayerStats (Simplified for example)
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.Transaction = tx;
+                cmd.CommandText = @"
+                    INSERT OR REPLACE INTO PlayerState (id, level, x_coord, y_coord, in_game_time)
+                    VALUES (1, @level, @x, @y, @time)";
+                cmd.Parameters.AddWithValue("@level", state.PlayerStats.STR); // Mock Level
+                cmd.Parameters.AddWithValue("@x", 0.0); // Mock coordinates
+                cmd.Parameters.AddWithValue("@y", 0.0);
+                cmd.Parameters.AddWithValue("@time", 0.0);
+                cmd.ExecuteNonQuery();
+            }
+
+            // 2. Save Inventory
+            using (var cmdClear = conn.CreateCommand())
+            {
+                cmdClear.Transaction = tx;
+                cmdClear.CommandText = "DELETE FROM Inventory WHERE player_id = 1";
+                cmdClear.ExecuteNonQuery();
+            }
+
+            foreach (var item in state.PlayerInventory.Items)
+            {
+                using var cmdInv = conn.CreateCommand();
+                cmdInv.Transaction = tx;
+                cmdInv.CommandText = @"
+                    INSERT INTO Inventory (player_id, item_id, quantity, current_durability)
+                    VALUES (1, @itemId, @qty, @durability)";
+                cmdInv.Parameters.AddWithValue("@itemId", item.Key);
+                cmdInv.Parameters.AddWithValue("@qty", item.Value);
+                cmdInv.Parameters.AddWithValue("@durability", 100);
+                cmdInv.ExecuteNonQuery();
+            }
+
+            // 3. Save Gold (Storing as a special item in Inventory table)
+            using (var cmdGold = conn.CreateCommand())
+            {
+                cmdGold.Transaction = tx;
+                cmdGold.CommandText = @"
+                    INSERT INTO Inventory (player_id, item_id, quantity, current_durability)
+                    VALUES (1, 'gold', @qty, 100)";
+                cmdGold.Parameters.AddWithValue("@qty", state.PlayerInventory.Gold);
+                cmdGold.ExecuteNonQuery();
+            }
+
+            tx.Commit();
+            DifferentWay.Core.GameLogger.Log("Игра успешно сохранена в базу данных.");
+        }
+        catch (System.Exception ex)
+        {
+            DifferentWay.Core.GameLogger.LogError($"Ошибка сохранения игры: {ex.Message}");
+        }
+    }
+
+    public void LoadGameState(DifferentWay.Core.GameState state)
+    {
+        if (_dbConnector == null) return;
+
+        try
+        {
+            using var conn = _dbConnector.GetConnection();
+
+            // 1. Load PlayerStats
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = "SELECT level, x_coord, y_coord FROM PlayerState WHERE id = 1";
+                using var reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    state.PlayerStats.STR = reader.GetInt32(0); // Restoring mock Level
+                    // Coordinates would be applied to Simulation here
+                }
+            }
+
+            // 2. Load Inventory
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = "SELECT item_id, quantity FROM Inventory WHERE player_id = 1";
+                using var reader = cmd.ExecuteReader();
+
+                state.PlayerInventory.ClearAllItems();
+                state.PlayerInventory.Gold = 0;
+
+                while (reader.Read())
+                {
+                    string itemId = reader.GetString(0);
+                    int qty = reader.GetInt32(1);
+
+                    if (itemId == "gold")
+                    {
+                        state.PlayerInventory.AddGold(qty);
+                    }
+                    else
+                    {
+                        state.PlayerInventory.AddItem(itemId, qty);
+                    }
+                }
+            }
+
+            DifferentWay.Core.GameLogger.Log("Игра успешно загружена из базы данных.");
+        }
+        catch (System.Exception ex)
+        {
+            DifferentWay.Core.GameLogger.LogError($"Ошибка загрузки игры: {ex.Message}");
+        }
+    }
 }

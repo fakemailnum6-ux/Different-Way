@@ -39,6 +39,13 @@ func _ready():
 	$UILayer/HUD/ConsoleButton.pressed.connect(func(): _toggle_window(console_ui))
 	$UILayer/HUD/SettingsButton.pressed.connect(func(): _toggle_window(settings_ui))
 
+	var save_btn = get_node_or_null("UILayer/HUD/SaveButton")
+	if save_btn:
+		save_btn.pressed.connect(func():
+			if simulation:
+				simulation.call("SaveGame")
+		)
+
 	dialog_box.quest_accepted.connect(_on_quest_accepted)
 
 	var event_bus = get_node_or_null("/root/EventBus")
