@@ -43,8 +43,7 @@ func update_inventory(inventory_manager):
 			var btn = Button.new()
 			btn.text = item_id + " (x" + str(amount) + ")"
 
-			var dummy_item = {"id": item_id, "type": "weapon"}
-			btn.mouse_entered.connect(func(): _on_item_mouse_entered(dummy_item))
+			btn.mouse_entered.connect(func(): _on_item_mouse_entered(item_id))
 			btn.mouse_exited.connect(func(): _on_item_mouse_exited())
 			btn.pressed.connect(func(): _on_item_pressed(item_id))
 
@@ -61,9 +60,28 @@ func _on_item_pressed(item_id: String):
 			if player_inv:
 				update_inventory(player_inv)
 
-func _on_item_mouse_entered(item_data):
-	# 7.5 Hover Compare Trigger
-	item_hovered.emit(item_data.id, item_data.type)
+func _on_item_mouse_entered(item_id: String):
+	var simulation = get_node_or_null("/root/Simulation")
+	if simulation:
+		var live_state = simulation.call("GetLiveState")
+		if live_state:
+			var item_stats = live_state.call("GetItemStats", item_id)
+			var equipped_item_name = ""
+			var equipped_stats = {}
+
+			var equipment = live_state.call("GetPlayerEquipment")
+			if item_stats.get("type") == "weapon":
+				equipped_item_name = equipment.call("GetEquippedWeaponName")
+			elif item_stats.get("type") == "armor":
+				equipped_item_name = equipment.call("GetEquippedArmorName")
+
+			if equipped_item_name != "" and equipped_item_name != "Безоружный" and equipped_item_name != "Лохмотья":
+				equipped_stats = live_state.call("GetItemStats", equipped_item_name)
+
+			if tooltip_manager:
+				tooltip_manager.show_comparison(equipped_stats, item_stats)
 
 func _on_item_mouse_exited():
+	if tooltip_manager:
+		tooltip_manager.hide_tooltips()
 	item_unhovered.emit()

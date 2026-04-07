@@ -18,6 +18,18 @@ public partial class StatusEffectManager : Godot.RefCounted
         _activeEffects.Add(effect);
     }
 
+    public void RemoveEffectByName(string name)
+    {
+        for (int i = _activeEffects.Count - 1; i >= 0; i--)
+        {
+            if (_activeEffects[i].Name == name)
+            {
+                _activeEffects.RemoveAt(i);
+                DifferentWay.Core.GameLogger.Log($"Статус '{name}' был излечен.");
+            }
+        }
+    }
+
     public void ProcessTurn(StatManager stats, string entityName)
     {
         for (int i = _activeEffects.Count - 1; i >= 0; i--)

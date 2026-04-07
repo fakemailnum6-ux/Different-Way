@@ -87,6 +87,38 @@ public partial class GameState : RefCounted
         PlayerEquipment.EquipItem(itemId, PlayerInventory);
     }
 
+    // GDScript helper for Tooltips
+    public Godot.Collections.Dictionary GetItemStats(string itemId)
+    {
+        var dict = new Godot.Collections.Dictionary();
+        dict["name"] = itemId;
+
+        if (DataManager.Weapons.TryGetValue(itemId, out var weapon))
+        {
+            dict["type"] = "weapon";
+            dict["damage"] = weapon.Damage;
+            dict["weight"] = weapon.Weight;
+            dict["price"] = weapon.Price;
+            dict["desc"] = weapon.Description ?? "";
+        }
+        else if (DataManager.Armors.TryGetValue(itemId, out var armor))
+        {
+            dict["type"] = "armor";
+            dict["armor"] = armor.Armor;
+            dict["weight"] = armor.Weight;
+            dict["price"] = armor.Price;
+            dict["desc"] = armor.Description ?? "";
+        }
+        else if (DataManager.Consumables.TryGetValue(itemId, out var cons))
+        {
+            dict["type"] = "consumable";
+            dict["desc"] = cons.Description;
+            dict["price"] = 20; // Mock base price
+        }
+
+        return dict;
+    }
+
     // GDScript helper for CraftingUI
     public Godot.Collections.Dictionary GetRecipes()
     {
@@ -228,10 +260,10 @@ public partial class Simulation : Node
 
         // Apply Trauma debuff (Broken bone)
         // 10.8: Сломанная кость: Перманентный дебафф (до доктора). -3 STR, -3 DEX.
-        // We simulate a harsh debuff via StatusEffectManager here. (In a full system, you'd apply a permanent trait).
         GameLogger.Log($"Вы потеряли {lostGold} золота. Получена травма: Сломанная кость.");
         stats.STR = System.Math.Max(1, stats.STR - 3);
         stats.DEX = System.Math.Max(1, stats.DEX - 3);
+        stats.HasTrauma = true;
 
         // TimeManager: Advance 1-3 days (Skipping complex time system implementation here, just logging it)
         GameLogger.Log("Прошло 2 дня. Вы очнулись в Таверне.");
@@ -240,6 +272,33 @@ public partial class Simulation : Node
         var tree = (SceneTree)Godot.Engine.GetMainLoop();
         var eventBus = tree?.Root.GetNodeOrNull<DifferentWay.Core.EventBus>("/root/EventBus");
         eventBus?.EmitSignal(DifferentWay.Core.EventBus.SignalName.PlayerDied);
+    }
+
+    public void HealTrauma(int cost)
+    {
+        var stats = GameState_Live.PlayerStats;
+        var inv = GameState_Live.PlayerInventory;
+
+        if (stats.HasTrauma)
+        {
+            if (inv.Gold >= cost)
+            {
+                inv.RemoveGold(cost);
+                stats.STR += 3;
+                stats.DEX += 3;
+                stats.HasTrauma = false;
+                stats.CurrentHP = stats.MaxHP;
+                GameLogger.Log("Травмы излечены. Статы восстановлены.");
+            }
+            else
+            {
+                GameLogger.LogError($"Не хватает золота на лечение. Требуется: {cost}.");
+            }
+        }
+        else
+        {
+            GameLogger.Log("Вы полностью здоровы, лечение не требуется.");
+        }
     }
 
     // Helper for GDScript to instantiate Combat entities easily
