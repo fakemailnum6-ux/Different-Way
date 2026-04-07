@@ -1,0 +1,9 @@
+{
+  "MobId": "bandit_rookie",
+  "Drops": [
+    { "ItemId": "Кинжал вора", "Chance": 20, "MinCount": 1, "MaxCount": 1 },
+    { "ItemId": "Рваные штаны", "Chance": 35, "MinCount": 1, "MaxCount": 1 },
+    { "ItemId": "Медная руда", "Chance": 15, "MinCount": 1, "MaxCount": 3 },
+    { "ItemId": "GOLD", "Chance": 90, "MinCount": 2, "MaxCount": 8 }
+  ]
+}

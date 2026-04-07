@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=3 uid="uid://console123"]
+
+[ext_resource type="Script" path="res://UI/ConsoleUI.gd" id="1_console_gd"]
+[ext_resource type="Script" path="res://UI/DraggableWindow.gd" id="1_draggable"]
+
+[node name="ConsoleUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_console_gd")
+
+[node name="Background" type="ColorRect" parent="."]
+script = ExtResource("1_draggable")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.8)
+mouse_filter = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Игровая Консоль"
+horizontal_alignment = 1
+
+[node name="LogText" type="RichTextLabel" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+scroll_following = true
+autowrap_mode = 2
+
+[node name="CloseButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Закрыть"

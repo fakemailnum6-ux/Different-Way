@@ -1,6 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://cxxxxcharsheet1"]
 
 [ext_resource type="Script" path="res://UI/CharSheetUI.gd" id="1_charsheet_gd"]
+[ext_resource type="Script" path="res://UI/DraggableWindow.gd" id="1_draggable"]
 
 [node name="CharSheetUI" type="Control"]
 layout_mode = 3
@@ -12,6 +13,7 @@ grow_vertical = 2
 script = ExtResource("1_charsheet_gd")
 
 [node name="Background" type="ColorRect" parent="."]
+script = ExtResource("1_draggable")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -110,6 +112,16 @@ text = "Мент. Защ: 0"
 [node name="CardioLabel" type="Label" parent="SecondaryContainer"]
 layout_mode = 2
 text = "Кардио: 15"
+
+[node name="WeaponLabel" type="Label" parent="SecondaryContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.4, 0.4, 1)
+text = "Оружие: Безоружный"
+
+[node name="ArmorLabel" type="Label" parent="SecondaryContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.4, 0.8, 1)
+text = "Броня: Лохмотья"
 
 [node name="BuffsScroll" type="ScrollContainer" parent="."]
 layout_mode = 0

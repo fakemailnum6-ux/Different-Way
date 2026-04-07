@@ -19,6 +19,9 @@ public partial class LLMClient : RefCounted
 
     private CancellationTokenSource? _cts;
 
+    [Signal]
+    public delegate void AiResponseReceivedEventHandler(string jsonResponse);
+
     // For Godot to instantiate RefCounted objects cleanly from script, an empty constructor is needed
     public LLMClient()
     {
@@ -41,14 +44,61 @@ public partial class LLMClient : RefCounted
     }
 
     // Exposed for GDScript Calling
-    public void RequestPromptAsync(string promptString)
+    public void RequestPromptAsync(string promptString, string targetNpcName = "")
     {
+        // Add chat to context before sending
+        var simulation = Godot.Engine.GetMainLoop() as Godot.SceneTree;
+        var simNode = simulation?.Root.GetNodeOrNull<DifferentWay.Core.Simulation>("/root/Simulation");
+        var timeManager = simulation?.Root.GetNodeOrNull<DifferentWay.Core.TimeManager>("/root/TimeManager");
+
+        string fullPrompt = promptString;
+        if (simNode != null && timeManager != null)
+        {
+            var liveState = simNode.GetLiveState();
+            liveState.Context.AddChatHistory("Player: " + promptString);
+            liveState.Context.UpdateWorldState(timeManager, liveState.PlayerStats);
+
+            // Inject GOAP state if talking to a specific NPC
+            if (!string.IsNullOrEmpty(targetNpcName))
+            {
+                var targetNpc = liveState.ActiveNpcs.Find(n => n.Name == targetNpcName);
+                if (targetNpc != null)
+                {
+                    liveState.Context.InjectNpcContext(targetNpc);
+                }
+            }
+
+            if (liveState.MemoryManager != null)
+            {
+                liveState.Context.FetchRagMemories(promptString, liveState.MemoryManager);
+                liveState.MemoryManager.SaveMemory(promptString, "Игрок сказал: " + promptString);
+            }
+
+            fullPrompt = liveState.PromptBuilder.BuildFinalPrompt();
+        }
+
         // Recreate token
         _cts?.Dispose();
         _cts = new CancellationTokenSource();
 
         // Fire and forget from GDScript perspective
-        _ = SendPromptAsync(promptString, _cts.Token);
+        _ = SendPromptAsyncHelper(fullPrompt, _cts.Token);
+    }
+
+    private async Task SendPromptAsyncHelper(string promptString, CancellationToken token)
+    {
+        // Use promptString (which is now the fully built context) to send to LLM
+        var response = await SendPromptAsync(promptString, token);
+        if (response != null)
+        {
+            string json = JsonSerializer.Serialize(response);
+            CallDeferred(MethodName.EmitAiResponse, json);
+        }
+    }
+
+    private void EmitAiResponse(string json)
+    {
+        EmitSignal(SignalName.AiResponseReceived, json);
     }
 
     public void CancelPendingRequests()
@@ -65,8 +115,30 @@ public partial class LLMClient : RefCounted
     {
         if (string.IsNullOrEmpty(_apiKey))
         {
-            GD.PrintErr("LLMClient Error: API Key not set.");
-            return null;
+            // MOCK FOR SANDBOX: If no API key, simulate a successful AI response after 1 second
+            DifferentWay.Core.GameLogger.Log("LLMClient: No API key. Returning simulated AI response.");
+            await Task.Delay(1000, token);
+
+            var mockResponse = new AIResponse
+            {
+                Thoughts = "Игрок запросил квест. Я выдам задание на убийство волков.",
+                SpokenText = "Приветствую! В лесу развелось слишком много волков. Разберись с ними, и я щедро заплачу."
+            };
+
+            // Save mock response to memory
+            var simulationMock = Godot.Engine.GetMainLoop() as Godot.SceneTree;
+            var simNodeMock = simulationMock?.Root.GetNodeOrNull<DifferentWay.Core.Simulation>("/root/Simulation");
+            if (simNodeMock != null)
+            {
+                var liveState = simNodeMock.GetLiveState();
+                if (liveState.MemoryManager != null)
+                {
+                    liveState.MemoryManager.SaveMemory(mockResponse.SpokenText, "AI ответил: " + mockResponse.SpokenText);
+                    liveState.Context.AddChatHistory("AI: " + mockResponse.SpokenText);
+                }
+            }
+
+            return mockResponse;
         }
 
         // Prepare standard JSON payload for an LLM (e.g. OpenAI format)
@@ -120,6 +192,20 @@ public partial class LLMClient : RefCounted
             }
 
             var aiResponse = JsonSerializer.Deserialize<AIResponse>(actualJson);
+
+            // Save AI response to memory
+            var simulation = Godot.Engine.GetMainLoop() as Godot.SceneTree;
+            var simNode = simulation?.Root.GetNodeOrNull<DifferentWay.Core.Simulation>("/root/Simulation");
+            if (simNode != null && aiResponse != null)
+            {
+                var liveState = simNode.GetLiveState();
+                if (liveState.MemoryManager != null)
+                {
+                    liveState.MemoryManager.SaveMemory(aiResponse.SpokenText, "AI ответил: " + aiResponse.SpokenText);
+                    liveState.Context.AddChatHistory("AI: " + aiResponse.SpokenText);
+                }
+            }
+
             return aiResponse;
         }
         catch (OperationCanceledException)

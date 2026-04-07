@@ -32,6 +32,7 @@ project/assembly_name="DifferentWay"
 
 [autoload]
 
+GameLogger="*res://Core/GameLogger.cs"
 EventBus="*res://Core/EventBus.cs"
 Simulation="*res://Core/Simulation.cs"
 GameManager="*res://Core/GameManager.cs"

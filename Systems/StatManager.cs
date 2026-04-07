@@ -15,6 +15,7 @@ public partial class StatManager : RefCounted
 
     public int Karma { get; set; } = 0; // -100 to 100
     public int MentalResistance { get; set; } = 0;
+    public bool HasTrauma { get; set; } = false;
 
     // Derived Stats based on Arc.md formulas
     public int MaxHP => (END * 5) + (STR * 2);

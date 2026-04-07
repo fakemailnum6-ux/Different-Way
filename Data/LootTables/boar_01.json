@@ -1,0 +1,7 @@
+{
+  "MobId": "boar_01",
+  "Drops": [
+    { "ItemId": "Кусок сырого мяса", "Chance": 80, "MinCount": 1, "MaxCount": 3 },
+    { "ItemId": "Кожаные ремешки", "Chance": 30, "MinCount": 1, "MaxCount": 2 }
+  ]
+}

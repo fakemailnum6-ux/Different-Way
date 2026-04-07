@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using Godot;
 using DifferentWay.Systems.Models;
+using DifferentWay.Core;
 
 namespace DifferentWay.Systems;
 
@@ -15,6 +16,9 @@ public static class DataManager
     public static Dictionary<string, ConsumableData> Consumables { get; private set; } = new();
     public static Dictionary<string, MaterialData> Materials { get; private set; } = new();
     public static Dictionary<string, StatusEffectData> StatusEffects { get; private set; } = new();
+    public static Dictionary<string, LootTableData> LootTables { get; private set; } = new();
+    public static Dictionary<string, CraftingRecipe> Recipes { get; private set; } = new();
+    public static Dictionary<string, QuestGraph> StarterQuests { get; private set; } = new();
 
     private static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions
     {
@@ -46,11 +50,41 @@ public static class DataManager
             var effectsList = LoadJson<List<StatusEffectData>>("res://Data/StatusEffects/status_effects.json");
             foreach (var e in effectsList) StatusEffects[e.Name] = e;
 
-            GD.Print("DataManager initialized successfully. Loaded core game data.");
+            // Load all LootTables
+            using var dir = Godot.DirAccess.Open("res://Data/LootTables/");
+            if (dir != null)
+            {
+                dir.ListDirBegin();
+                string fileName = dir.GetNext();
+                while (fileName != "")
+                {
+                    if (!dir.CurrentIsDir() && fileName.EndsWith(".json"))
+                    {
+                        var table = LoadJson<LootTableData>("res://Data/LootTables/" + fileName);
+                        LootTables[table.MobId] = table;
+                    }
+                    fileName = dir.GetNext();
+                }
+            }
+
+            var recipesList = LoadJson<List<CraftingRecipe>>("res://Data/Recipes/recipes.json");
+            foreach (var r in recipesList) Recipes[r.ResultItemId] = r;
+
+            try
+            {
+                var questsList = LoadJson<List<QuestGraph>>("res://Data/Quests/quests.json");
+                foreach (var q in questsList) StarterQuests[q.Id] = q;
+            }
+            catch (Exception)
+            {
+                // Soft fail if quests don't exist yet
+            }
+
+            GameLogger.Log("DataManager initialized successfully. Loaded core game data.");
         }
         catch (Exception ex)
         {
-            GD.PrintErr($"Failed to initialize DataManager: {ex.Message}");
+            GameLogger.LogError($"Failed to initialize DataManager: {ex.Message}");
         }
     }
 

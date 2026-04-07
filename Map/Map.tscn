@@ -7,11 +7,18 @@
 [ext_resource type="PackedScene" uid="uid://eccccraftui1" path="res://UI/CraftingUI.tscn" id="5_craft"]
 [ext_resource type="PackedScene" uid="uid://gggmap1" path="res://UI/GlobalMap.tscn" id="6_gmap"]
 [ext_resource type="PackedScene" uid="uid://ftttoooltip1" path="res://UI/TooltipManager.tscn" id="7_tooltip"]
+[ext_resource type="PackedScene" uid="uid://console123" path="res://UI/ConsoleUI.tscn" id="8_console"]
+[ext_resource type="PackedScene" uid="uid://combat123" path="res://UI/CombatUI.tscn" id="9_combat"]
+[ext_resource type="PackedScene" uid="uid://merchant123" path="res://UI/MerchantUI.tscn" id="10_merchant"]
+[ext_resource type="PackedScene" uid="uid://hud123" path="res://UI/HUDManager.tscn" id="11_hud"]
+[ext_resource type="PackedScene" uid="uid://settings_ui_001" path="res://UI/SettingsUI.tscn" id="14_settings"]
+[ext_resource type="PackedScene" uid="uid://intmenu123" path="res://UI/InteractionMenuUI.tscn" id="15_intmenu"]
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_map_gd")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
+[node name="InteractionMenuUI" parent="UILayer" instance=ExtResource("15_intmenu")]
 
 [node name="Background" type="ColorRect" parent="UILayer"]
 anchors_preset = 15
@@ -21,10 +28,13 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.1, 0.1, 0.1, 1)
 
+[node name="HUDManager" parent="UILayer" instance=ExtResource("11_hud")]
+
 [node name="TitleLabel" type="Label" parent="UILayer"]
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 50.0
+offset_top = 50.0
+offset_bottom = 100.0
 theme_override_font_sizes/font_size = 32
 text = "Дубовая Гавань (Vertical Slice)"
 horizontal_alignment = 1
@@ -68,6 +78,19 @@ custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 text = "Карта"
 
+[node name="SaveButton" type="Button" parent="UILayer/HUD"]
+layout_mode = 2
+text = "Сохранить"
+
+[node name="ConsoleButton" type="Button" parent="UILayer/HUD"]
+layout_mode = 2
+text = "Консоль"
+
+[node name="SettingsButton" type="Button" parent="UILayer/HUD"]
+layout_mode = 2
+text = "API Key"
+custom_minimum_size = Vector2(120, 0)
+
 [node name="ActiveQuestsPanel" type="PanelContainer" parent="UILayer"]
 anchors_preset = 1
 anchor_left = 1.0
@@ -107,3 +130,13 @@ visible = false
 visible = false
 
 [node name="TooltipManager" parent="UILayer" instance=ExtResource("7_tooltip")]
+
+[node name="ConsoleUI" parent="UILayer" instance=ExtResource("8_console")]
+[node name="SettingsUI" parent="UILayer" instance=ExtResource("14_settings")]
+visible = false
+
+[node name="CombatUI" parent="UILayer" instance=ExtResource("9_combat")]
+visible = false
+
+[node name="MerchantUI" parent="UILayer" instance=ExtResource("10_merchant")]
+visible = false

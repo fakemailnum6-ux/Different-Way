@@ -18,7 +18,15 @@ func _ready():
 	var close_btn = get_node_or_null("CloseButton")
 	if close_btn: close_btn.pressed.connect(func(): hide())
 
+	# Fetch topology from GameState
+	var simulation = get_node_or_null("/root/Simulation")
+	if simulation:
+		var live_state = simulation.call("GetLiveState")
+		if live_state:
+			world_topology_node = live_state.call("GetTopology")
+
 	_populate_dropdown()
+	_draw_map()
 	search_dropdown.item_selected.connect(_on_village_selected)
 
 func _populate_dropdown():
@@ -27,17 +35,91 @@ func _populate_dropdown():
 
 	# Fetch node data from C# WorldTopology manager
 	var unlocked_nodes = world_topology_node.call("GetUnlockedVillages")
+	var idx = 0
 	for node in unlocked_nodes:
-		search_dropdown.add_item(node.name, node.id)
+		search_dropdown.add_item(node.get("name"), idx)
+		search_dropdown.set_item_metadata(idx, node.get("id"))
+		idx += 1
+
+func _draw_map():
+	if world_topology_node == null: return
+
+	# Clear canvas
+	for child in map_nodes_container.get_children():
+		child.queue_free()
+
+	# Draw routes
+	var routes = world_topology_node.call("GetAllRoutes")
+	var all_nodes = world_topology_node.call("GetAllNodes")
+
+	for route in routes:
+		var start_id = route.get("StartNodeId")
+		var end_id = route.get("EndNodeId")
+		var s_node = _find_node(all_nodes, start_id)
+		var e_node = _find_node(all_nodes, end_id)
+
+		if s_node and e_node:
+			var line = Line2D.new()
+			line.add_point(Vector2(s_node.get("X"), s_node.get("Y")))
+			line.add_point(Vector2(e_node.get("X"), e_node.get("Y")))
+			line.width = 4.0
+			line.default_color = Color(0.5, 0.4, 0.3, 0.8) # Road color
+			map_nodes_container.add_child(line)
+
+	# Draw nodes
+	for node in all_nodes:
+		var btn = Button.new()
+		var n_name = node.get("name")
+		var is_unlocked = node.get("IsUnlocked")
+
+		btn.text = n_name if is_unlocked else "???"
+		btn.custom_minimum_size = Vector2(100, 40)
+		# Center button on coordinate
+		btn.position = Vector2(node.get("X") - 50, node.get("Y") - 20)
+		btn.set_meta("node_id", node.get("id")) # Custom dynamic property for camera centering
+
+		if not is_unlocked:
+			btn.disabled = true
+		else:
+			btn.pressed.connect(func(): _on_node_clicked(node.get("id")))
+
+		map_nodes_container.add_child(btn)
+
+func _on_node_clicked(target_node_id: String):
+	# The player is always starting from the currently active macro node.
+	# For the vertical slice, let's assume we are always traveling FROM "village_start" (Дубовая Гавань)
+	# unless we add state tracking for current macro position.
+	var current_location = "village_start"
+	if current_location == target_node_id:
+		print("Вы уже здесь.")
+		return
+
+	var simulation = get_node_or_null("/root/Simulation")
+	if simulation:
+		var live_state = simulation.call("GetLiveState")
+		if live_state:
+			var travel_result = live_state.call("AttemptTravel", current_location, target_node_id)
+			if travel_result == false:
+				print("Нет доступного маршрута или путешествие прервано.")
+			else:
+				# Mгновенно центрирует камеру после успешного путешествия
+				_center_camera_on_node(target_node_id)
+				hide() # Close map
+
+func _find_node(node_list: Array, id: String):
+	for n in node_list:
+		if n.get("id") == id:
+			return n
+	return null
 
 func _on_village_selected(index: int):
-	var village_id = search_dropdown.get_item_id(index)
+	var village_id = search_dropdown.get_item_metadata(index)
 	# Mгновенно центрирует камеру
 	_center_camera_on_node(village_id)
 
-func _center_camera_on_node(village_id: int):
+func _center_camera_on_node(village_id: String):
 	for map_node in map_nodes_container.get_children():
-		if map_node.get("node_id") == village_id:
+		if map_node is Button and map_node.has_meta("node_id") and map_node.get_meta("node_id") == village_id:
 			camera.global_position = map_node.global_position
 			break
 
