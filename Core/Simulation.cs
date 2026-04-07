@@ -16,6 +16,7 @@ public partial class GameState : RefCounted
     public DifferentWay.AI.LLMClient LlmClient { get; set; } = new DifferentWay.AI.LLMClient();
     public DifferentWay.AI.ContextManager Context { get; set; } = new DifferentWay.AI.ContextManager();
     public DifferentWay.AI.PromptBuilder PromptBuilder { get; set; }
+    public DifferentWay.Database.MemoryManager? MemoryManager { get; set; }
 
     public GameState()
     {

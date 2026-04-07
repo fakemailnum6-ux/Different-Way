@@ -32,6 +32,8 @@ public class SaveManager
         _dbConnector.InitializeDatabase();
     }
 
+    public SQLiteConnector? GetDbConnector() => _dbConnector;
+
     public void SaveWorldTopology(WorldTopology topology)
     {
         string path = ProjectSettings.GlobalizePath("user://exported_worlds/macro_world.json");

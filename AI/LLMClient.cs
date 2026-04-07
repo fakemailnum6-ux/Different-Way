@@ -57,7 +57,13 @@ public partial class LLMClient : RefCounted
             var liveState = simNode.GetLiveState();
             liveState.Context.AddChatHistory("Player: " + promptString);
             liveState.Context.UpdateWorldState(timeManager, liveState.PlayerStats);
-            liveState.Context.FetchRagMemories(promptString);
+
+            if (liveState.MemoryManager != null)
+            {
+                liveState.Context.FetchRagMemories(promptString, liveState.MemoryManager);
+                liveState.MemoryManager.SaveMemory(promptString, "Игрок сказал: " + promptString);
+            }
+
             fullPrompt = liveState.PromptBuilder.BuildFinalPrompt();
         }
 
@@ -108,6 +114,20 @@ public partial class LLMClient : RefCounted
                 Thoughts = "Игрок запросил квест. Я выдам задание на убийство волков.",
                 SpokenText = "Приветствую! В лесу развелось слишком много волков. Разберись с ними, и я щедро заплачу."
             };
+
+            // Save mock response to memory
+            var simulationMock = Godot.Engine.GetMainLoop() as Godot.SceneTree;
+            var simNodeMock = simulationMock?.Root.GetNodeOrNull<DifferentWay.Core.Simulation>("/root/Simulation");
+            if (simNodeMock != null)
+            {
+                var liveState = simNodeMock.GetLiveState();
+                if (liveState.MemoryManager != null)
+                {
+                    liveState.MemoryManager.SaveMemory(mockResponse.SpokenText, "AI ответил: " + mockResponse.SpokenText);
+                    liveState.Context.AddChatHistory("AI: " + mockResponse.SpokenText);
+                }
+            }
+
             return mockResponse;
         }
 
@@ -162,6 +182,20 @@ public partial class LLMClient : RefCounted
             }
 
             var aiResponse = JsonSerializer.Deserialize<AIResponse>(actualJson);
+
+            // Save AI response to memory
+            var simulation = Godot.Engine.GetMainLoop() as Godot.SceneTree;
+            var simNode = simulation?.Root.GetNodeOrNull<DifferentWay.Core.Simulation>("/root/Simulation");
+            if (simNode != null && aiResponse != null)
+            {
+                var liveState = simNode.GetLiveState();
+                if (liveState.MemoryManager != null)
+                {
+                    liveState.MemoryManager.SaveMemory(aiResponse.SpokenText, "AI ответил: " + aiResponse.SpokenText);
+                    liveState.Context.AddChatHistory("AI: " + aiResponse.SpokenText);
+                }
+            }
+
             return aiResponse;
         }
         catch (OperationCanceledException)

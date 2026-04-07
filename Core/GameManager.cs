@@ -21,6 +21,13 @@ public partial class GameManager : Node
         var simulation = tree?.Root.GetNodeOrNull<DifferentWay.Core.Simulation>("/root/Simulation");
         if (simulation != null)
         {
+            // Inject MemoryManager with the open DB connector
+            var connector = saveManager.GetDbConnector();
+            if (connector != null)
+            {
+                simulation.GameState_Live.MemoryManager = new MemoryManager(connector);
+            }
+
             var loadedTopology = saveManager.LoadWorldTopology();
             if (loadedTopology != null)
             {

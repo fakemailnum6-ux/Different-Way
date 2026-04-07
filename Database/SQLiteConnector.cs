@@ -58,6 +58,13 @@ public class SQLiteConnector
                 hash TEXT PRIMARY KEY,
                 cached_text TEXT
             );
+
+            CREATE TABLE IF NOT EXISTS Memories (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                timestamp TEXT,
+                keywords TEXT,
+                content TEXT
+            );
         ";
         command.ExecuteNonQuery();
 

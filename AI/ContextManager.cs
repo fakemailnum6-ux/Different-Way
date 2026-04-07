@@ -18,11 +18,17 @@ public class ContextManager
                         $"Player Charisma: {playerStats.Charisma}.";
     }
 
-    public void FetchRagMemories(string prompt)
+    public void FetchRagMemories(string prompt, DifferentWay.Database.MemoryManager memoryManager)
     {
-        // Stub for VectorDB semantic search
         RagContext_P3.Clear();
-        // RagContext_P3.Add("Database lookup result for: " + prompt);
+        if (memoryManager != null)
+        {
+            var memories = memoryManager.FetchRelevantMemories(prompt);
+            foreach (var mem in memories)
+            {
+                RagContext_P3.Add(mem);
+            }
+        }
     }
 
     public void AddChatHistory(string message)
