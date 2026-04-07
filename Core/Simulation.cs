@@ -193,6 +193,20 @@ public partial class Simulation : Node
         return GameState_Live;
     }
 
+    public void SaveApiKey(string key)
+    {
+        if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows))
+        {
+#pragma warning disable CA1416 // Validate platform compatibility
+            DifferentWay.Security.KeyManager.SaveKey(key);
+#pragma warning restore CA1416
+        }
+        else
+        {
+            GameLogger.LogError("API Key encryption is only supported on Windows.");
+        }
+    }
+
     public void RespawnPlayer()
     {
         var stats = GameState_Live.PlayerStats;

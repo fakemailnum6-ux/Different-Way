@@ -6,6 +6,7 @@ extends Node2D
 @onready var crafting_ui = $UILayer/CraftingUI
 @onready var global_map = $UILayer/GlobalMap
 @onready var console_ui = $UILayer/ConsoleUI
+@onready var settings_ui = $UILayer/SettingsUI
 @onready var combat_ui = $UILayer/CombatUI
 @onready var merchant_ui = $UILayer/MerchantUI
 
@@ -24,15 +25,16 @@ func _ready():
 	var simulation = get_node_or_null("/root/Simulation")
 	if simulation:
 		var live_state = simulation.call("GetLiveState")
-		if live_state and live_state.has("LlmClient"):
-			dialog_box.llm_client_node = live_state["LlmClient"]
-			live_state["LlmClient"].AiResponseReceived.connect(_on_ai_response)
+		if live_state and live_state.get("LlmClient") != null:
+			dialog_box.llm_client_node = live_state.get("LlmClient")
+			dialog_box.llm_client_node.AiResponseReceived.connect(_on_ai_response)
 
 	$UILayer/HUD/CharButton.pressed.connect(func(): _toggle_window(char_sheet))
 	$UILayer/HUD/InvButton.pressed.connect(func(): _toggle_window(inventory_ui))
 	$UILayer/HUD/CraftButton.pressed.connect(func(): _toggle_window(crafting_ui))
 	$UILayer/HUD/MapButton.pressed.connect(func(): _toggle_window(global_map))
 	$UILayer/HUD/ConsoleButton.pressed.connect(func(): _toggle_window(console_ui))
+	$UILayer/HUD/SettingsButton.pressed.connect(func(): _toggle_window(settings_ui))
 
 	dialog_box.quest_accepted.connect(_on_quest_accepted)
 
@@ -144,6 +146,7 @@ func _hide_all_windows():
 	crafting_ui.hide()
 	global_map.hide()
 	console_ui.hide()
+	settings_ui.hide()
 	combat_ui.hide()
 	merchant_ui.hide()
 	_update_time_pause()

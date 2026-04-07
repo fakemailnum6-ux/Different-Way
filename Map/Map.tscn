@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://combat123" path="res://UI/CombatUI.tscn" id="9_combat"]
 [ext_resource type="PackedScene" uid="uid://merchant123" path="res://UI/MerchantUI.tscn" id="10_merchant"]
 [ext_resource type="PackedScene" uid="uid://hud123" path="res://UI/HUDManager.tscn" id="11_hud"]
+[ext_resource type="PackedScene" uid="uid://settings_ui_001" path="res://UI/SettingsUI.tscn" id="14_settings"]
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_map_gd")
@@ -76,9 +77,13 @@ layout_mode = 2
 text = "Карта"
 
 [node name="ConsoleButton" type="Button" parent="UILayer/HUD"]
-custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 text = "Консоль"
+
+[node name="SettingsButton" type="Button" parent="UILayer/HUD"]
+layout_mode = 2
+text = "API Key"
+custom_minimum_size = Vector2(120, 0)
 
 [node name="ActiveQuestsPanel" type="PanelContainer" parent="UILayer"]
 anchors_preset = 1
@@ -121,6 +126,7 @@ visible = false
 [node name="TooltipManager" parent="UILayer" instance=ExtResource("7_tooltip")]
 
 [node name="ConsoleUI" parent="UILayer" instance=ExtResource("8_console")]
+[node name="SettingsUI" parent="UILayer" instance=ExtResource("14_settings")]
 visible = false
 
 [node name="CombatUI" parent="UILayer" instance=ExtResource("9_combat")]
