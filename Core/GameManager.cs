@@ -44,6 +44,11 @@ public partial class GameManager : Node
 
         DataManager.Initialize();
 
+        // Initialize basic NPCs for GOAP
+        simulation?.GameState_Live.ActiveNpcs.Add(new DifferentWay.Systems.NpcState { Id = "npc_elder", Name = "Староста", Profession = "Лидер" });
+        simulation?.GameState_Live.ActiveNpcs.Add(new DifferentWay.Systems.NpcState { Id = "npc_smith", Name = "Кузнец", Profession = "Кузнец" });
+        simulation?.GameState_Live.ActiveNpcs.Add(new DifferentWay.Systems.NpcState { Id = "npc_alchemist", Name = "Алхимик", Profession = "Алхимик" });
+
         // Initialize API Key if present
         if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows))
         {

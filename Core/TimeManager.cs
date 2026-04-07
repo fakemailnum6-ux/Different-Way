@@ -46,10 +46,12 @@ public partial class TimeManager : Node
     {
         CurrentMinute += minutes;
 
+        bool hourChanged = false;
         while (CurrentMinute >= 60)
         {
             CurrentMinute -= 60;
             CurrentHour++;
+            hourChanged = true;
         }
 
         while (CurrentHour >= 24)
@@ -59,8 +61,18 @@ public partial class TimeManager : Node
             GameLogger.Log($"Наступил новый день! (День {CurrentDay})");
         }
 
-        // Notify systems
+        // Tick GOAP Engine for all NPCs
         var tree = (SceneTree)Godot.Engine.GetMainLoop();
+        var simulation = tree?.Root.GetNodeOrNull<DifferentWay.Core.Simulation>("/root/Simulation");
+        if (simulation != null && hourChanged) // Update GOAP once per in-game hour
+        {
+            foreach (var npc in simulation.GameState_Live.ActiveNpcs)
+            {
+                simulation.GameState_Live.GoapEngine.UpdateNpcRoutine(npc, CurrentHour);
+            }
+        }
+
+        // Notify systems
         var eventBus = tree?.Root.GetNodeOrNull<DifferentWay.Core.EventBus>("/root/EventBus");
         eventBus?.EmitSignal(DifferentWay.Core.EventBus.SignalName.TimeAdvanced, CurrentDay, CurrentHour, CurrentMinute);
     }

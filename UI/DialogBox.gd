@@ -11,6 +11,7 @@ signal quest_accepted(quest_text)
 @onready var accept_quest_button = $AcceptQuestButton
 
 var llm_client_node = null
+var current_npc_name = ""
 
 func _ready():
 	chat_history_label.autowrap_mode = TextServer.AUTOWRAP_WORD
@@ -32,7 +33,7 @@ func _on_send_pressed():
 	_append_chat("Вы: " + prompt)
 
 	if llm_client_node:
-		llm_client_node.call("RequestPromptAsync", prompt)
+		llm_client_node.call("RequestPromptAsync", prompt, current_npc_name)
 
 func _append_chat(text: String):
 	chat_history_label.text += text + "\n"

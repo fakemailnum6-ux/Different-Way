@@ -44,7 +44,7 @@ public partial class LLMClient : RefCounted
     }
 
     // Exposed for GDScript Calling
-    public void RequestPromptAsync(string promptString)
+    public void RequestPromptAsync(string promptString, string targetNpcName = "")
     {
         // Add chat to context before sending
         var simulation = Godot.Engine.GetMainLoop() as Godot.SceneTree;
@@ -57,6 +57,16 @@ public partial class LLMClient : RefCounted
             var liveState = simNode.GetLiveState();
             liveState.Context.AddChatHistory("Player: " + promptString);
             liveState.Context.UpdateWorldState(timeManager, liveState.PlayerStats);
+
+            // Inject GOAP state if talking to a specific NPC
+            if (!string.IsNullOrEmpty(targetNpcName))
+            {
+                var targetNpc = liveState.ActiveNpcs.Find(n => n.Name == targetNpcName);
+                if (targetNpc != null)
+                {
+                    liveState.Context.InjectNpcContext(targetNpc);
+                }
+            }
 
             if (liveState.MemoryManager != null)
             {

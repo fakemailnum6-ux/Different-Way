@@ -13,6 +13,9 @@ public partial class GameState : RefCounted
     public EquipmentManager PlayerEquipment { get; set; } = new EquipmentManager();
 
     public CraftingEngine CraftingEngine { get; set; } = new CraftingEngine();
+    public GOAPEngine GoapEngine { get; set; } = new GOAPEngine();
+    public System.Collections.Generic.List<NpcState> ActiveNpcs { get; set; } = new();
+
     public DifferentWay.AI.LLMClient LlmClient { get; set; } = new DifferentWay.AI.LLMClient();
     public DifferentWay.AI.ContextManager Context { get; set; } = new DifferentWay.AI.ContextManager();
     public DifferentWay.AI.PromptBuilder PromptBuilder { get; set; }

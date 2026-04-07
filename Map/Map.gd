@@ -178,6 +178,7 @@ func _toggle_window(window: Control):
 func _interact_npc(npc_name: String):
 	# Directly interact with NPC inside the location
 	_hide_all_windows()
+	dialog_box.current_npc_name = npc_name
 	dialog_box.show()
 	_update_time_pause()
 

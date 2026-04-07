@@ -18,6 +18,11 @@ public class ContextManager
                         $"Player Charisma: {playerStats.Charisma}.";
     }
 
+    public void InjectNpcContext(DifferentWay.Systems.NpcState npc)
+    {
+        CurrentObjective_P1 = $"You are {npc.Name}, a {npc.Profession}. Your current internal goal is: {npc.CurrentGoal}. You are currently at: {npc.CurrentLocationId}.";
+    }
+
     public void FetchRagMemories(string prompt, DifferentWay.Database.MemoryManager memoryManager)
     {
         RagContext_P3.Clear();
