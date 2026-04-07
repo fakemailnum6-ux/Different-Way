@@ -151,10 +151,28 @@ func _hide_all_windows():
 	merchant_ui.hide()
 	_update_time_pause()
 
+func _close_all_non_blocking_windows():
+	# Closes UI panels that can be freely opened/closed by the player.
+	# Leaves combat and dialogue active.
+	char_sheet.hide()
+	inventory_ui.hide()
+	crafting_ui.hide()
+	global_map.hide()
+	console_ui.hide()
+	settings_ui.hide()
+	merchant_ui.hide()
+	_update_time_pause()
+
 func _toggle_window(window: Control):
 	var is_visible = window.visible
-	_hide_all_windows()
+	# Removed _hide_all_windows() here so multiple panels can be opened simultaneously
 	window.visible = !is_visible
+
+	if window.visible:
+		# Bring the toggled window to the front
+		var layer = window.get_parent()
+		layer.move_child(window, layer.get_child_count() - 1)
+
 	_update_time_pause()
 
 	if window == char_sheet and window.visible:
@@ -321,3 +339,8 @@ func _on_ai_response(json_response: String):
 							if is_completed:
 								_refresh_quests_ui(qm)
 								if logger: logger.call("Log", "AI принял сдачу квеста: " + target_id)
+
+func _unhandled_input(event):
+	if event.is_action_pressed("ui_cancel"):
+		_close_all_non_blocking_windows()
+		_update_time_pause()
