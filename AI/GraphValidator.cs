@@ -46,6 +46,15 @@ public class GraphValidator
                         return false; // AI hallucinated a non-existent quest
                     }
                 }
+
+                // Validate quest turn-in
+                if (action.Type == "complete_quest")
+                {
+                    if (!DifferentWay.Systems.DataManager.StarterQuests.ContainsKey(action.Id))
+                    {
+                        return false; // AI hallucinated a non-existent quest
+                    }
+                }
             }
 
             return true;

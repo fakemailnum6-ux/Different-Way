@@ -312,8 +312,12 @@ func _on_ai_response(json_response: String):
 							inv.call("AddItem", target_id, amount)
 							if logger: logger.call("Log", "AI выдал предмет: " + target_id + " x" + str(amount))
 						elif type == "give_quest":
-							# The ID here is assumed to match a StarterQuest ID from DataManager
-							# For now, we mock the title. Later this will fetch from the real DataManager dictionary.
-							qm.call("GenerateAndAcceptTestQuest", "Квест от ИИ: " + target_id)
-							_refresh_quests_ui(qm)
-							if logger: logger.call("Log", "AI выдал квест: " + target_id)
+							var res = qm.call("AcceptQuestById", target_id)
+							if res:
+								_refresh_quests_ui(qm)
+								if logger: logger.call("Log", "AI выдал квест: " + target_id)
+						elif type == "complete_quest":
+							var is_completed = qm.call("TryCompleteQuest", target_id, inv)
+							if is_completed:
+								_refresh_quests_ui(qm)
+								if logger: logger.call("Log", "AI принял сдачу квеста: " + target_id)

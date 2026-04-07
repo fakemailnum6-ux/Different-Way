@@ -76,7 +76,7 @@ func _draw_map():
 		btn.custom_minimum_size = Vector2(100, 40)
 		# Center button on coordinate
 		btn.position = Vector2(node.get("X") - 50, node.get("Y") - 20)
-		btn.set("node_id", node.get("id")) # Custom dynamic property for camera centering
+		btn.set_meta("node_id", node.get("id")) # Custom dynamic property for camera centering
 
 		if not is_unlocked:
 			btn.disabled = true
@@ -119,7 +119,7 @@ func _on_village_selected(index: int):
 
 func _center_camera_on_node(village_id: String):
 	for map_node in map_nodes_container.get_children():
-		if map_node is Button and map_node.get("node_id") == village_id:
+		if map_node is Button and map_node.has_meta("node_id") and map_node.get_meta("node_id") == village_id:
 			camera.global_position = map_node.global_position
 			break
 

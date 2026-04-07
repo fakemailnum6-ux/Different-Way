@@ -81,6 +81,49 @@ public partial class QuestManager : RefCounted
         _activeQuests.Add(questWithMeat);
     }
 
+    public bool AcceptQuestById(string questId)
+    {
+        if (DifferentWay.Systems.DataManager.StarterQuests.TryGetValue(questId, out var template))
+        {
+            // Simple deep clone to avoid modifying the DataManager template
+            var cloneStr = System.Text.Json.JsonSerializer.Serialize(template);
+            var clone = System.Text.Json.JsonSerializer.Deserialize<QuestGraph>(cloneStr);
+
+            if (clone != null)
+            {
+                _activeQuests.Add(clone);
+                DifferentWay.Core.GameLogger.Log($"Получен новый квест: {clone.AiTitle}");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool TryCompleteQuest(string questId, InventoryManager inventory)
+    {
+        for (int i = 0; i < _activeQuests.Count; i++)
+        {
+            if (_activeQuests[i].Id == questId)
+            {
+                if (_activeQuests[i].IsComplete())
+                {
+                    DifferentWay.Core.GameLogger.Log($"Квест '{_activeQuests[i].AiTitle}' успешно сдан!");
+                    inventory.AddGold(50); // Hardcoded reward for Phase 3 mockup
+                    DifferentWay.Core.GameLogger.Log("Вы получили 50 золота в награду.");
+                    _activeQuests.RemoveAt(i);
+                    return true;
+                }
+                else
+                {
+                    DifferentWay.Core.GameLogger.Log($"Квест '{_activeQuests[i].AiTitle}' еще не выполнен.");
+                    return false;
+                }
+            }
+        }
+        DifferentWay.Core.GameLogger.Log($"У вас нет активного квеста '{questId}'.");
+        return false;
+    }
+
     public void TrackProgress(string actionType, string targetId, int amount)
     {
         UpdateQuestProgress(targetId, amount);
