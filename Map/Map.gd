@@ -9,6 +9,7 @@ extends Node2D
 @onready var settings_ui = $UILayer/SettingsUI
 @onready var combat_ui = $UILayer/CombatUI
 @onready var merchant_ui = $UILayer/MerchantUI
+@onready var interaction_menu = $UILayer/InteractionMenuUI
 
 @onready var active_quests_label = $UILayer/ActiveQuestsPanel/VBoxContainer/QuestsLabel
 @onready var map_canvas = $UILayer/MapCanvas
@@ -20,6 +21,8 @@ var roads_data = []
 
 func _ready():
 	_hide_all_windows()
+
+	interaction_menu.action_selected.connect(_on_interaction_action)
 
 	# Inject LLMClient into DialogBox
 	var simulation = get_node_or_null("/root/Simulation")
@@ -149,6 +152,7 @@ func _hide_all_windows():
 	settings_ui.hide()
 	combat_ui.hide()
 	merchant_ui.hide()
+	interaction_menu.hide()
 	_update_time_pause()
 
 func _close_all_non_blocking_windows():
@@ -161,6 +165,7 @@ func _close_all_non_blocking_windows():
 	console_ui.hide()
 	settings_ui.hide()
 	merchant_ui.hide()
+	interaction_menu.hide()
 	_update_time_pause()
 
 func _toggle_window(window: Control):
@@ -194,29 +199,33 @@ func _toggle_window(window: Control):
 					inventory_ui.update_inventory(inv)
 
 func _interact_npc(npc_name: String):
-	# Directly interact with NPC inside the location
 	_hide_all_windows()
-	dialog_box.current_npc_name = npc_name
-	dialog_box.show()
+	interaction_menu.open_menu(npc_name)
 	_update_time_pause()
 
-	var welcome_text = ""
-	match npc_name:
-		"Староста":
-			welcome_text = "Староста: Добро пожаловать в Дубовую Гавань. Волки снова воют на опушке... (Квест: Убедить старосту)"
-			_trigger_test_quest("Убедить старосту")
-		"Кузнец":
-			welcome_text = "Кузнец: Оружие затупилось? Неси материалы. Открываю лавку..."
-			merchant_ui.open_shop("Кузнец")
-		"Алхимик":
-			welcome_text = "Алхимик: Мои зелья вернут тебя с того света... Открываю лавку..."
-			merchant_ui.open_shop("Алхимик")
-		"Капитан":
-			welcome_text = "Капитан: Готов к бою? (Квест: Убить волков)"
-			_start_actual_combat()
+func _on_interaction_action(action: String, npc_name: String):
+	_hide_all_windows()
 
-	dialog_box.get_node("ScrollContainer/ChatHistory").text = ""
-	dialog_box.call("_append_chat", welcome_text)
+	if action == "attack":
+		_start_actual_combat()
+	elif action == "trade":
+		merchant_ui.open_shop(npc_name)
+	elif action == "quest":
+		dialog_box.current_npc_name = npc_name
+		dialog_box.show()
+		dialog_box.get_node("ScrollContainer/ChatHistory").text = ""
+		dialog_box.call("_append_chat", npc_name + ": У меня есть работа для тебя. Поможешь?")
+
+		# Mocking the trigger for sandbox phase 3
+		if npc_name == "Староста": _trigger_test_quest("Убедить старосту")
+		if npc_name == "Капитан": _trigger_test_quest("Убить волков")
+	elif action == "talk":
+		dialog_box.current_npc_name = npc_name
+		dialog_box.show()
+		dialog_box.get_node("ScrollContainer/ChatHistory").text = ""
+		dialog_box.call("_append_chat", npc_name + ": Приветствую.")
+
+	_update_time_pause()
 
 func _trigger_test_quest(quest_title: String):
 	var simulation = get_node_or_null("/root/Simulation")

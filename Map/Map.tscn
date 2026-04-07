@@ -12,11 +12,13 @@
 [ext_resource type="PackedScene" uid="uid://merchant123" path="res://UI/MerchantUI.tscn" id="10_merchant"]
 [ext_resource type="PackedScene" uid="uid://hud123" path="res://UI/HUDManager.tscn" id="11_hud"]
 [ext_resource type="PackedScene" uid="uid://settings_ui_001" path="res://UI/SettingsUI.tscn" id="14_settings"]
+[ext_resource type="PackedScene" uid="uid://intmenu123" path="res://UI/InteractionMenuUI.tscn" id="15_intmenu"]
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_map_gd")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
+[node name="InteractionMenuUI" parent="UILayer" instance=ExtResource("15_intmenu")]
 
 [node name="Background" type="ColorRect" parent="UILayer"]
 anchors_preset = 15
