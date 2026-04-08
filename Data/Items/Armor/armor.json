@@ -1,0 +1,104 @@
+[
+  {
+    "id": "rags_01",
+    "name": "Лохмотья",
+    "armor": 0,
+    "durability": 5,
+    "max_durability": 5,
+    "weight": 0.5,
+    "price": 0,
+    "social_status": "beggar"
+  },
+  {
+    "id": "pants_torn",
+    "name": "Рваные штаны",
+    "armor": 0,
+    "durability": 10,
+    "max_durability": 10,
+    "weight": 0.5,
+    "price": 1,
+    "social_status": "beggar"
+  },
+  {
+    "id": "shirt_padded",
+    "name": "Прошитая рубаха",
+    "armor": 1,
+    "durability": 20,
+    "max_durability": 20,
+    "weight": 1.0,
+    "price": 8,
+    "social_status": "civilian"
+  },
+  {
+    "id": "jacket_leather",
+    "name": "Кожаная куртка",
+    "armor": 3,
+    "durability": 35,
+    "max_durability": 35,
+    "weight": 2.5,
+    "price": 25,
+    "social_status": "mercenary"
+  },
+  {
+    "id": "boots_traveler",
+    "name": "Сапоги путешественника",
+    "armor": 1,
+    "durability": 40,
+    "max_durability": 40,
+    "weight": 1.0,
+    "price": 15,
+    "flee_stamina_reduction": true
+  },
+  {
+    "id": "shield_wood",
+    "name": "Деревянный щит",
+    "armor": 2,
+    "durability": 25,
+    "max_durability": 25,
+    "weight": 3.0,
+    "price": 10,
+    "type": "shield"
+  },
+  {
+    "id": "hood_chain",
+    "name": "Кольчужный капюшон",
+    "armor": 2,
+    "durability": 45,
+    "max_durability": 45,
+    "weight": 2.0,
+    "price": 40
+  },
+  {
+    "id": "cuirass_iron",
+    "name": "Железная кираса",
+    "armor": 6,
+    "durability": 80,
+    "max_durability": 80,
+    "weight": 12.0,
+    "price": 150,
+    "debuffs": {
+      "dex": -1
+    }
+  },
+  {
+    "id": "helmet_steel",
+    "name": "Стальный шлем",
+    "armor": 4,
+    "durability": 70,
+    "max_durability": 70,
+    "weight": 3.0,
+    "price": 85
+  },
+  {
+    "id": "robe_acolyte",
+    "name": "Мантия аколита",
+    "armor": 1,
+    "durability": 20,
+    "max_durability": 20,
+    "weight": 1.0,
+    "price": 60,
+    "buffs": {
+      "mana_regen_percent": 5
+    }
+  }
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "id": "potion_hp_small",
+    "name": "Малое зелье здоровья",
+    "effect_hp": 30,
+    "weight": 0.2,
+    "price": 25
+  },
+  {
+    "id": "potion_hp_medium",
+    "name": "Среднее зелье здоровья",
+    "effect_hp": 75,
+    "weight": 0.3,
+    "price": 70
+  },
+  {
+    "id": "potion_mana_small",
+    "name": "Малое зелье маны",
+    "effect_mana": 25,
+    "weight": 0.2,
+    "price": 30
+  },
+  {
+    "id": "potion_mana_medium",
+    "name": "Среднее зелье маны",
+    "effect_mana": 60,
+    "weight": 0.3,
+    "price": 80
+  },
+  {
+    "id": "elixir_stamina",
+    "name": "Эликсир выносливости",
+    "effect_stamina_full": true,
+    "weight": 0.2,
+    "price": 40
+  },
+  {
+    "id": "food_bread",
+    "name": "Хлеб",
+    "effect_stamina": 15,
+    "weight": 0.3,
+    "price": 4,
+    "combat_usable": false
+  },
+  {
+    "id": "food_meat_cooked",
+    "name": "Жареное мясо",
+    "effect_stamina": 30,
+    "effect_hp": 5,
+    "weight": 0.4,
+    "price": 8
+  },
+  {
+    "id": "drink_ale_cheap",
+    "name": "Дешевый эль",
+    "effect_stamina": 20,
+    "buffs": {
+      "str": 1,
+      "int": -2,
+      "duration_hours": 3
+    },
+    "weight": 0.5,
+    "price": 3
+  },
+  {
+    "id": "item_bandages",
+    "name": "Бинты",
+    "removes_status": "bleeding",
+    "effect_hp_regen": {
+      "amount": 10,
+      "turns": 3
+    },
+    "weight": 0.1,
+    "price": 10
+  },
+  {
+    "id": "item_antidote_simple",
+    "name": "Простой Антидот",
+    "removes_status": [
+      "poison_1",
+      "poison_2"
+    ],
+    "weight": 0.1,
+    "price": 35
+  }
+]

@@ -1,0 +1,12 @@
+using Godot;
+using System;
+
+namespace DifferentWay.UI
+{
+    public partial class CraftingUI : Control
+    {
+        public override void _Ready()
+        {
+        }
+    }
+}

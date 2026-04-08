@@ -1,0 +1,73 @@
+[
+  {
+    "id": "skill_power_strike",
+    "name": "Мощный удар",
+    "cost_stamina": 15,
+    "effect_damage_mult": 1.5,
+    "cooldown": 2
+  },
+  {
+    "id": "skill_poison_blade",
+    "name": "Отравленный клинок",
+    "cost_energy": 10,
+    "status_effect": "poison",
+    "status_duration": 3
+  },
+  {
+    "id": "skill_fire_spit",
+    "name": "Огненный плевок",
+    "cost_mana": 10,
+    "damage_fire": 8,
+    "burn_chance": 20,
+    "cooldown": 1
+  },
+  {
+    "id": "skill_water_jet",
+    "name": "Струя воды",
+    "cost_mana": 12,
+    "damage": 5,
+    "status_effect": "wet"
+  },
+  {
+    "id": "skill_levitation",
+    "name": "Левитация",
+    "cost_mana": 25,
+    "ignore_traps": true,
+    "ignore_terrain_penalty": true
+  },
+  {
+    "id": "skill_healing_touch",
+    "name": "Исцеляющее касание",
+    "cost_mana": 20,
+    "heal_mult_int": 2,
+    "cooldown": 3
+  },
+  {
+    "id": "skill_stone_skin",
+    "name": "Каменная кожа",
+    "cost_mana": 30,
+    "buff_armor": 5,
+    "duration": 3
+  },
+  {
+    "id": "skill_shadow_step",
+    "name": "Шаг в тень",
+    "cost_stamina": 20,
+    "move_to_rear_no_provoke": true
+  },
+  {
+    "id": "skill_intimidating_shout",
+    "name": "Устрашающий крик",
+    "cost_stamina": 25,
+    "debuff_vanguard_dmg_percent": 20,
+    "duration": 1
+  },
+  {
+    "id": "skill_magic_missile",
+    "name": "Магический снаряд",
+    "cost_mana": 15,
+    "damage_arcane": 10,
+    "hit_chance": 100,
+    "ignore_evasion": true
+  }
+]
