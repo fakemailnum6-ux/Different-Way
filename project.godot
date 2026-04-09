@@ -39,6 +39,8 @@ PromptBuilder="*res://AI/PromptBuilder.cs"
 LLMClient="*res://AI/LLMClient.cs"
 GraphValidator="*res://AI/GraphValidator.cs"
 GameStateMachine="*res://Core/GameStateMachine.cs"
-
-[autoload]
 WorldBuilder="*res://Systems/WorldBuilder.cs"
+CombatManager="*res://Systems/CombatManager.cs"
+StatusEffectManager="*res://Systems/StatusEffectManager.cs"
+SQLiteConnector="*res://Database/SQLiteConnector.cs"
+SaveManager="*res://Database/SaveManager.cs"
