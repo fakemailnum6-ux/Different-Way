@@ -1,0 +1,94 @@
+[
+  {
+    "id": "poison",
+    "name": "Отравление",
+    "type": "debuff",
+    "stack_rule": "refresh",
+    "duration": 3,
+    "effect_hp_turn": -3,
+    "ignore_armor": true
+  },
+  {
+    "id": "bleeding",
+    "name": "Кровотечение",
+    "type": "debuff",
+    "stack_rule": "stackable",
+    "max_stacks": 3,
+    "duration": 4,
+    "effect_hp_turn_per_stack": -2,
+    "double_dmg_on_evasion": true
+  },
+  {
+    "id": "stun",
+    "name": "Оглушение",
+    "type": "control",
+    "stack_rule": "diminishing_returns",
+    "duration": 1,
+    "zero_evasion": true,
+    "post_immunity_duration": 1
+  },
+  {
+    "id": "wet",
+    "name": "Намокание",
+    "type": "debuff",
+    "cancel_by": "burning",
+    "duration": 5,
+    "effect_dex": -2,
+    "vulnerability": "lightning"
+  },
+  {
+    "id": "burning",
+    "name": "Горение",
+    "type": "debuff",
+    "cancel_by": "wet",
+    "duration": 2,
+    "effect_hp_turn": -5,
+    "effect_armor_percent": -20
+  },
+  {
+    "id": "regeneration",
+    "name": "Регенерация",
+    "type": "buff",
+    "stack_rule": "refresh",
+    "duration": 5,
+    "effect_hp_turn": 4
+  },
+  {
+    "id": "blindness",
+    "name": "Ослепление",
+    "type": "debuff",
+    "stack_rule": "refresh",
+    "duration": 2,
+    "effect_accuracy_percent": -50
+  },
+  {
+    "id": "fatigue",
+    "name": "Усталость",
+    "type": "debuff",
+    "stack_rule": "refresh",
+    "duration": "until_rest",
+    "cardio_regen_mult": 0.5,
+    "effect_str": -1
+  },
+  {
+    "id": "battle_rage",
+    "name": "Боевая Ярость",
+    "type": "buff",
+    "stack_rule": "refresh",
+    "duration": 3,
+    "effect_phys_dmg_percent": 25,
+    "block_magic": true,
+    "block_potions": true
+  },
+  {
+    "id": "broken_bone",
+    "name": "Сломанная кость",
+    "type": "trauma",
+    "stack_rule": "stackable",
+    "max_stacks": 2,
+    "duration": "until_doctor",
+    "effect_str_per_stack": -3,
+    "effect_dex_per_stack": -3,
+    "map_speed_penalty": true
+  }
+]

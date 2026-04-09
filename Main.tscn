@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://mainscene1234"]
+
+[ext_resource type="PackedScene" uid="uid://hudmanager1234" path="res://UI/HUDManager.tscn" id="1_hud"]
+[ext_resource type="PackedScene" uid="uid://dialogbox1234" path="res://UI/DialogBox.tscn" id="2_dlg"]
+[ext_resource type="PackedScene" uid="uid://localmap1234" path="res://UI/LocalMap.tscn" id="3_map"]
+
+[ext_resource type="PackedScene" uid="uid://combatui1234" path="res://UI/CombatUI.tscn" id="4_cmb"]
+[ext_resource type="Script" path="res://Main.cs" id="1_main"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_main")
+
+[node name="LocalMap" parent="." instance=ExtResource("3_map")]
+
+[node name="HUDManager" parent="." instance=ExtResource("1_hud")]
+
+[node name="DialogBox" parent="." instance=ExtResource("2_dlg")]
+
+[node name="CombatUI" parent="." instance=ExtResource("4_cmb")]
