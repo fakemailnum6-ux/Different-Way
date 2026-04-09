@@ -7,13 +7,14 @@ public partial class Logger : Node
 {
     private const string LogFilePath = "user://game_log.txt";
     private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
+    private string _cachedLogFilePath;
 
     public override void _Ready()
     {
-        string path = ProjectSettings.GlobalizePath(LogFilePath);
+        _cachedLogFilePath = ProjectSettings.GlobalizePath(LogFilePath);
         try
         {
-            File.WriteAllText(path, $"--- Session Started: {DateTime.Now} ---\n");
+            File.WriteAllText(_cachedLogFilePath, $"--- Session Started: {DateTime.Now} ---\n");
         }
         catch (Exception e)
         {
@@ -41,11 +42,16 @@ public partial class Logger : Node
 
     private void WriteToFile(string content)
     {
-        string path = ProjectSettings.GlobalizePath(LogFilePath);
+        if (string.IsNullOrEmpty(_cachedLogFilePath))
+        {
+            // Fallback just in case, though it relies on Godot API which might fail off main thread
+            _cachedLogFilePath = ProjectSettings.GlobalizePath(LogFilePath);
+        }
+
         _lock.EnterWriteLock();
         try
         {
-            File.AppendAllText(path, content + "\n");
+            File.AppendAllText(_cachedLogFilePath, content + "\n");
         }
         catch (Exception e)
         {
