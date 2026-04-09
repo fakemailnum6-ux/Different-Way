@@ -7,6 +7,7 @@ public static class ServiceLocator
     public static Simulation Simulation { get; private set; }
     public static EventBus EventBus { get; private set; }
     public static Logger Logger { get; private set; }
+    public static DataManager DataManager { get; private set; }
 
     public static void Initialize(SceneTree tree)
     {
@@ -14,6 +15,7 @@ public static class ServiceLocator
         Simulation = tree.Root.GetNodeOrNull<Simulation>("/root/Simulation");
         EventBus = tree.Root.GetNodeOrNull<EventBus>("/root/EventBus");
         Logger = tree.Root.GetNodeOrNull<Logger>("/root/Logger");
+        DataManager = new DataManager(); // DataManager is a RefCounted class, instantiating it
 
         if (GameManager == null) GD.PrintErr("ServiceLocator: GameManager not found.");
         if (Simulation == null) GD.PrintErr("ServiceLocator: Simulation not found.");

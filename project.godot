@@ -26,7 +26,7 @@ renderer/rendering_method.mobile="gl_compatibility"
 
 [autoload]
 
-GameManager="*res://Core/GameManager.cs"
 Simulation="*res://Core/Simulation.cs"
 EventBus="*res://Core/EventBus.cs"
 Logger="*res://Core/Logger.cs"
+GameManager="*res://Core/GameManager.cs"
