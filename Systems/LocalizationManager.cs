@@ -36,7 +36,7 @@ public partial class LocalizationManager : RefCounted
             GD.Print($"LocalizationManager: Loaded language '{langCode}'.");
 
             // Notify UI elements
-            _eventBus?.Emit("LanguageChanged", langCode);
+            _eventBus?.EmitSignal(EventBus.SignalName.LanguageChanged, langCode);
         }
         catch (Exception ex)
         {

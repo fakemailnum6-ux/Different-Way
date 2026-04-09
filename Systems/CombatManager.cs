@@ -67,7 +67,7 @@ public partial class CombatManager : RefCounted
             case CombatState.End:
                 // Signal GameStateMachine to close UI
                 var eventBus = ServiceLocator.EventBus;
-                eventBus?.EmitSignal("RequestStateChange", (int)GameState.Exploration);
+                eventBus?.EmitSignal(EventBus.SignalName.RequestStateChange, (int)GameState.Exploration);
                 break;
         }
     }

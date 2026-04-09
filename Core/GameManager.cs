@@ -23,7 +23,7 @@ public partial class GameManager : Node
         await ServiceLocator.DataManager.InitializeAsync();
 
         // After loading is complete, transition out of Loading state
-        ServiceLocator.EventBus.Emit("RequestStateChange", (int)GameState.Exploration);
+        ServiceLocator.EventBus.EmitSignal(EventBus.SignalName.RequestStateChange, (int)GameState.Exploration);
     }
 
     private void OnStateTransitioned(int newStateEnum)

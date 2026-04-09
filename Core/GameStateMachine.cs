@@ -13,6 +13,7 @@ public enum GameState
 public partial class GameStateMachine : Node
 {
     public GameState CurrentState { get; private set; } = GameState.Loading;
+    public int GetCurrentState() => (int)CurrentState;
 
     public override void _Ready()
     {
