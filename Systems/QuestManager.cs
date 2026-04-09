@@ -34,13 +34,68 @@ namespace DifferentWay.Systems
         private EventBus _eventBus;
         private List<QuestNode> _activeQuests = new List<QuestNode>();
 
+        private DifferentWay.AI.LLMClient _llmClient;
+
         public override void _Ready()
         {
             _eventBus = GetNodeOrNull<EventBus>("/root/EventBus");
+            _llmClient = GetNodeOrNull<DifferentWay.AI.LLMClient>("/root/LLMClient");
+        }
+
+        public async System.Threading.Tasks.Task AddQuestAsync(QuestNode mathSkeleton)
+        {
+            // Convert skeleton into a prompt
+            string objDesc = "";
+            foreach (var o in mathSkeleton.Objectives)
+            {
+                objDesc += $"{o.Type} {o.TargetId} ({o.RequiredAmount}x). ";
+            }
+
+            string prompt = $"Сгенерируй название (Title) и интересное лорное описание (Description) для этого математического квеста: {objDesc}. " +
+                            $"Награда: {mathSkeleton.GoldReward} золота. " +
+                            "ВЕРНИ ТОЛЬКО СТРОГИЙ JSON без markdown. Формат: { \"Title\": \"\", \"Description\": \"\" }";
+
+            if (_llmClient != null)
+            {
+                string jsonResponse = await _llmClient.SendRequest(prompt, "Ты - генератор квестов.");
+
+                if (!string.IsNullOrEmpty(jsonResponse))
+                {
+                    try
+                    {
+                        int start = jsonResponse.IndexOf('{');
+                        int end = jsonResponse.LastIndexOf('}');
+                        if (start >= 0 && end > start)
+                        {
+                            string cleanJson = jsonResponse.Substring(start, end - start + 1);
+                            using var doc = System.Text.Json.JsonDocument.Parse(cleanJson);
+                            var root = doc.RootElement;
+
+                            mathSkeleton.Title = root.TryGetProperty("Title", out var t) ? t.GetString() : "Случайный квест";
+                            mathSkeleton.Description = root.TryGetProperty("Description", out var d) ? d.GetString() : "Описание не найдено.";
+                        }
+                    }
+                    catch (System.Exception e)
+                    {
+                        _eventBus?.EmitLogMessage("ERROR", $"Ошибка парсинга квеста от ИИ: {e.Message}");
+                        mathSkeleton.Title = "Охота (Скелет)";
+                        mathSkeleton.Description = "Убить цель. (Сбой ИИ)";
+                    }
+                }
+            }
+            else
+            {
+                mathSkeleton.Title = "Охота (Скелет)";
+                mathSkeleton.Description = "Убить цель.";
+            }
+
+            _activeQuests.Add(mathSkeleton);
+            _eventBus?.EmitLogMessage("INFO", $"Новое задание добавлено в журнал: {mathSkeleton.Title}");
         }
 
         public void AddQuest(QuestNode quest)
         {
+             // Fallback for non-async / immediate testing
             _activeQuests.Add(quest);
             _eventBus?.EmitLogMessage("INFO", $"Новое задание: {quest.Title}");
         }

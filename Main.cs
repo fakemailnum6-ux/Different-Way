@@ -9,7 +9,7 @@ namespace DifferentWay
         private WorldBuilder _worldBuilder;
         private LocalMap _localMap;
 
-        public override void _Ready()
+        public override async void _Ready()
         {
             _worldBuilder = GetNode<WorldBuilder>("/root/WorldBuilder");
             _localMap = GetNode<LocalMap>("LocalMap");
@@ -24,12 +24,12 @@ namespace DifferentWay
                 NarrativeContext = "Бывший стражник ищет пристанище."
             };
 
-            var settlement = _worldBuilder.GenerateLocation(p);
+            var settlement = await _worldBuilder.GenerateLocationAsync(p);
 
             // Pass to UI to render
             _localMap.LoadSettlement(settlement);
 
-            GD.Print("Phase 1 Zero-State generation complete. Settlement rendered on LocalMap.");
+            GD.Print("Phase 1/4 Zero-State generation complete. Settlement rendered on LocalMap.");
         }
     }
 }

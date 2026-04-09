@@ -55,5 +55,27 @@ namespace DifferentWay.Systems
                 return false;
             }
         }
+
+        // Non-AI Economy Interaction (Grind)
+        public void PerformWork(CharacterStats playerStats, ref int playerGold)
+        {
+            // Base stamina cost: 80%
+            int staminaCost = Mathf.CeilToInt(playerStats.MaxStamina * 0.8f);
+
+            if (playerStats.CurrentStamina < staminaCost)
+            {
+                _eventBus?.EmitLogMessage("WARNING", "Вы слишком устали, чтобы работать.");
+                return;
+            }
+
+            playerStats.CurrentStamina -= staminaCost;
+            int goldEarned = 10; // Fixed earning
+            playerGold += goldEarned;
+
+            _eventBus?.EmitLogMessage("INFO", $"Отработали смену (8 часов). Заработано {goldEarned}g. Потрачено {staminaCost} усталости.");
+
+            // Advance time via TimeManager/Simulation (Stubbed here for phase 4 structure)
+            // _timeManager.AdvanceHours(8);
+        }
     }
 }
