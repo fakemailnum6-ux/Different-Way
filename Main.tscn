@@ -16,4 +16,25 @@ script = ExtResource("1_main")
 
 [node name="DialogBox" parent="." instance=ExtResource("2_dlg")]
 
+[ext_resource type="PackedScene" uid="uid://globalmap1234" path="res://UI/GlobalMap.tscn" id="5_gmap"]
+[ext_resource type="PackedScene" uid="uid://inventoryui123" path="res://UI/InventoryUI.tscn" id="6_inv"]
+[ext_resource type="PackedScene" uid="uid://charsheetui123" path="res://UI/CharSheetUI.tscn" id="7_char"]
+[ext_resource type="PackedScene" uid="uid://craftingui123" path="res://UI/CraftingUI.tscn" id="8_crf"]
+[ext_resource type="PackedScene" uid="uid://questjournalui123" path="res://UI/QuestJournalUI.tscn" id="9_qst"]
+
 [node name="CombatUI" parent="." instance=ExtResource("4_cmb")]
+
+[node name="GlobalMap" parent="." instance=ExtResource("5_gmap")]
+visible = false
+
+[node name="InventoryUI" parent="." instance=ExtResource("6_inv")]
+visible = false
+
+[node name="CharSheetUI" parent="." instance=ExtResource("7_char")]
+visible = false
+
+[node name="CraftingUI" parent="." instance=ExtResource("8_crf")]
+visible = false
+
+[node name="QuestJournalUI" parent="." instance=ExtResource("9_qst")]
+visible = false
