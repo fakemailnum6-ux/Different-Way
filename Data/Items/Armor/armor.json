@@ -1,0 +1,102 @@
+[
+  {
+    "Id": "rags_01",
+    "Name": "Лохмотья",
+    "Armor": 0,
+    "CurrentDurability": 5,
+    "MaxDurability": 5,
+    "Weight": 0.5,
+    "Price": 0,
+    "Traits": ["Нищий"]
+  },
+  {
+    "Id": "pants_torn",
+    "Name": "Рваные штаны",
+    "Armor": 0,
+    "CurrentDurability": 10,
+    "MaxDurability": 10,
+    "Weight": 0.5,
+    "Price": 1,
+    "Traits": ["Нищий"]
+  },
+  {
+    "Id": "shirt_padded",
+    "Name": "Прошитая рубаха",
+    "Armor": 1,
+    "CurrentDurability": 20,
+    "MaxDurability": 20,
+    "Weight": 1.0,
+    "Price": 8,
+    "Traits": ["Гражданский"]
+  },
+  {
+    "Id": "jacket_leather",
+    "Name": "Кожаная куртка",
+    "Armor": 3,
+    "CurrentDurability": 35,
+    "MaxDurability": 35,
+    "Weight": 2.5,
+    "Price": 25,
+    "Traits": ["Наемник"]
+  },
+  {
+    "Id": "boots_traveler",
+    "Name": "Сапоги путешественника",
+    "Armor": 1,
+    "CurrentDurability": 40,
+    "MaxDurability": 40,
+    "Weight": 1.0,
+    "Price": 15,
+    "Traits": ["Снижают расход Усталости при побеге"]
+  },
+  {
+    "Id": "shield_wood",
+    "Name": "Деревянный щит",
+    "Armor": 2,
+    "CurrentDurability": 25,
+    "MaxDurability": 25,
+    "Weight": 3.0,
+    "Price": 10,
+    "Traits": ["Блок"]
+  },
+  {
+    "Id": "hood_chainmail",
+    "Name": "Кольчужный капюшон",
+    "Armor": 2,
+    "CurrentDurability": 45,
+    "MaxDurability": 45,
+    "Weight": 2.0,
+    "Price": 40,
+    "Traits": []
+  },
+  {
+    "Id": "cuirass_iron",
+    "Name": "Железная кираса",
+    "Armor": 6,
+    "CurrentDurability": 80,
+    "MaxDurability": 80,
+    "Weight": 12.0,
+    "Price": 150,
+    "Traits": ["DEX -1"]
+  },
+  {
+    "Id": "helmet_steel",
+    "Name": "Стальной шлем",
+    "Armor": 4,
+    "CurrentDurability": 70,
+    "MaxDurability": 70,
+    "Weight": 3.0,
+    "Price": 85,
+    "Traits": []
+  },
+  {
+    "Id": "robe_acolyte",
+    "Name": "Мантия аколита",
+    "Armor": 1,
+    "CurrentDurability": 20,
+    "MaxDurability": 20,
+    "Weight": 1.0,
+    "Price": 60,
+    "Traits": ["Регенерация маны +5%"]
+  }
+]
