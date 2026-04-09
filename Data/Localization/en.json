@@ -1,0 +1,5 @@
+{
+  "sword_iron": "Iron Sword",
+  "damage_text": "Damage: {dmg}",
+  "fallback_ai_error": "The NPC falls silent, as if forgetting their words."
+}

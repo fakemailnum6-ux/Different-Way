@@ -8,11 +8,14 @@ public partial class GameManager : Node
     {
         ServiceLocator.Initialize(GetTree());
 
+        // Initialize synchronous managers that rely on EventBus
+        ServiceLocator.LocalizationManager.Initialize(ServiceLocator.EventBus);
+
         // Listen to state changes to load data when Loading
         ServiceLocator.EventBus.StateTransitioned += OnStateTransitioned;
 
         // Initial state is loading
-        CallDeferred(nameof(InitDataAsync));
+        Callable.From(InitDataAsync).CallDeferred();
     }
 
     private async void InitDataAsync()
