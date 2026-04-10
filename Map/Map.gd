@@ -62,6 +62,6 @@ func _close_all_non_blocking_windows() -> void:
     var current_state = game_state_machine.call("GetCurrentState") if game_state_machine else GameState.Exploration
 
     if current_state == GameState.Menu:
-        event_bus.call("Emit", "request_state_change", [GameState.Exploration])
+        event_bus.call("Emit", "request_state_change", GameState.Exploration)
 
     # Per Arc.md, do not close dialogue or combat windows with Escape

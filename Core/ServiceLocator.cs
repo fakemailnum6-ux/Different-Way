@@ -9,6 +9,7 @@ public static class ServiceLocator
     public static Logger Logger { get; private set; }
     public static DataManager DataManager { get; private set; }
     public static LocalizationManager LocalizationManager { get; private set; }
+    public static SaveManager SaveManager { get; private set; }
 
     public static void Initialize(SceneTree tree)
     {
@@ -19,6 +20,7 @@ public static class ServiceLocator
 
         DataManager = new DataManager();
         LocalizationManager = new LocalizationManager();
+        SaveManager = new SaveManager();
 
         if (GameManager == null) GD.PrintErr("ServiceLocator: GameManager not found.");
         if (Simulation == null) GD.PrintErr("ServiceLocator: Simulation not found.");
