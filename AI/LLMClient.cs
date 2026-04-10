@@ -37,7 +37,7 @@ public partial class LLMClient : Node
     /// Core REST logic using ErrorManager for 3x Exponential Backoff / Circuit Breaker
     /// Includes CancellationToken support for UI cancellation (Arc.md Section 7.4)
     /// </summary>
-    public async Task RequestPromptAsync(string systemPrompt, string userPrompt, CancellationToken token = default)
+    public async Task<string> RequestPromptAsync(string systemPrompt, string userPrompt, CancellationToken token = default)
     {
         ServiceLocator.Logger.LogInfo("LLMClient: Sending REST request to Puter API...");
 
@@ -48,6 +48,7 @@ public partial class LLMClient : Node
 
         // EventBus broadcasts the raw string JSON to listeners (like GraphValidator or GDScript map)
         EmitSignal(SignalName.AiResponseReceived, finalJson);
+        return finalJson;
     }
 
     private async Task<string> PerformRestCallAsync(string systemPrompt, string userPrompt, CancellationToken token)
