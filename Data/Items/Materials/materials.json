@@ -1,0 +1,72 @@
+[
+  {
+    "Id": "herb_healing",
+    "Name": "Лечебная трава",
+    "Weight": 0.05,
+    "Price": 2,
+    "Description": "Применяется в Алхимии"
+  },
+  {
+    "Id": "log_wood",
+    "Name": "Деревянное полено",
+    "Weight": 2.0,
+    "Price": 1,
+    "Description": "Крафт дубин, щитов, стрел"
+  },
+  {
+    "Id": "meat_raw",
+    "Name": "Кусок сырого мяса",
+    "Weight": 0.5,
+    "Price": 3,
+    "Description": "Кулинария (требует костра)"
+  },
+  {
+    "Id": "pelt_wolf",
+    "Name": "Волчья шкура",
+    "Weight": 1.0,
+    "Price": 10,
+    "Description": "Кожевенное дело (легкая броня)"
+  },
+  {
+    "Id": "ore_copper",
+    "Name": "Медная руда",
+    "Weight": 3.0,
+    "Price": 5,
+    "Description": "Кузнечное дело (база)"
+  },
+  {
+    "Id": "ore_iron",
+    "Name": "Железная руда",
+    "Weight": 3.0,
+    "Price": 12,
+    "Description": "Кузнечное дело (мечи, кольчуги)"
+  },
+  {
+    "Id": "ingot_steel",
+    "Name": "Стальный слиток",
+    "Weight": 2.0,
+    "Price": 35,
+    "Description": "Сплав для качественного оружия"
+  },
+  {
+    "Id": "straps_leather",
+    "Name": "Кожаные ремешки",
+    "Weight": 0.1,
+    "Price": 4,
+    "Description": "Нужны для сборки брони и рукоятей мечей"
+  },
+  {
+    "Id": "dust_magic",
+    "Name": "Магическая пыль",
+    "Weight": 0.01,
+    "Price": 50,
+    "Description": "Выпадает из элементалей, нужна для чар и посохов"
+  },
+  {
+    "Id": "coal",
+    "Name": "Уголь",
+    "Weight": 1.0,
+    "Price": 2,
+    "Description": "Необходим для работы кузницы"
+  }
+]

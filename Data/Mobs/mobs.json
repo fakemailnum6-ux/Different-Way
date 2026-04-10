@@ -1,0 +1,112 @@
+[
+  {
+    "Id": "hare_01",
+    "Name": "Заяц",
+    "HP": 5,
+    "Damage": 1,
+    "Armor": 0,
+    "DEX": 15,
+    "STR": 1,
+    "Traits": ["Труслив"],
+    "LootTable": ["meat_raw", "pelt_hare"]
+  },
+  {
+    "Id": "deer_01",
+    "Name": "Олень",
+    "HP": 20,
+    "Damage": 3,
+    "Armor": 1,
+    "DEX": 12,
+    "STR": 5,
+    "Traits": [],
+    "LootTable": ["pelt_deer", "meat_raw"]
+  },
+  {
+    "Id": "wolf_01",
+    "Name": "Волк",
+    "HP": 35,
+    "Damage": 8,
+    "Armor": 2,
+    "DEX": 14,
+    "STR": 8,
+    "Traits": ["Стая"],
+    "LootTable": ["pelt_wolf", "fang_wolf"]
+  },
+  {
+    "Id": "boar_01",
+    "Name": "Кабан",
+    "HP": 50,
+    "Damage": 12,
+    "Armor": 4,
+    "DEX": 8,
+    "STR": 14,
+    "Traits": ["Оглушение"],
+    "LootTable": ["meat_raw", "tusk_boar"]
+  },
+  {
+    "Id": "bear_01",
+    "Name": "Медведь",
+    "HP": 120,
+    "Damage": 25,
+    "Armor": 6,
+    "DEX": 10,
+    "STR": 18,
+    "Traits": ["Элитный", "Сопротивление оглушению"],
+    "LootTable": ["pelt_bear", "meat_raw"]
+  },
+  {
+    "Id": "goblin_scavenger",
+    "Name": "Гоблин-собиратель",
+    "HP": 25,
+    "Damage": 5,
+    "Armor": 1,
+    "DEX": 14,
+    "STR": 6,
+    "Traits": [],
+    "LootTable": ["dagger_thief", "gold_small"]
+  },
+  {
+    "Id": "goblin_warrior",
+    "Name": "Гоблин-воин",
+    "HP": 45,
+    "Damage": 9,
+    "Armor": 4,
+    "DEX": 10,
+    "STR": 12,
+    "Traits": [],
+    "LootTable": ["sword_rusty", "gold_medium"]
+  },
+  {
+    "Id": "bandit_rookie",
+    "Name": "Бандит-новичок",
+    "HP": 40,
+    "Damage": 8,
+    "Armor": 3,
+    "DEX": 12,
+    "STR": 10,
+    "Traits": [],
+    "LootTable": ["lockpick", "gold_medium"]
+  },
+  {
+    "Id": "orc_raider",
+    "Name": "Орк-налетчик",
+    "HP": 85,
+    "Damage": 16,
+    "Armor": 5,
+    "DEX": 10,
+    "STR": 16,
+    "Traits": ["Ярость"],
+    "LootTable": ["axe_battle", "gold_large"]
+  },
+  {
+    "Id": "skeleton_footman",
+    "Name": "Скелет-пехотинец",
+    "HP": 30,
+    "Damage": 7,
+    "Armor": 5,
+    "DEX": 8,
+    "STR": 10,
+    "Traits": ["Нежить", "Уязвимость к дробящему"],
+    "LootTable": ["bone", "sword_rusty"]
+  }
+]

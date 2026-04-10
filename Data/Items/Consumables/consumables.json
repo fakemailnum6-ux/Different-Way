@@ -1,0 +1,82 @@
+[
+  {
+    "Id": "potion_hp_small",
+    "Name": "Малое зелье здоровья",
+    "Effect": "+30 HP мгновенно",
+    "Weight": 0.2,
+    "Price": 25,
+    "Traits": []
+  },
+  {
+    "Id": "potion_hp_medium",
+    "Name": "Среднее зелье здоровья",
+    "Effect": "+75 HP мгновенно",
+    "Weight": 0.3,
+    "Price": 70,
+    "Traits": []
+  },
+  {
+    "Id": "potion_mana_small",
+    "Name": "Малое зелье маны",
+    "Effect": "+25 Маны мгновенно",
+    "Weight": 0.2,
+    "Price": 30,
+    "Traits": []
+  },
+  {
+    "Id": "potion_mana_medium",
+    "Name": "Среднее зелье маны",
+    "Effect": "+60 Маны мгновенно",
+    "Weight": 0.3,
+    "Price": 80,
+    "Traits": []
+  },
+  {
+    "Id": "elixir_stamina",
+    "Name": "Эликсир выносливости",
+    "Effect": "Полностью восстанавливает Усталость",
+    "Weight": 0.2,
+    "Price": 40,
+    "Traits": []
+  },
+  {
+    "Id": "food_bread",
+    "Name": "Хлеб",
+    "Effect": "+15 Усталости (вне боя)",
+    "Weight": 0.3,
+    "Price": 4,
+    "Traits": []
+  },
+  {
+    "Id": "food_meat_cooked",
+    "Name": "Жареное мясо",
+    "Effect": "+30 Усталости, +5 HP",
+    "Weight": 0.4,
+    "Price": 8,
+    "Traits": []
+  },
+  {
+    "Id": "drink_ale",
+    "Name": "Дешевый эль",
+    "Effect": "+20 Усталости. Бафф: STR +1, Дебафф: INT -2 на 3 часа",
+    "Weight": 0.5,
+    "Price": 3,
+    "Traits": []
+  },
+  {
+    "Id": "bandage",
+    "Name": "Бинты",
+    "Effect": "Снимает Кровотечение, реген 10 HP за 3 хода",
+    "Weight": 0.1,
+    "Price": 10,
+    "Traits": []
+  },
+  {
+    "Id": "antidote_simple",
+    "Name": "Простой Антидот",
+    "Effect": "Снимает Отравление 1-го и 2-го уровня",
+    "Weight": 0.1,
+    "Price": 35,
+    "Traits": []
+  }
+]

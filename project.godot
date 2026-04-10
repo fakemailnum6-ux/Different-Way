@@ -23,3 +23,11 @@ config/icon="res://icon.svg"
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+
+[autoload]
+
+Simulation="*res://Core/Simulation.cs"
+EventBus="*res://Core/EventBus.cs"
+Logger="*res://Core/Logger.cs"
+GameManager="*res://Core/GameManager.cs"
+GameStateMachine="*res://Core/GameStateMachine.cs"

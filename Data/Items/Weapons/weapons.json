@@ -1,0 +1,102 @@
+[
+  {
+    "Id": "club_wood",
+    "Name": "Деревянная дубина",
+    "Damage": 3,
+    "CurrentDurability": 20,
+    "MaxDurability": 20,
+    "Weight": 2.0,
+    "Price": 1,
+    "Traits": []
+  },
+  {
+    "Id": "sword_rusty",
+    "Name": "Ржавый меч",
+    "Damage": 5,
+    "CurrentDurability": 15,
+    "MaxDurability": 15,
+    "Weight": 1.5,
+    "Price": 5,
+    "Traits": ["Хрупкое"]
+  },
+  {
+    "Id": "dagger_thief",
+    "Name": "Кинжал вора",
+    "Damage": 4,
+    "CurrentDurability": 30,
+    "MaxDurability": 30,
+    "Weight": 0.5,
+    "Price": 12,
+    "Traits": ["Бонус Крита +2"]
+  },
+  {
+    "Id": "spear_militia",
+    "Name": "Копье ополченца",
+    "Damage": 7,
+    "CurrentDurability": 25,
+    "MaxDurability": 25,
+    "Weight": 3.0,
+    "Price": 15,
+    "Traits": ["Атака из Арьергарда"]
+  },
+  {
+    "Id": "sword_iron",
+    "Name": "Железный меч",
+    "Damage": 9,
+    "CurrentDurability": 45,
+    "MaxDurability": 45,
+    "Weight": 2.0,
+    "Price": 35,
+    "Traits": []
+  },
+  {
+    "Id": "sword_sharp",
+    "Name": "Заостренный меч",
+    "Damage": 12,
+    "CurrentDurability": 40,
+    "MaxDurability": 40,
+    "Weight": 1.8,
+    "Price": 80,
+    "Traits": ["Игнорирует 1 броню"]
+  },
+  {
+    "Id": "axe_battle",
+    "Name": "Боевой топор",
+    "Damage": 11,
+    "CurrentDurability": 35,
+    "MaxDurability": 35,
+    "Weight": 3.5,
+    "Price": 45,
+    "Traits": ["Двойной урон по щитам"]
+  },
+  {
+    "Id": "greatsword_heavy",
+    "Name": "Тяжелый двуручник",
+    "Damage": 18,
+    "CurrentDurability": 60,
+    "MaxDurability": 60,
+    "Weight": 6.0,
+    "Price": 120,
+    "Traits": ["Требует STR > 14"]
+  },
+  {
+    "Id": "bow_hunter",
+    "Name": "Лук охотника",
+    "Damage": 6,
+    "CurrentDurability": 30,
+    "MaxDurability": 30,
+    "Weight": 1.0,
+    "Price": 25,
+    "Traits": ["Игнорирует зону Авангарда"]
+  },
+  {
+    "Id": "staff_apprentice",
+    "Name": "Посох ученика",
+    "Damage": 2,
+    "CurrentDurability": 20,
+    "MaxDurability": 20,
+    "Weight": 1.5,
+    "Price": 30,
+    "Traits": ["Мана +10"]
+  }
+]

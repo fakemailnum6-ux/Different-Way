@@ -1,0 +1,5 @@
+{
+  "sword_iron": "Железный меч",
+  "damage_text": "Урон: {dmg}",
+  "fallback_ai_error": "NPC задумчиво молчит, словно забыв слова."
+}
