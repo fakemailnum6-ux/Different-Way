@@ -1,0 +1,112 @@
+[
+  {
+    "id": "club_wood",
+    "name": "Деревянная дубина",
+    "damage": 3,
+    "durability": 20,
+    "max_durability": 20,
+    "weight": 2.0,
+    "price": 1,
+    "type": "melee"
+  },
+  {
+    "id": "sword_rusty",
+    "name": "Ржавый меч",
+    "damage": 5,
+    "durability": 15,
+    "max_durability": 15,
+    "weight": 1.5,
+    "price": 5,
+    "type": "melee",
+    "break_chance_bonus": true
+  },
+  {
+    "id": "dagger_thief",
+    "name": "Кинжал вора",
+    "damage": 4,
+    "durability": 30,
+    "max_durability": 30,
+    "weight": 0.5,
+    "price": 12,
+    "type": "dagger",
+    "crit_bonus": 2
+  },
+  {
+    "id": "spear_militia",
+    "name": "Копье ополченца",
+    "damage": 7,
+    "durability": 25,
+    "max_durability": 25,
+    "weight": 3.0,
+    "price": 15,
+    "type": "melee",
+    "rear_attack_allowed": true
+  },
+  {
+    "id": "sword_iron",
+    "name": "Железный меч",
+    "damage": 9,
+    "durability": 45,
+    "max_durability": 45,
+    "weight": 2.0,
+    "price": 35,
+    "type": "melee"
+  },
+  {
+    "id": "sword_sharp",
+    "name": "Заостренный меч",
+    "damage": 12,
+    "durability": 40,
+    "max_durability": 40,
+    "weight": 1.8,
+    "price": 80,
+    "type": "melee",
+    "armor_penetration": 1
+  },
+  {
+    "id": "axe_battle",
+    "name": "Боевой топор",
+    "damage": 11,
+    "durability": 35,
+    "max_durability": 35,
+    "weight": 3.5,
+    "price": 45,
+    "type": "melee",
+    "shield_damage_mult": 2.0
+  },
+  {
+    "id": "greatsword_heavy",
+    "name": "Тяжелый двуручник",
+    "damage": 18,
+    "durability": 60,
+    "max_durability": 60,
+    "weight": 6.0,
+    "price": 120,
+    "type": "melee",
+    "req_str": 14
+  },
+  {
+    "id": "bow_hunter",
+    "name": "Лук охотника",
+    "damage": 6,
+    "durability": 30,
+    "max_durability": 30,
+    "weight": 1.0,
+    "price": 25,
+    "type": "ranged",
+    "ignore_vanguard": true
+  },
+  {
+    "id": "staff_apprentice",
+    "name": "Посох ученика",
+    "damage": 2,
+    "durability": 20,
+    "max_durability": 20,
+    "weight": 1.5,
+    "price": 30,
+    "type": "magic",
+    "buffs": {
+      "mana": 10
+    }
+  }
+]

@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://mainscene1234"]
+
+[ext_resource type="PackedScene" uid="uid://hudmanager1234" path="res://UI/HUDManager.tscn" id="1_hud"]
+[ext_resource type="PackedScene" uid="uid://dialogbox1234" path="res://UI/DialogBox.tscn" id="2_dlg"]
+[ext_resource type="PackedScene" uid="uid://localmap1234" path="res://UI/LocalMap.tscn" id="3_map"]
+
+[ext_resource type="PackedScene" uid="uid://combatui1234" path="res://UI/CombatUI.tscn" id="4_cmb"]
+[ext_resource type="Script" path="res://Main.cs" id="1_main"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_main")
+
+[node name="LocalMap" parent="." instance=ExtResource("3_map")]
+
+[node name="HUDManager" parent="." instance=ExtResource("1_hud")]
+
+[node name="DialogBox" parent="." instance=ExtResource("2_dlg")]
+
+[ext_resource type="PackedScene" uid="uid://globalmap1234" path="res://UI/GlobalMap.tscn" id="5_gmap"]
+[ext_resource type="PackedScene" uid="uid://inventoryui123" path="res://UI/InventoryUI.tscn" id="6_inv"]
+[ext_resource type="PackedScene" uid="uid://charsheetui123" path="res://UI/CharSheetUI.tscn" id="7_char"]
+[ext_resource type="PackedScene" uid="uid://craftingui123" path="res://UI/CraftingUI.tscn" id="8_crf"]
+[ext_resource type="PackedScene" uid="uid://questjournalui123" path="res://UI/QuestJournalUI.tscn" id="9_qst"]
+
+[node name="CombatUI" parent="." instance=ExtResource("4_cmb")]
+
+[node name="GlobalMap" parent="." instance=ExtResource("5_gmap")]
+visible = false
+
+[node name="InventoryUI" parent="." instance=ExtResource("6_inv")]
+visible = false
+
+[node name="CharSheetUI" parent="." instance=ExtResource("7_char")]
+visible = false
+
+[node name="CraftingUI" parent="." instance=ExtResource("8_crf")]
+visible = false
+
+[node name="QuestJournalUI" parent="." instance=ExtResource("9_qst")]
+visible = false

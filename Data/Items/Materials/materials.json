@@ -1,0 +1,67 @@
+[
+  {
+    "id": "mat_herb_healing",
+    "name": "Лечебная трава",
+    "weight": 0.05,
+    "usage": "alchemy"
+  },
+  {
+    "id": "mat_log_wood",
+    "name": "Деревянное полено",
+    "weight": 2.0,
+    "usage": [
+      "craft_club",
+      "craft_shield",
+      "craft_arrow"
+    ]
+  },
+  {
+    "id": "mat_meat_raw",
+    "name": "Кусок сырого мяса",
+    "weight": 0.5,
+    "usage": "cooking",
+    "requires": "campfire"
+  },
+  {
+    "id": "mat_pelt_wolf",
+    "name": "Волчья шкура",
+    "weight": 1.0,
+    "usage": "leatherworking"
+  },
+  {
+    "id": "mat_ore_copper",
+    "name": "Медная руда",
+    "weight": 3.0,
+    "usage": "blacksmithing_base"
+  },
+  {
+    "id": "mat_ore_iron",
+    "name": "Железная руда",
+    "weight": 3.0,
+    "usage": "blacksmithing_iron"
+  },
+  {
+    "id": "mat_ingot_steel",
+    "name": "Стальной слиток",
+    "weight": 2.0,
+    "usage": "blacksmithing_advanced"
+  },
+  {
+    "id": "mat_leather_straps",
+    "name": "Кожаные ремешки",
+    "weight": 0.1,
+    "usage": "craft_armor_weapon_handles"
+  },
+  {
+    "id": "mat_dust_magic",
+    "name": "Магическая пыль",
+    "weight": 0.01,
+    "usage": "enchanting"
+  },
+  {
+    "id": "mat_coal",
+    "name": "Уголь",
+    "weight": 1.0,
+    "usage": "forge_fuel"
+  }
+]
