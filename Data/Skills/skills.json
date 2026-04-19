@@ -1,0 +1,92 @@
+[
+  {
+    "Id": "strike_power",
+    "Name": "Мощный удар",
+    "CostType": "Stamina",
+    "CostAmount": 15,
+    "Cooldown": 2,
+    "Description": "Урон оружия * 1.5",
+    "Traits": []
+  },
+  {
+    "Id": "blade_poison",
+    "Name": "Отравленный клинок",
+    "CostType": "Energy",
+    "CostAmount": 10,
+    "Cooldown": 0,
+    "Description": "Накладывает статус 'Яд' (3 хода)",
+    "Traits": []
+  },
+  {
+    "Id": "spit_fire",
+    "Name": "Огненный плевок",
+    "CostType": "Mana",
+    "CostAmount": 10,
+    "Cooldown": 1,
+    "Description": "8 Огн. урона. 20% шанс поджога",
+    "Traits": []
+  },
+  {
+    "Id": "stream_water",
+    "Name": "Струя воды",
+    "CostType": "Mana",
+    "CostAmount": 12,
+    "Cooldown": 0,
+    "Description": "5 Урона. Дебафф цели 'Намокание'",
+    "Traits": []
+  },
+  {
+    "Id": "levitation",
+    "Name": "Левитация",
+    "CostType": "Mana",
+    "CostAmount": 25,
+    "Cooldown": 0,
+    "Description": "Игнорирует наземные ловушки и штрафы местности вне боя",
+    "Traits": []
+  },
+  {
+    "Id": "touch_healing",
+    "Name": "Исцеляющее касание",
+    "CostType": "Mana",
+    "CostAmount": 20,
+    "Cooldown": 3,
+    "Description": "Восстанавливает INT * 2 HP",
+    "Traits": []
+  },
+  {
+    "Id": "skin_stone",
+    "Name": "Каменная кожа",
+    "CostType": "Mana",
+    "CostAmount": 30,
+    "Cooldown": 0,
+    "Description": "+5 к Броне на 3 хода",
+    "Traits": []
+  },
+  {
+    "Id": "step_shadow",
+    "Name": "Шаг в тень",
+    "CostType": "Stamina",
+    "CostAmount": 20,
+    "Cooldown": 0,
+    "Description": "Мгновенно перемещает персонажа в Арьергард без провокации атак",
+    "Traits": []
+  },
+  {
+    "Id": "shout_fear",
+    "Name": "Устрашающий крик",
+    "CostType": "Stamina",
+    "CostAmount": 25,
+    "Cooldown": 0,
+    "Description": "Снижает урон врагов в Авангарде на 20% на 1 ход",
+    "Traits": []
+  },
+  {
+    "Id": "projectile_magic",
+    "Name": "Магический снаряд",
+    "CostType": "Mana",
+    "CostAmount": 15,
+    "Cooldown": 0,
+    "Description": "10 Арканного урона (100% попадание, игнорирует Уворот)",
+    "Traits": []
+  }
+]
